@@ -1,0 +1,16 @@
+{
+    "name": "yomeva/openai-bundle",
+    "description": "This bundles allows you to make calls to the OpenAI APIs.",
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Yomeva\\OpenAiBundle\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Yomeva\\OpenAiBundle\\Tests\\": "tests/"
+        }
+    }
+}
