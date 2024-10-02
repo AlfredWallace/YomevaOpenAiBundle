@@ -23,6 +23,7 @@
         }
     ],
     "require": {
-        "symfony/http-kernel": ">=v7.1.0"
+        "symfony/http-kernel": "^7.1",
+        "symfony/http-client": "^7.1"
     }
 }
