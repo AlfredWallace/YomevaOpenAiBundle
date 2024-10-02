@@ -13,7 +13,7 @@ class YomevaOpenAiBundle extends AbstractBundle
     {
         $definition->rootNode()
             ->children()
-            ->scalarNode('open_ai_api_key')->end()
+            ->scalarNode('openai_api_key')->end()
             ->end() // children
         ;
     }
@@ -24,6 +24,6 @@ class YomevaOpenAiBundle extends AbstractBundle
 
         $container->services()
             ->get('Yomeva\OpenAiBundle\Service\OpenAiClient')
-            ->arg(0, $config['open_ai_api_key']);
+            ->arg(0, $config['openai_api_key']);
     }
 }
