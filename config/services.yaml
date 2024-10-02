@@ -1,4 +1,3 @@
 services:
     Yomeva\OpenAiBundle\Service\OpenAiClient:
-        alias: yomeva_openai.client
         public: true
