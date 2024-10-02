@@ -21,5 +21,8 @@
             "email": "arthur.fp.dev@pm.me",
             "role": "Developer"
         }
-    ]
+    ],
+    "require": {
+        "symfony/http-kernel": ">=v7.1.0"
+    }
 }
