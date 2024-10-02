@@ -6,6 +6,6 @@ class OpenAiClient
 {
     public function helloWorld(): string
     {
-        return 'Hello World! This is v0.1.2';
+        return 'Hello World! This is v0.1.0';
     }
 }
