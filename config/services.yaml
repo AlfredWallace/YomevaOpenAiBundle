@@ -1,4 +1,4 @@
 services:
-    yomeva_openai.client:
-        class: Yomeva\OpenAiBundle\Service\OpenAiClient
+    Yomeva\OpenAiBundle\Service\OpenAiClient:
+        aliases: ['yomeva_openai.client']
         public: true
