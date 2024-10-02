@@ -1,4 +1,5 @@
 services:
     Yomeva\OpenAiBundle\Service\OpenAiClient:
-        aliases: ['yomeva_openai.client']
+        autowire: false
+        autoconfig: false
         public: true
