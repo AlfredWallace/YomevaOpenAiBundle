@@ -22,8 +22,9 @@ class YomevaOpenAiBundle extends AbstractBundle
     {
         $container->import('../config/services.yaml');
 
-        $container->services()
-            ->get('Yomeva\OpenAiBundle\Service\OpenAiClient')
-            ->arg(0, $config['open_ai_api_key']);
+        dump($config);
+//        $container->services()
+//            ->get('Yomeva\OpenAiBundle\Service\OpenAiClient')
+//            ->arg(0, $config['open_ai_api_key']);
     }
 }
