@@ -1,2 +1,2 @@
 services:
-    yomeva_openai.client: Yomeva\OpenAiBundle\Service\OpenAiClient
+    yomeva_openai.client: '@Yomeva\OpenAiBundle\Service\OpenAiClient'
