@@ -23,6 +23,11 @@ class OpenAiClient
 
     public function listModels(): ResponseInterface
     {
-        return $this->client->request('GET', 'models');
+        $response = $this->client->request('GET', 'models');
+        dump($response->getStatusCode());
+        dump($response->getContent());
+        dump($response->toArray());
+        die;
+        return $response;
     }
 }
