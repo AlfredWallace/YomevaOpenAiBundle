@@ -16,8 +16,8 @@ class OpenAiClient
             defaultOptions: [
                 'base_uri' => 'https://api.openai.com/v1/',
                 'headers' => [
-                    'Content-Type' => 'application/json',
-                    'Authorization' => "Bearer {$this->openAiApiKey}",
+//                    'Content-Type' => 'application/json',
+                    'Authorization' => "Bearer $this->openAiApiKey",
                 ]
             ]
         );
