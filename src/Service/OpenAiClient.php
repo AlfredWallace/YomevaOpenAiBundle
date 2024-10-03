@@ -12,22 +12,19 @@ class OpenAiClient
 
     public function __construct(private readonly string $openAiApiKey)
     {
-        $this->client = HttpClient::create(defaultOptions: [
-            'base_uri' => 'https://api.openai.com/v1/',
-            'headers' => [
-                'Content-Type' => 'application/json',
-                'Authorization' => "Bearer {$this->openAiApiKey}",
+        $this->client = HttpClient::create(
+            defaultOptions: [
+                'base_uri' => 'https://api.openai.com/v1/',
+                'headers' => [
+                    'Content-Type' => 'application/json',
+                    'Authorization' => "Bearer {$this->openAiApiKey}",
+                ]
             ]
-        ]);
+        );
     }
 
     public function listModels(): ResponseInterface
     {
-        $response = $this->client->request('GET', 'models');
-        dump($response->getStatusCode());
-        dump($response->getContent());
-        dump($response->toArray());
-        die;
-        return $response;
+        return $this->client->request('GET', 'models');
     }
 }
