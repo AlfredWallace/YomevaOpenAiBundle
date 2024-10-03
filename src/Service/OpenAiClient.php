@@ -3,8 +3,12 @@
 namespace Yomeva\OpenAiBundle\Service;
 
 use Symfony\Component\HttpClient\HttpClient;
+use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
-use Symfony\Contracts\HttpClient\ResponseInterface;
 
 class OpenAiClient
 {
@@ -16,15 +20,22 @@ class OpenAiClient
             defaultOptions: [
                 'base_uri' => 'https://api.openai.com/v1/',
                 'headers' => [
-//                    'Content-Type' => 'application/json',
+                    'Content-Type' => 'application/json',
                     'Authorization' => "Bearer $this->openAiApiKey",
                 ]
             ]
         );
     }
 
-    public function listModels(): ResponseInterface
+    /**
+     * @throws TransportExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws DecodingExceptionInterface
+     * @throws ClientExceptionInterface
+     */
+    public function listModels(): array
     {
-        return $this->client->request('GET', 'models');
+        return $this->client->request('GET', 'models')->toArray();
     }
 }
