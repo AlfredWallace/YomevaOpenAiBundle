@@ -24,6 +24,9 @@ class YomevaOpenAiBundle extends AbstractBundle
     {
         $container->import('../config/services.yaml');
 
+        dump($container->services());
+        die;
+
         $container->services()
             ->get('Yomeva\OpenAiBundle\Service\OpenAiClient')
             ->arg(0, $container->services()->get('Symfony\Contracts\HttpClient\HttpClientInterface'))
