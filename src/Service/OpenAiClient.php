@@ -4,12 +4,12 @@ namespace Yomeva\OpenAiBundle\Service;
 
 class OpenAiClient
 {
-    public function __construct(private string $openAiApiKey)
+    public function __construct(private readonly string $openAiApiKey)
     {
     }
 
     public function helloWorld(): string
     {
-        return 'Hello World! This is v0.1.2';
+        return 'Hello World! Voici mon API key : ' . $this->openAiApiKey;
     }
 }
