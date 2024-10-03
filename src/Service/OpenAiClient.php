@@ -4,6 +4,7 @@ namespace Yomeva\OpenAiBundle\Service;
 
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Symfony\Contracts\HttpClient\ResponseInterface;
 
 class OpenAiClient
 {
@@ -11,11 +12,17 @@ class OpenAiClient
 
     public function __construct(private readonly string $openAiApiKey)
     {
-        $this->client = HttpClient::create();
+        $this->client = HttpClient::create(defaultOptions: [
+            'base_uri' => 'https://api.openai.com/v1/',
+            'headers' => [
+                'Content-Type' => 'application/json',
+                'Authorization' => "Bearer {$this->openAiApiKey}",
+            ]
+        ]);
     }
 
-    public function helloWorld(): string
+    public function listModels(): ResponseInterface
     {
-        return 'Hello World! Voici mon API key : ' . $this->openAiApiKey;
+        return $this->client->request('GET', 'models');
     }
 }
