@@ -3,7 +3,6 @@
     "description": "This bundles allows you to make calls to the OpenAI APIs.",
     "type": "symfony-bundle",
     "license": "MIT",
-    "version": "0.2.5",
     "keywords": ["open-ai","openai"],
     "autoload": {
         "psr-4": {
