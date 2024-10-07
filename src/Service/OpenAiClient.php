@@ -432,10 +432,19 @@ class OpenAiClient
 
     ///> VECTOR STORES
 
-    // POST https://api.openai.com/v1/vector_stores
-    public function createVectorStore(): ResponseInterface
+    /**
+     * @throws TransportExceptionInterface
+     */
+    public function createVectorStore(array $payload = []): ResponseInterface
     {
-        throw new NotImplementedException();
+        return $this->client->request(
+            'POST',
+            'vector_stores',
+            [
+                'json' => $payload,
+                ...self::ASSISTANTS_V2_OPTIONS
+            ]
+        );
     }
 
     /**
@@ -457,7 +466,7 @@ class OpenAiClient
     /**
      * @throws TransportExceptionInterface
      */
-    public function modifyVectorStore(string $vectorStoreId, array $payload): ResponseInterface
+    public function modifyVectorStore(string $vectorStoreId, array $payload = []): ResponseInterface
     {
         return $this->client->request(
             'POST',
