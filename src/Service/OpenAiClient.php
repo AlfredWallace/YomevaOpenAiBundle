@@ -478,10 +478,12 @@ class OpenAiClient
         );
     }
 
-    // DELETE https://api.openai.com/v1/vector_stores/{vector_store_id}
-    public function deleteVectorStore(): ResponseInterface
+    /**
+     * @throws TransportExceptionInterface
+     */
+    public function deleteVectorStore(string $vectorStoreId): ResponseInterface
     {
-        throw new NotImplementedException();
+        return $this->client->request('DELETE', "vector_stores/$vectorStoreId");
     }
 
     ///< VECTOR STORES
