@@ -59,6 +59,58 @@ class OpenAiClient
     ///< CHAT
 
 
+    ///> EMBEDDINGS
+
+    // https://api.openai.com/v1/embeddings
+    public function createEmbeddings(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    ///< EMBEDDINGS
+
+
+    ///> FINE-TUNING
+
+    // https://api.openai.com/v1/fine_tuning/jobs
+    public function createFineTuningJob(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    // https://api.openai.com/v1/fine_tuning/jobs
+    public function listFineTuningJobs(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    // https://api.openai.com/v1/fine_tuning/jobs/{fine_tuning_job_id}/events
+    public function listFineTuningEvents(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    // https://api.openai.com/v1/fine_tuning/jobs/{fine_tuning_job_id}/checkpoints
+    public function listFineTuningCheckpoints(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    // https://api.openai.com/v1/fine_tuning/jobs/{fine_tuning_job_id}
+    public function retrieveFineTuningJob(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    // https://api.openai.com/v1/fine_tuning/jobs/{fine_tuning_job_id}/cancel
+    public function cancelFineTuningJob(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    ///< FINE-TUNING
+
+
     ///> MODELS
 
     /**
