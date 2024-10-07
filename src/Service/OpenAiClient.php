@@ -33,7 +33,30 @@ class OpenAiClient
         throw new NotImplementedException();
     }
 
+    // https://api.openai.com/v1/audio/transcriptions
+    public function createTranscription(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    // https://api.openai.com/v1/audio/translations
+    public function createTranslation(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
     ///< AUDIO
+
+
+    ///> CHAT
+
+    // https://api.openai.com/v1/chat/completions
+    public function createChatCompletion(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    ///< CHAT
 
 
     ///> MODELS
