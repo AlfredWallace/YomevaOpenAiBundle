@@ -668,4 +668,38 @@ class OpenAiClient
     }
 
     ///< PROJECT SERVICE ACCOUNTS
+
+
+    ///> PROJECT API KEYS
+
+    // GET https://api.openai.com/v1/organization/projects/{project_id}/api_keys
+    public function listProjectApiKeys(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    // GET https://api.openai.com/v1/organization/projects/{project_id}/api_keys/{key_id}
+    public function retrieveProjectApiKey(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    // DELETE https://api.openai.com/v1/organization/projects/{project_id}/api_keys/{key_id}
+    public function deleteProjectApiKey(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    ///< PROJECT API KEYS
+
+
+    ///> AUDIT LOGS
+
+    // GET https://api.openai.com/v1/organization/audit_logs
+    public function listAuditLogs(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    ///< AUDIT LOGS
 }
