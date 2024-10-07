@@ -228,7 +228,7 @@ class OpenAiClient
      */
     public function listModels(): ResponseInterface
     {
-        return $this->client->request('GET', 'models');
+        return $this->client->request('GET', 'models', ['headers' => ['OpenAI-Beta' => 'assistants=v2']]);
     }
 
     // GET https://api.openai.com/v1/models/{model}
