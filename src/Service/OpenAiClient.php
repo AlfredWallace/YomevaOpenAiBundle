@@ -318,7 +318,7 @@ class OpenAiClient
      */
     public function deleteAssistant(string $assistantId): ResponseInterface
     {
-        return $this->client->request('DELETE', "assistants/$assistantId");
+        return $this->client->request('DELETE', "assistants/$assistantId", self::ASSISTANTS_V2_OPTIONS);
     }
 
     ///< ASSISTANT
