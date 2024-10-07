@@ -540,4 +540,33 @@ class OpenAiClient
     }
 
     ///< INVITES
+
+
+    ///> USERS
+
+    // GET https://api.openai.com/v1/organization/users
+    public function listUsers(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    // POST https://api.openai.com/v1/organization/users/{user_id}
+    public function modifyUser(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    // GET https://api.openai.com/v1/organization/users/{user_id}
+    public function retrieveUser(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    // DELETE https://api.openai.com/v1/organization/users/{user_id}
+    public function deleteUser(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    ///< USERS
 }
