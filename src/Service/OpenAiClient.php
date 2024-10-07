@@ -354,4 +354,68 @@ class OpenAiClient
     }
 
     ///< MESSAGES
+
+
+    ///> RUNS
+
+    // POST https://api.openai.com/v1/threads/{thread_id}/runs
+    public function createRun(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    // POST https://api.openai.com/v1/threads/runs
+    public function createThreadAndRun(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    // GET https://api.openai.com/v1/threads/{thread_id}/runs
+    public function listRuns(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    // GET https://api.openai.com/v1/threads/{thread_id}/runs/{run_id}
+    public function retrieveRun(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    // POST https://api.openai.com/v1/threads/{thread_id}/runs/{run_id}
+    public function modifyRun(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    // POST https://api.openai.com/v1/threads/{thread_id}/runs/{run_id}/submit_tool_outputs
+    public function submitToolsOutputsToRun(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    // POST https://api.openai.com/v1/threads/{thread_id}/runs/{run_id}/cancel
+    public function cancelRun(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    ///< RUNS
+
+
+    ///> RUN STEPS
+
+    // GET https://api.openai.com/v1/threads/{thread_id}/runs/{run_id}/steps
+    public function listRunSteps(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    // GET https://api.openai.com/v1/threads/{thread_id}/runs/{run_id}/steps/{step_id}
+    public function retrieveRunStep(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    ///< RUN STEPS
 }
