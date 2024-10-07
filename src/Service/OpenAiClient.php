@@ -198,6 +198,29 @@ class OpenAiClient
     ///< UPLOADS
 
 
+    ///> IMAGES
+
+    // POST https://api.openai.com/v1/images/generations
+    public function createImage(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    // POST https://api.openai.com/v1/images/edits
+    public function createImageEdit(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    // POST https://api.openai.com/v1/images/variations
+    public function createImageVariation(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    ///< IMAGES
+
+
     ///> MODELS
 
     /**
