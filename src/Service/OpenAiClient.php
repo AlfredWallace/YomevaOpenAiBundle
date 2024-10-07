@@ -255,4 +255,39 @@ class OpenAiClient
     }
 
     ///< MODERATIONS
+
+
+    ///> ASSISTANT
+
+    // POST https://api.openai.com/v1/assistants
+    public function createAssistant(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    // GET https://api.openai.com/v1/assistants
+    public function listAssistants(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    // GET https://api.openai.com/v1/assistants/{assistant_id}
+    public function retrieveAssistant(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    // POST https://api.openai.com/v1/assistants/{assistant_id}
+    public function modifyAssistant(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    // DELETE https://api.openai.com/v1/assistants/{assistant_id}
+    public function deleteAssistant(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    ///< ASSISTANT
 }
