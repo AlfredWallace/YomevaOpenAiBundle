@@ -169,6 +169,35 @@ class OpenAiClient
     ///< FILES
 
 
+    ///> UPLOADS
+
+    // POST https://api.openai.com/v1/uploads
+    public function createUpload(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    // POST https://api.openai.com/v1/uploads/{upload_id}/parts
+    public function addUploadPart(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    // POST https://api.openai.com/v1/uploads/{upload_id}/complete
+    public function completeUpload(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    // POST https://api.openai.com/v1/uploads/{upload_id}/cancel
+    public function cancelUpload(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    ///< UPLOADS
+
+
     ///> MODELS
 
     /**
