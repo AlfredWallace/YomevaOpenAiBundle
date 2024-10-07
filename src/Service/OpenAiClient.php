@@ -418,4 +418,97 @@ class OpenAiClient
     }
 
     ///< RUN STEPS
+
+
+    ///> VECTOR STORES
+
+    // POST https://api.openai.com/v1/vector_stores
+    public function createVectorStore(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    // GET https://api.openai.com/v1/vector_stores
+    public function listVectorStores(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    // GET https://api.openai.com/v1/vector_stores/{vector_store_id}
+    public function retrieveVectorStore(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    // POST https://api.openai.com/v1/vector_stores/{vector_store_id}
+    public function modifyVectorStore(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    // DELETE https://api.openai.com/v1/vector_stores/{vector_store_id}
+    public function deleteVectorStore(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    ///< VECTOR STORES
+
+
+    ///> VECTOR STORE FILES
+
+    // POST https://api.openai.com/v1/vector_stores/{vector_store_id}/files
+    public function createVectorStoreFile(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    // GET https://api.openai.com/v1/vector_stores/{vector_store_id}/files
+    public function listVectorStoresFiles(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    // GET https://api.openai.com/v1/vector_stores/{vector_store_id}/files/{file_id}
+    public function retrieveVectorStoreFile(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    // DELETE https://api.openai.com/v1/vector_stores/{vector_store_id}/files/{file_id}
+    public function deleteVectorStoreFile(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    ///< VECTOR STORE FILES
+
+
+    ///> VECTOR STORE FILE BATCHES
+
+    // POST https://api.openai.com/v1/vector_stores/{vector_store_id}/file_batches
+    public function createVectorStoreFileBatch(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    // GET https://api.openai.com/v1/vector_stores/{vector_store_id}/file_batches/{batch_id}
+    public function retrieveVectorStoreFileBatch(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    // POST https://api.openai.com/v1/vector_stores/{vector_store_id}/file_batches/{batch_id}/cancel
+    public function cancelVectorStoreFileBatch(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    // GET https://api.openai.com/v1/vector_stores/{vector_store_id}/file_batches/{batch_id}/files
+    public function listVectorStoreFilesInBatch(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    ///< VECTOR STORE FILE BATCHES
 }
