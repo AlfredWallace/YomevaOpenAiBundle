@@ -443,7 +443,7 @@ class OpenAiClient
      */
     public function listVectorStores(): ResponseInterface
     {
-        return $this->client->request('GET', 'vector_stores');
+        return $this->client->request('GET', 'vector_stores', self::ASSISTANTS_V2_OPTIONS);
     }
 
     // GET https://api.openai.com/v1/vector_stores/{vector_store_id}
