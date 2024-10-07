@@ -27,19 +27,19 @@ class OpenAiClient
 
     ///> AUDIO
 
-    // https://api.openai.com/v1/audio/speech
+    // POST https://api.openai.com/v1/audio/speech
     public function createSpeech(): ResponseInterface
     {
         throw new NotImplementedException();
     }
 
-    // https://api.openai.com/v1/audio/transcriptions
+    // POST https://api.openai.com/v1/audio/transcriptions
     public function createTranscription(): ResponseInterface
     {
         throw new NotImplementedException();
     }
 
-    // https://api.openai.com/v1/audio/translations
+    // POST https://api.openai.com/v1/audio/translations
     public function createTranslation(): ResponseInterface
     {
         throw new NotImplementedException();
@@ -50,7 +50,7 @@ class OpenAiClient
 
     ///> CHAT
 
-    // https://api.openai.com/v1/chat/completions
+    // POST https://api.openai.com/v1/chat/completions
     public function createChatCompletion(): ResponseInterface
     {
         throw new NotImplementedException();
@@ -61,7 +61,7 @@ class OpenAiClient
 
     ///> EMBEDDINGS
 
-    // https://api.openai.com/v1/embeddings
+    // POST https://api.openai.com/v1/embeddings
     public function createEmbeddings(): ResponseInterface
     {
         throw new NotImplementedException();
@@ -72,37 +72,37 @@ class OpenAiClient
 
     ///> FINE-TUNING
 
-    // https://api.openai.com/v1/fine_tuning/jobs
+    // POST https://api.openai.com/v1/fine_tuning/jobs
     public function createFineTuningJob(): ResponseInterface
     {
         throw new NotImplementedException();
     }
 
-    // https://api.openai.com/v1/fine_tuning/jobs
+    // GET https://api.openai.com/v1/fine_tuning/jobs
     public function listFineTuningJobs(): ResponseInterface
     {
         throw new NotImplementedException();
     }
 
-    // https://api.openai.com/v1/fine_tuning/jobs/{fine_tuning_job_id}/events
+    // GET https://api.openai.com/v1/fine_tuning/jobs/{fine_tuning_job_id}/events
     public function listFineTuningEvents(): ResponseInterface
     {
         throw new NotImplementedException();
     }
 
-    // https://api.openai.com/v1/fine_tuning/jobs/{fine_tuning_job_id}/checkpoints
+    // GET https://api.openai.com/v1/fine_tuning/jobs/{fine_tuning_job_id}/checkpoints
     public function listFineTuningCheckpoints(): ResponseInterface
     {
         throw new NotImplementedException();
     }
 
-    // https://api.openai.com/v1/fine_tuning/jobs/{fine_tuning_job_id}
+    // GET https://api.openai.com/v1/fine_tuning/jobs/{fine_tuning_job_id}
     public function retrieveFineTuningJob(): ResponseInterface
     {
         throw new NotImplementedException();
     }
 
-    // https://api.openai.com/v1/fine_tuning/jobs/{fine_tuning_job_id}/cancel
+    // POST https://api.openai.com/v1/fine_tuning/jobs/{fine_tuning_job_id}/cancel
     public function cancelFineTuningJob(): ResponseInterface
     {
         throw new NotImplementedException();
