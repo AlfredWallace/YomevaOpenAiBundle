@@ -446,10 +446,12 @@ class OpenAiClient
         return $this->client->request('GET', 'vector_stores', self::ASSISTANTS_V2_OPTIONS);
     }
 
-    // GET https://api.openai.com/v1/vector_stores/{vector_store_id}
-    public function retrieveVectorStore(): ResponseInterface
+    /**
+     * @throws TransportExceptionInterface
+     */
+    public function retrieveVectorStore(string $vectorStoreId): ResponseInterface
     {
-        throw new NotImplementedException();
+        return $this->client->request('GET', "vector_stores/$vectorStoreId", self::ASSISTANTS_V2_OPTIONS);
     }
 
     // POST https://api.openai.com/v1/vector_stores/{vector_store_id}
