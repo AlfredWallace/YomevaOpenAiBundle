@@ -150,10 +150,12 @@ class OpenAiClient
         throw new NotImplementedException();
     }
 
-    // GET https://api.openai.com/v1/files
+    /**
+     * @throws TransportExceptionInterface
+     */
     public function listFiles(): ResponseInterface
     {
-        throw new NotImplementedException();
+        return $this->client->request('GET', 'files');
     }
 
     // GET https://api.openai.com/v1/files/{file_id}
