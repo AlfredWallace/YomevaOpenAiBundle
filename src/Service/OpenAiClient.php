@@ -267,10 +267,19 @@ class OpenAiClient
 
     ///> ASSISTANT
 
-    // POST https://api.openai.com/v1/assistants
-    public function createAssistant(): ResponseInterface
+    /**
+     * @throws TransportExceptionInterface
+     */
+    public function createAssistant(array $payload): ResponseInterface
     {
-        throw new NotImplementedException();
+        return $this->client->request(
+            'POST',
+            'assistants',
+            [
+                'json' => $payload,
+                ...self::ASSISTANTS_V2_OPTIONS
+            ]
+        );
     }
 
     /**
@@ -281,22 +290,35 @@ class OpenAiClient
         return $this->client->request('GET', 'assistants', self::ASSISTANTS_V2_OPTIONS);
     }
 
-    // GET https://api.openai.com/v1/assistants/{assistant_id}
-    public function retrieveAssistant(): ResponseInterface
+    /**
+     * @throws TransportExceptionInterface
+     */
+    public function retrieveAssistant(string $assistantId): ResponseInterface
     {
-        throw new NotImplementedException();
+        return $this->client->request('GET', "assistants/$assistantId", self::ASSISTANTS_V2_OPTIONS);
     }
 
-    // POST https://api.openai.com/v1/assistants/{assistant_id}
-    public function modifyAssistant(): ResponseInterface
+    /**
+     * @throws TransportExceptionInterface
+     */
+    public function modifyAssistant(string $assistantId, array $payload): ResponseInterface
     {
-        throw new NotImplementedException();
+        return $this->client->request(
+            'POST',
+            "assistants/$assistantId",
+            [
+                'json' => $payload,
+                ...self::ASSISTANTS_V2_OPTIONS
+            ]
+        );
     }
 
-    // DELETE https://api.openai.com/v1/assistants/{assistant_id}
-    public function deleteAssistant(): ResponseInterface
+    /**
+     * @throws TransportExceptionInterface
+     */
+    public function deleteAssistant(string $assistantId): ResponseInterface
     {
-        throw new NotImplementedException();
+        return $this->client->request('DELETE', "assistants/$assistantId");
     }
 
     ///< ASSISTANT
