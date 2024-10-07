@@ -511,4 +511,33 @@ class OpenAiClient
     }
 
     ///< VECTOR STORE FILE BATCHES
+
+
+    ///> INVITES
+
+    // GET https://api.openai.com/v1/organization/invites
+    public function listInvites(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    // POST https://api.openai.com/v1/organization/invites
+    public function createInvite(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    // GET https://api.openai.com/v1/organization/invites/{invite_id}
+    public function retrieveInvite(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    // DELETE https://api.openai.com/v1/organization/invites/{invite_id}
+    public function deleteInvite(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    ///< INVITES
 }
