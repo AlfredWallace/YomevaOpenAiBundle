@@ -265,10 +265,12 @@ class OpenAiClient
         throw new NotImplementedException();
     }
 
-    // GET https://api.openai.com/v1/assistants
+    /**
+     * @throws TransportExceptionInterface
+     */
     public function listAssistants(): ResponseInterface
     {
-        throw new NotImplementedException();
+        return $this->client->request('GET', 'assistants');
     }
 
     // GET https://api.openai.com/v1/assistants/{assistant_id}
