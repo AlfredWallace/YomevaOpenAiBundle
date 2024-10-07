@@ -326,28 +326,50 @@ class OpenAiClient
 
     ///> THREADS
 
-    // POST https://api.openai.com/v1/threads
-    public function createThread(): ResponseInterface
+    /**
+     * @throws TransportExceptionInterface
+     */
+    public function createThread(array $payload): ResponseInterface
     {
-        throw new NotImplementedException();
+        return $this->client->request(
+            'POST',
+            'threads',
+            [
+                'json' => $payload,
+                ...self::ASSISTANTS_V2_OPTIONS
+            ]
+        );
     }
 
-    // GET https://api.openai.com/v1/threads/{thread_id}
-    public function retrieveThread(): ResponseInterface
+    /**
+     * @throws TransportExceptionInterface
+     */
+    public function retrieveThread(string $threadId): ResponseInterface
     {
-        throw new NotImplementedException();
+        return $this->client->request('GET', "threads/$threadId", self::ASSISTANTS_V2_OPTIONS);
     }
 
-    // POST https://api.openai.com/v1/threads/{thread_id}
-    public function modifyThread(): ResponseInterface
+    /**
+     * @throws TransportExceptionInterface
+     */
+    public function modifyThread(string $threadId, array $payload): ResponseInterface
     {
-        throw new NotImplementedException();
+        return $this->client->request(
+            'POST',
+            "threads/$threadId",
+            [
+                'json' => $payload,
+                ...self::ASSISTANTS_V2_OPTIONS
+            ]
+        );
     }
 
-    // DELETE https://api.openai.com/v1/threads/{thread_id}
-    public function deleteThread(): ResponseInterface
+    /**
+     * @throws TransportExceptionInterface
+     */
+    public function deleteThread(string $threadId): ResponseInterface
     {
-        throw new NotImplementedException();
+        return $this->client->request('DELETE', "threads/$threadId", self::ASSISTANTS_V2_OPTIONS);
     }
 
     ///< THREADS
