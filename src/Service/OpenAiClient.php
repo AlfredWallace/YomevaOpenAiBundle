@@ -158,16 +158,20 @@ class OpenAiClient
         return $this->client->request('GET', 'files');
     }
 
-    // GET https://api.openai.com/v1/files/{file_id}
-    public function retrieveFile(): ResponseInterface
+    /**
+     * @throws TransportExceptionInterface
+     */
+    public function retrieveFile(string $fileId): ResponseInterface
     {
-        throw new NotImplementedException();
+        return $this->client->request('GET', "files/$fileId");
     }
 
-    // DELETE https://api.openai.com/v1/files/{file_id}
-    public function deleteFile(): ResponseInterface
+    /**
+     * @throws TransportExceptionInterface
+     */
+    public function deleteFile(string $fileId): ResponseInterface
     {
-        throw new NotImplementedException();
+        return $this->client->request('DELETE', "files/$fileId");
     }
 
     ///< FILES
