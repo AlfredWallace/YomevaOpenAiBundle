@@ -319,4 +319,39 @@ class OpenAiClient
     }
 
     ///< THREADS
+
+
+    ///> MESSAGES
+
+    // POST https://api.openai.com/v1/threads/{thread_id}/messages
+    public function createMessage(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    // GET https://api.openai.com/v1/threads/{thread_id}/messages
+    public function listMessages(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    // GET https://api.openai.com/v1/threads/{thread_id}/messages/{message_id}
+    public function retrieveMessage(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    // POST https://api.openai.com/v1/threads/{thread_id}/messages/{message_id}
+    public function modifyMessage(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    // DELETE https://api.openai.com/v1/threads/{thread_id}/messages/{message_id}
+    public function deleteMessage(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    ///< MESSAGES
 }
