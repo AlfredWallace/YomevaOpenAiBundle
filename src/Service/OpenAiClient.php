@@ -483,7 +483,7 @@ class OpenAiClient
      */
     public function deleteVectorStore(string $vectorStoreId): ResponseInterface
     {
-        return $this->client->request('DELETE', "vector_stores/$vectorStoreId");
+        return $this->client->request('DELETE', "vector_stores/$vectorStoreId", self::ASSISTANTS_V2_OPTIONS);
     }
 
     ///< VECTOR STORES
