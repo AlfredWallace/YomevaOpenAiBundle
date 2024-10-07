@@ -290,4 +290,33 @@ class OpenAiClient
     }
 
     ///< ASSISTANT
+
+
+    ///> THREADS
+
+    // POST https://api.openai.com/v1/threads
+    public function createThread(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    // GET https://api.openai.com/v1/threads/{thread_id}
+    public function retrieveThread(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    // POST https://api.openai.com/v1/threads/{thread_id}
+    public function modifyThread(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    // DELETE https://api.openai.com/v1/threads/{thread_id}
+    public function deleteThread(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    ///< THREADS
 }
