@@ -569,4 +569,74 @@ class OpenAiClient
     }
 
     ///< USERS
+
+
+    ///> PROJECTS
+
+    // GET https://api.openai.com/v1/organization/projects
+    public function listProjects(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    // POST https://api.openai.com/v1/organization/projects
+    public function createProject(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    // GET https://api.openai.com/v1/organization/projects/{project_id}
+    public function retrieveProject(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    // POST https://api.openai.com/v1/organization/projects/{project_id}
+    public function modifyProject(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    // POST https://api.openai.com/v1/organization/projects/{project_id}/archive
+    public function archiveProject(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    ///< PROJECTS
+
+
+    ///> PROJECT USERS
+
+    // GET https://api.openai.com/v1/organization/projects/{project_id}/users
+    public function listProjectUsers(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    // POST https://api.openai.com/v1/organization/projects/{project_id}/users
+    public function createProjectUser(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    // GET https://api.openai.com/v1/organization/projects/{project_id}/users/{user_id}
+    public function retrieveProjectUser(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    // POST https://api.openai.com/v1/organization/projects/{project_id}/users/{user_id}
+    public function modifyProjectUser(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    // DELETE https://api.openai.com/v1/organization/projects/{project_id}/users/{user_id}
+    public function deleteProjectUser(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    ///< PROJECT USERS
 }
