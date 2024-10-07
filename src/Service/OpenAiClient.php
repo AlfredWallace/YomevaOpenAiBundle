@@ -454,10 +454,19 @@ class OpenAiClient
         return $this->client->request('GET', "vector_stores/$vectorStoreId", self::ASSISTANTS_V2_OPTIONS);
     }
 
-    // POST https://api.openai.com/v1/vector_stores/{vector_store_id}
-    public function modifyVectorStore(): ResponseInterface
+    /**
+     * @throws TransportExceptionInterface
+     */
+    public function modifyVectorStore(string $vectorStoreId, array $payload): ResponseInterface
     {
-        throw new NotImplementedException();
+        return $this->client->request(
+            'POST',
+            "vector_stores/$vectorStoreId",
+            [
+                'json' => $payload,
+                ...self::ASSISTANTS_V2_OPTIONS
+            ]
+        );
     }
 
     // DELETE https://api.openai.com/v1/vector_stores/{vector_store_id}
