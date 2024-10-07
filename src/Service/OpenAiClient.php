@@ -10,6 +10,8 @@ use Yomeva\OpenAiBundle\Exception\NotImplementedException;
 
 class OpenAiClient
 {
+    private const array ASSISTANTS_V2_OPTIONS = ['headers' => ['OpenAI-Beta' => 'assistants=v2']];
+
     private HttpClientInterface $client;
 
     public function __construct(private readonly string $openAiApiKey)
@@ -270,7 +272,7 @@ class OpenAiClient
      */
     public function listAssistants(): ResponseInterface
     {
-        return $this->client->request('GET', 'assistants', ['headers' => ['OpenAI-Beta' => 'assistants=v2']]);
+        return $this->client->request('GET', 'assistants', self::ASSISTANTS_V2_OPTIONS);
     }
 
     // GET https://api.openai.com/v1/assistants/{assistant_id}
