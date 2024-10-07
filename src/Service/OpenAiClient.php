@@ -639,4 +639,33 @@ class OpenAiClient
     }
 
     ///< PROJECT USERS
+
+
+    ///> PROJECT SERVICE ACCOUNTS
+
+    // GET https://api.openai.com/v1/organization/projects/{project_id}/service_accounts
+    public function listProjectServiceAccounts(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    // POST https://api.openai.com/v1/organization/projects/{project_id}/service_accounts
+    public function createProjectServiceAccount(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    // GET https://api.openai.com/v1/organization/projects/{project_id}/service_accounts/{service_account_id}
+    public function retrieveProjectServiceAccount(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    // DELETE https://api.openai.com/v1/organization/projects/{project_id}/service_accounts/{service_account_id}
+    public function deleteProjectServiceAccount(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    ///< PROJECT SERVICE ACCOUNTS
 }
