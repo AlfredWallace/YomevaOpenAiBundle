@@ -231,5 +231,17 @@ class OpenAiClient
         return $this->client->request('GET', 'models');
     }
 
+    // GET https://api.openai.com/v1/models/{model}
+    public function retrieveModel(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    // DELETE https://api.openai.com/v1/models/{model}
+    public function deleteModel(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
     ///< MODELS
 }
