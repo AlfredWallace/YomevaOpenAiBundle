@@ -3,12 +3,10 @@
 namespace Yomeva\OpenAiBundle\Service;
 
 use Symfony\Component\HttpClient\HttpClient;
-use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Symfony\Contracts\HttpClient\ResponseInterface;
+use Yomeva\OpenAiBundle\Exception\NotImplementedException;
 
 class OpenAiClient
 {
@@ -27,15 +25,26 @@ class OpenAiClient
         );
     }
 
+    ///> AUDIO
+
+    // https://api.openai.com/v1/audio/speech
+    public function createSpeech(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    ///< AUDIO
+
+
+    ///> MODELS
+
     /**
      * @throws TransportExceptionInterface
-     * @throws ServerExceptionInterface
-     * @throws RedirectionExceptionInterface
-     * @throws DecodingExceptionInterface
-     * @throws ClientExceptionInterface
      */
-    public function listModels(): array
+    public function listModels(): ResponseInterface
     {
-        return $this->client->request('GET', 'models')->toArray();
+        return $this->client->request('GET', 'models');
     }
+
+    ///< MODELS
 }
