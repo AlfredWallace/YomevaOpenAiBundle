@@ -111,6 +111,64 @@ class OpenAiClient
     ///< FINE-TUNING
 
 
+    ///> BATCH
+
+    // POST https://api.openai.com/v1/batches
+    public function createBatch(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    // GET https://api.openai.com/v1/batches/{batch_id}
+    public function retrieveBatch(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    // POST https://api.openai.com/v1/batches/{batch_id}/cancel
+    public function cancelBatch(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    // GET https://api.openai.com/v1/batches
+    public function listBatches(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    ///< BATCH
+
+
+    ///> FILES
+
+    // POST https://api.openai.com/v1/files
+    public function uploadFile(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    // GET https://api.openai.com/v1/files
+    public function listFiles(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    // GET https://api.openai.com/v1/files/{file_id}
+    public function retrieveFile(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    // DELETE https://api.openai.com/v1/files/{file_id}
+    public function deleteFile(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    ///< FILES
+
+
     ///> MODELS
 
     /**
