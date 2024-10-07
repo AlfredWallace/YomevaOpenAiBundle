@@ -438,10 +438,12 @@ class OpenAiClient
         throw new NotImplementedException();
     }
 
-    // GET https://api.openai.com/v1/vector_stores
+    /**
+     * @throws TransportExceptionInterface
+     */
     public function listVectorStores(): ResponseInterface
     {
-        throw new NotImplementedException();
+        return $this->client->request('GET', 'vector_stores');
     }
 
     // GET https://api.openai.com/v1/vector_stores/{vector_store_id}
