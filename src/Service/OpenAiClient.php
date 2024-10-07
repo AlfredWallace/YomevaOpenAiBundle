@@ -244,4 +244,15 @@ class OpenAiClient
     }
 
     ///< MODELS
+
+
+    ///> MODERATIONS
+
+    // POST https://api.openai.com/v1/moderations
+    public function createModeration(): ResponseInterface
+    {
+        throw new NotImplementedException();
+    }
+
+    ///< MODERATIONS
 }
