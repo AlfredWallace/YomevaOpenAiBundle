@@ -157,20 +157,19 @@ class OpenAiClient
      */
     public function uploadFile(string $purpose, UploadedFile $file): ResponseInterface
     {
-        $response = $this->client->request(
+        return $this->client->request(
             'POST',
             'files',
             [
+                'headers' => [
+                    'Content-Type' => 'application/x-www-form-urlencoded'
+                ],
                 'body' => [
                     'purpose' => $purpose,
                     'file' => $file->getContent(),
                 ]
             ]
         );
-
-        dd($response);
-
-        return $response;
     }
 
     /**
