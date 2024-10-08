@@ -161,10 +161,17 @@ class OpenAiClient
             'POST',
             'files',
             [
-                'body' => [
-                    'purpose' => $purpose,
-                    'file' => $file->getContent(),
-                ]
+                'multipart' => [
+                    [
+                        'name' => 'purpose',
+                        'contents' => $purpose,
+                    ],
+                    [
+                        'name' => 'file',
+                        'contents' => $file->getContent(),
+                        'filename' => $file->getFilename(),
+                    ],
+                ],
             ]
         );
     }
