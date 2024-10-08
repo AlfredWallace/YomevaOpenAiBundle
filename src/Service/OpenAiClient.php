@@ -356,34 +356,44 @@ class OpenAiClient
 
     ///> MESSAGES
 
-    // POST https://api.openai.com/v1/threads/{thread_id}/messages
-    public function createMessage(): ResponseInterface
+    /**
+     * @throws TransportExceptionInterface
+     */
+    public function createMessage(string $threadId, array $payload): ResponseInterface
     {
-        throw new NotImplementedException();
+        return $this->basicRequest('POST', "threads/$threadId/messages", $payload);
     }
 
-    // GET https://api.openai.com/v1/threads/{thread_id}/messages
-    public function listMessages(): ResponseInterface
+    /**
+     * @throws TransportExceptionInterface
+     */
+    public function listMessages(string $threadId): ResponseInterface
     {
-        throw new NotImplementedException();
+        return $this->basicRequest('GET', "threads/$threadId/messages");
     }
 
-    // GET https://api.openai.com/v1/threads/{thread_id}/messages/{message_id}
-    public function retrieveMessage(): ResponseInterface
+    /**
+     * @throws TransportExceptionInterface
+     */
+    public function retrieveMessage(string $threadId, string $messageId): ResponseInterface
     {
-        throw new NotImplementedException();
+        return $this->basicRequest('GET', "threads/$threadId/messages/$messageId");
     }
 
-    // POST https://api.openai.com/v1/threads/{thread_id}/messages/{message_id}
-    public function modifyMessage(): ResponseInterface
+    /**
+     * @throws TransportExceptionInterface
+     */
+    public function modifyMessage(string $threadId, string $messageId, array $payload): ResponseInterface
     {
-        throw new NotImplementedException();
+        return $this->basicRequest('POST', "threads/$threadId/messages/$messageId", $payload);
     }
 
-    // DELETE https://api.openai.com/v1/threads/{thread_id}/messages/{message_id}
-    public function deleteMessage(): ResponseInterface
+    /**
+     * @throws TransportExceptionInterface
+     */
+    public function deleteMessage(string $threadId, string $messageId): ResponseInterface
     {
-        throw new NotImplementedException();
+        return $this->basicRequest('DELETE', "threads/$threadId/messages/$messageId");
     }
 
     ///< MESSAGES
