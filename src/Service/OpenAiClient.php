@@ -157,13 +157,15 @@ class OpenAiClient
      */
     public function uploadFile(string $purpose, UploadedFile $file): ResponseInterface
     {
+        $handle = fopen($file->getPathname(), 'r');
+
         return $this->client->request(
             'POST',
             'files',
             [
                 'body' => [
                     'purpose' => $purpose,
-                    'file' => $file->openFile(),
+                    'file' => $handle,
                 ]
             ]
         );
