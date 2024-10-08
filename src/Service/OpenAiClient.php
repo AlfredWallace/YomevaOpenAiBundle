@@ -3,6 +3,7 @@
 namespace Yomeva\OpenAiBundle\Service;
 
 use Symfony\Component\HttpClient\HttpClient;
+use Symfony\Component\HttpClient\HttpOptions;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
@@ -10,22 +11,27 @@ use Yomeva\OpenAiBundle\Exception\NotImplementedException;
 
 class OpenAiClient
 {
-    private const array ASSISTANTS_V2_OPTIONS = ['headers' => ['OpenAI-Beta' => 'assistants=v2']];
-
     private HttpClientInterface $client;
 
     public function __construct(private readonly string $openAiApiKey)
     {
-        $this->client = HttpClient::create(
-            defaultOptions: [
-                'base_uri' => 'https://api.openai.com/v1/',
-                'headers' => [
-                    'Content-Type' => 'application/json',
-                    'Authorization' => "Bearer $this->openAiApiKey",
-                    'OpenAI-Beta' => 'assistants=v2'
-                ]
-            ]
-        );
+        $this->client = HttpClient::create()
+            ->withOptions(
+                (new HttpOptions())
+                    ->setBaseUri('https://api.openai.com/v1/')
+                    ->setHeader('Content-Type', 'application/json')
+                    ->setHeader('Authorization', "Bearer {$this->openAiApiKey}")
+                    ->setHeader('OpenAI-Beta', 'assistants=v2')
+                    ->toArray()
+            );
+    }
+
+    /**
+     * @throws TransportExceptionInterface
+     */
+    private function basicRequest(string $method, string $url, array $payload = []): ResponseInterface
+    {
+        return $this->client->request($method, $url, empty($payload) ? [] : ['json' => $payload]);
     }
 
     ///> AUDIO
@@ -156,7 +162,7 @@ class OpenAiClient
      */
     public function listFiles(): ResponseInterface
     {
-        return $this->client->request('GET', 'files');
+        return $this->basicRequest('GET', 'files');
     }
 
     /**
@@ -164,7 +170,7 @@ class OpenAiClient
      */
     public function retrieveFile(string $fileId): ResponseInterface
     {
-        return $this->client->request('GET', "files/$fileId");
+        return $this->basicRequest('GET', "files/$fileId");
     }
 
     /**
@@ -172,7 +178,7 @@ class OpenAiClient
      */
     public function deleteFile(string $fileId): ResponseInterface
     {
-        return $this->client->request('DELETE', "files/$fileId");
+        return $this->basicRequest('DELETE', "files/$fileId");
     }
 
     ///< FILES
@@ -237,7 +243,7 @@ class OpenAiClient
      */
     public function listModels(): ResponseInterface
     {
-        return $this->client->request('GET', 'models');
+        return $this->basicRequest('GET', 'models');
     }
 
     // GET https://api.openai.com/v1/models/{model}
@@ -273,14 +279,7 @@ class OpenAiClient
      */
     public function createAssistant(array $payload): ResponseInterface
     {
-        return $this->client->request(
-            'POST',
-            'assistants',
-            [
-                'json' => $payload,
-                ...self::ASSISTANTS_V2_OPTIONS
-            ]
-        );
+        return $this->basicRequest('POST', 'assistants', $payload);
     }
 
     /**
@@ -288,7 +287,7 @@ class OpenAiClient
      */
     public function listAssistants(): ResponseInterface
     {
-        return $this->client->request('GET', 'assistants', self::ASSISTANTS_V2_OPTIONS);
+        return $this->basicRequest('GET', 'assistants');
     }
 
     /**
@@ -296,7 +295,7 @@ class OpenAiClient
      */
     public function retrieveAssistant(string $assistantId): ResponseInterface
     {
-        return $this->client->request('GET', "assistants/$assistantId", self::ASSISTANTS_V2_OPTIONS);
+        return $this->basicRequest('GET', "assistants/$assistantId");
     }
 
     /**
@@ -304,14 +303,7 @@ class OpenAiClient
      */
     public function modifyAssistant(string $assistantId, array $payload): ResponseInterface
     {
-        return $this->client->request(
-            'POST',
-            "assistants/$assistantId",
-            [
-                'json' => $payload,
-                ...self::ASSISTANTS_V2_OPTIONS
-            ]
-        );
+        return $this->basicRequest('POST', "assistants/$assistantId", $payload);
     }
 
     /**
@@ -319,7 +311,7 @@ class OpenAiClient
      */
     public function deleteAssistant(string $assistantId): ResponseInterface
     {
-        return $this->client->request('DELETE', "assistants/$assistantId", self::ASSISTANTS_V2_OPTIONS);
+        return $this->basicRequest('DELETE', "assistants/$assistantId");
     }
 
     ///< ASSISTANT
@@ -332,14 +324,7 @@ class OpenAiClient
      */
     public function createThread(array $payload): ResponseInterface
     {
-        return $this->client->request(
-            'POST',
-            'threads',
-            [
-                'json' => $payload,
-                ...self::ASSISTANTS_V2_OPTIONS
-            ]
-        );
+        return $this->basicRequest('POST', 'threads', $payload);
     }
 
     /**
@@ -347,7 +332,7 @@ class OpenAiClient
      */
     public function retrieveThread(string $threadId): ResponseInterface
     {
-        return $this->client->request('GET', "threads/$threadId", self::ASSISTANTS_V2_OPTIONS);
+        return $this->basicRequest('GET', "threads/$threadId");
     }
 
     /**
@@ -355,14 +340,7 @@ class OpenAiClient
      */
     public function modifyThread(string $threadId, array $payload): ResponseInterface
     {
-        return $this->client->request(
-            'POST',
-            "threads/$threadId",
-            [
-                'json' => $payload,
-                ...self::ASSISTANTS_V2_OPTIONS
-            ]
-        );
+        return $this->basicRequest('POST', "threads/$threadId", $payload);
     }
 
     /**
@@ -370,7 +348,7 @@ class OpenAiClient
      */
     public function deleteThread(string $threadId): ResponseInterface
     {
-        return $this->client->request('DELETE', "threads/$threadId", self::ASSISTANTS_V2_OPTIONS);
+        return $this->basicRequest('DELETE', "threads/$threadId");
     }
 
     ///< THREADS
@@ -482,14 +460,7 @@ class OpenAiClient
      */
     public function createVectorStore(array $payload = []): ResponseInterface
     {
-        return $this->client->request(
-            'POST',
-            'vector_stores',
-            [
-                'json' => $payload,
-                ...self::ASSISTANTS_V2_OPTIONS
-            ]
-        );
+        return $this->basicRequest('POST', 'vector_stores', $payload);
     }
 
     /**
@@ -497,7 +468,7 @@ class OpenAiClient
      */
     public function listVectorStores(): ResponseInterface
     {
-        return $this->client->request('GET', 'vector_stores', self::ASSISTANTS_V2_OPTIONS);
+        return $this->basicRequest('GET', 'vector_stores');
     }
 
     /**
@@ -505,7 +476,7 @@ class OpenAiClient
      */
     public function retrieveVectorStore(string $vectorStoreId): ResponseInterface
     {
-        return $this->client->request('GET', "vector_stores/$vectorStoreId", self::ASSISTANTS_V2_OPTIONS);
+        return $this->basicRequest('GET', "vector_stores/$vectorStoreId");
     }
 
     /**
@@ -513,14 +484,7 @@ class OpenAiClient
      */
     public function modifyVectorStore(string $vectorStoreId, array $payload = []): ResponseInterface
     {
-        return $this->client->request(
-            'POST',
-            "vector_stores/$vectorStoreId",
-            [
-                'json' => $payload,
-                ...self::ASSISTANTS_V2_OPTIONS
-            ]
-        );
+        return $this->basicRequest('POST', "vector_stores/$vectorStoreId", $payload);
     }
 
     /**
@@ -528,7 +492,7 @@ class OpenAiClient
      */
     public function deleteVectorStore(string $vectorStoreId): ResponseInterface
     {
-        return $this->client->request('DELETE', "vector_stores/$vectorStoreId", self::ASSISTANTS_V2_OPTIONS);
+        return $this->basicRequest('DELETE', "vector_stores/$vectorStoreId");
     }
 
     ///< VECTOR STORES
