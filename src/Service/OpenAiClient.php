@@ -401,46 +401,60 @@ class OpenAiClient
 
     ///> RUNS
 
-    // POST https://api.openai.com/v1/threads/{thread_id}/runs
-    public function createRun(): ResponseInterface
+    /**
+     * @throws TransportExceptionInterface
+     */
+    public function createRun(string $threadId, array $payload): ResponseInterface
     {
-        throw new NotImplementedException();
+        return $this->basicRequest('POST', "threads/$threadId/runs", $payload);
     }
 
-    // POST https://api.openai.com/v1/threads/runs
-    public function createThreadAndRun(): ResponseInterface
+    /**
+     * @throws TransportExceptionInterface
+     */
+    public function createThreadAndRun(array $payload): ResponseInterface
     {
-        throw new NotImplementedException();
+        return $this->basicRequest('POST', 'threads/runs', $payload);
     }
 
-    // GET https://api.openai.com/v1/threads/{thread_id}/runs
-    public function listRuns(): ResponseInterface
+    /**
+     * @throws TransportExceptionInterface
+     */
+    public function listRuns(string $threadId): ResponseInterface
     {
-        throw new NotImplementedException();
+        return $this->basicRequest('GET', "threads/$threadId/runs");
     }
 
-    // GET https://api.openai.com/v1/threads/{thread_id}/runs/{run_id}
-    public function retrieveRun(): ResponseInterface
+    /**
+     * @throws TransportExceptionInterface
+     */
+    public function retrieveRun(string $threadId, string $runId): ResponseInterface
     {
-        throw new NotImplementedException();
+        return $this->basicRequest('GET', "threads/$threadId/runs/$runId");
     }
 
-    // POST https://api.openai.com/v1/threads/{thread_id}/runs/{run_id}
-    public function modifyRun(): ResponseInterface
+    /**
+     * @throws TransportExceptionInterface
+     */
+    public function modifyRun(string $threadId, string $runId, array $payload): ResponseInterface
     {
-        throw new NotImplementedException();
+        return $this->basicRequest('POST', "threads/$threadId/runs/$runId", $payload);
     }
 
-    // POST https://api.openai.com/v1/threads/{thread_id}/runs/{run_id}/submit_tool_outputs
-    public function submitToolsOutputsToRun(): ResponseInterface
+    /**
+     * @throws TransportExceptionInterface
+     */
+    public function submitToolsOutputsToRun(string $threadId, string $runId, array $payload): ResponseInterface
     {
-        throw new NotImplementedException();
+        return $this->basicRequest('POST', "threads/$threadId/runs/$runId/submit_tool_outputs", $payload);
     }
 
-    // POST https://api.openai.com/v1/threads/{thread_id}/runs/{run_id}/cancel
-    public function cancelRun(): ResponseInterface
+    /**
+     * @throws TransportExceptionInterface
+     */
+    public function cancelRun(string $threadId, string $runId): ResponseInterface
     {
-        throw new NotImplementedException();
+        return $this->basicRequest('POST', "threads/$threadId/runs/$runId/cancel");
     }
 
     ///< RUNS
