@@ -157,7 +157,8 @@ class OpenAiClient
      */
     public function uploadFile(string $purpose, UploadedFile $file): ResponseInterface
     {
-        $handle = fopen($file->getRealPath().'/'.$file->getClientOriginalName(), 'r');
+        $handle = fopen($file->getRealPath(), 'r');
+        stream_context_set_option($handle, 'http', 'filename', $file->getClientOriginalName());
 
         return $this->client->request(
             'POST',
