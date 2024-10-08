@@ -161,9 +161,6 @@ class OpenAiClient
             'POST',
             'files',
             [
-                'headers' => [
-                    'Content-Type' => 'application/x-www-form-urlencoded'
-                ],
                 'body' => [
                     'purpose' => $purpose,
                     'file' => $file->getContent(),
