@@ -4,6 +4,7 @@ namespace Yomeva\OpenAiBundle\Service;
 
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpClient\HttpOptions;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
@@ -151,10 +152,21 @@ class OpenAiClient
 
     ///> FILES
 
-    // POST https://api.openai.com/v1/files
-    public function uploadFile(): ResponseInterface
+    /**
+     * @throws TransportExceptionInterface
+     */
+    public function uploadFile(string $purpose, UploadedFile $file): ResponseInterface
     {
-        throw new NotImplementedException();
+        return $this->client->request(
+            'POST',
+            'files',
+            [
+                'body' => [
+                    'purpose' => $purpose,
+                    'file' => $file->getContent(),
+                ]
+            ]
+        );
     }
 
     /**
