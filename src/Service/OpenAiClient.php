@@ -524,28 +524,36 @@ class OpenAiClient
 
     ///> VECTOR STORE FILES
 
-    // POST https://api.openai.com/v1/vector_stores/{vector_store_id}/files
-    public function createVectorStoreFile(): ResponseInterface
+    /**
+     * @throws TransportExceptionInterface
+     */
+    public function createVectorStoreFile(string $vectorStoreId, array $payload): ResponseInterface
     {
-        throw new NotImplementedException();
+        return $this->basicRequest('POST', "vector_stores/$vectorStoreId/files", $payload);
     }
 
-    // GET https://api.openai.com/v1/vector_stores/{vector_store_id}/files
-    public function listVectorStoresFiles(): ResponseInterface
+    /**
+     * @throws TransportExceptionInterface
+     */
+    public function listVectorStoresFiles(string $vectorStoreId): ResponseInterface
     {
-        throw new NotImplementedException();
+        return $this->basicRequest('GET', "vector_stores/$vectorStoreId/files");
     }
 
-    // GET https://api.openai.com/v1/vector_stores/{vector_store_id}/files/{file_id}
-    public function retrieveVectorStoreFile(): ResponseInterface
+    /**
+     * @throws TransportExceptionInterface
+     */
+    public function retrieveVectorStoreFile(string $vectorStoreId, string $fileId): ResponseInterface
     {
-        throw new NotImplementedException();
+        return $this->basicRequest('GET', "vector_stores/$vectorStoreId/files/$fileId");
     }
 
-    // DELETE https://api.openai.com/v1/vector_stores/{vector_store_id}/files/{file_id}
-    public function deleteVectorStoreFile(): ResponseInterface
+    /**
+     * @throws TransportExceptionInterface
+     */
+    public function deleteVectorStoreFile(string $vectorStoreId, string $fileId): ResponseInterface
     {
-        throw new NotImplementedException();
+        return $this->basicRequest('DELETE', "vector_stores/$vectorStoreId/files/$fileId");
     }
 
     ///< VECTOR STORE FILES
