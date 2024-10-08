@@ -157,7 +157,7 @@ class OpenAiClient
      */
     public function uploadFile(string $purpose, UploadedFile $file): ResponseInterface
     {
-        return $this->client->request(
+        $response = $this->client->request(
             'POST',
             'files',
             [
@@ -167,6 +167,10 @@ class OpenAiClient
                 ]
             ]
         );
+
+        dd($response);
+
+        return $response;
     }
 
     /**
