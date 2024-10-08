@@ -322,7 +322,7 @@ class OpenAiClient
     /**
      * @throws TransportExceptionInterface
      */
-    public function createThread(array $payload): ResponseInterface
+    public function createThread(array $payload = []): ResponseInterface
     {
         return $this->basicRequest('POST', 'threads', $payload);
     }
