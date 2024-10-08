@@ -22,6 +22,7 @@ class OpenAiClient
                 'headers' => [
                     'Content-Type' => 'application/json',
                     'Authorization' => "Bearer $this->openAiApiKey",
+                    'OpenAI-Beta' => 'assistants=v2'
                 ]
             ]
         );
