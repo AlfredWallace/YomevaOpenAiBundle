@@ -6,6 +6,7 @@ use Symfony\Component\Config\Definition\Configurator\DefinitionConfigurator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\HttpKernel\Bundle\AbstractBundle;
+use Yomeva\OpenAiBundle\Service\OpenAiClient;
 
 class YomevaOpenAiBundle extends AbstractBundle
 {
@@ -26,6 +27,7 @@ class YomevaOpenAiBundle extends AbstractBundle
 
         $container->services()
             ->get('Yomeva\OpenAiBundle\Service\OpenAiClient')
-            ->arg(0, $config['api_key']);
+            ->arg(0, $config['api_key'])
+            ->alias('yomeva.open_ai', OpenAiClient::class);
     }
 }
