@@ -158,12 +158,12 @@ class OpenAiClient
     /**
      * @throws TransportExceptionInterface
      */
-    public function uploadFile(UploadFilePayload $payload)
+    public function uploadFile(UploadFilePayload $payload): ResponseInterface
     {
         $handle = fopen($payload->uploadedFile->getRealPath(), 'r');
         stream_context_set_option($handle, 'http', 'filename', $payload->uploadedFile->getClientOriginalName());
 
-        $response = $this->client->request(
+        return $this->client->request(
             'POST',
             'files',
             [
@@ -173,18 +173,6 @@ class OpenAiClient
                 ]
             ]
         );
-
-        try {
-            return $response->getContent();
-        } catch (ClientExceptionInterface $e) {
-            return 'client' . $e->getMessage();
-        } catch (RedirectionExceptionInterface $e) {
-            return 'redirect' . $e->getMessage();
-        } catch (ServerExceptionInterface $e) {
-            return 'server' . $e->getMessage();
-        } catch (TransportExceptionInterface $e) {
-            return 'transport' . $e->getMessage();
-        }
     }
 
     /**
