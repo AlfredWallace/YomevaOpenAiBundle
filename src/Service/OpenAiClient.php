@@ -177,7 +177,7 @@ class OpenAiClient
                     'file' => $handle,
                 ]
             ]
-        )->toArray();
+        )->toArray(false);
     }
 
     /**
