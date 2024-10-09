@@ -28,6 +28,6 @@ class YomevaOpenAiBundle extends AbstractBundle
         $container->services()
             ->get('Yomeva\OpenAiBundle\Service\OpenAiClient')
             ->arg(0, $config['api_key'])
-            ->alias('yomeva.open_ai', OpenAiClient::class);
+            ->alias('yomeva.open_ai.client', OpenAiClient::class);
     }
 }
