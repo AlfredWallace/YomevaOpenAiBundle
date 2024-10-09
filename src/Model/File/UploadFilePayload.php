@@ -1,10 +1,10 @@
 <?php
 
-namespace Yomeva\OpenAiBundle\Model;
+namespace Yomeva\OpenAiBundle\Model\File;
 
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-readonly class UploadFilePayload
+class UploadFilePayload
 {
     public function __construct(
         public string $purpose,

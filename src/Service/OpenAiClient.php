@@ -4,12 +4,11 @@ namespace Yomeva\OpenAiBundle\Service;
 
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpClient\HttpOptions;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 use Yomeva\OpenAiBundle\Exception\NotImplementedException;
-use Yomeva\OpenAiBundle\Model\UploadFilePayload;
+use Yomeva\OpenAiBundle\Model\File\UploadFilePayload;
 
 class OpenAiClient
 {
