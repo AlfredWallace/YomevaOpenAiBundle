@@ -1,5 +1,0 @@
-#services:
-#    Yomeva\OpenAiBundle\Service\OpenAiClient:
-#        autowire: false
-#        autoconfigure: false
-#        public: true
