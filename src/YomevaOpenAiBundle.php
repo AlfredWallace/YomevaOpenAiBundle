@@ -23,11 +23,17 @@ class YomevaOpenAiBundle extends AbstractBundle
 
     public function loadExtension(array $config, ContainerConfigurator $container, ContainerBuilder $builder): void
     {
-        $container->import('../config/services.yaml');
+//        $container->import('../config/services.yaml');
 
         $container->services()
-            ->get('Yomeva\OpenAiBundle\Service\OpenAiClient')
+            ->set('yomeva.open_ai.client', OpenAiClient::class)
             ->arg(0, $config['api_key'])
-            ->alias('yomeva.open_ai.client', OpenAiClient::class);
+//            ->alias(OpenAiClient::class, 'yomeva.open_ai.client')
+        ;
+
+//        $container->services()
+//            ->get('Yomeva\OpenAiBundle\Service\OpenAiClient')
+//            ->arg(0, $config['api_key'])
+//            ->alias('yomeva.open_ai.client', OpenAiClient::class);
     }
 }
