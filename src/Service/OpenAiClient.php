@@ -4,15 +4,12 @@ namespace Yomeva\OpenAiBundle\Service;
 
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpClient\HttpOptions;
-use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 use Yomeva\OpenAiBundle\Exception\NotImplementedException;
 use Yomeva\OpenAiBundle\Model\File\UploadFilePayload;
+use Yomeva\OpenAiBundle\Model\PayloadInterface;
 
 class OpenAiClient
 {
@@ -34,9 +31,10 @@ class OpenAiClient
     /**
      * @throws TransportExceptionInterface
      */
-    private function basicRequest(string $method, string $url, array $payload = []): ResponseInterface
+    private function basicRequest(string $method, string $url, PayloadInterface $payload): ResponseInterface
     {
-        return $this->client->request($method, $url, empty($payload) ? [] : ['json' => $payload]);
+
+//        return $this->client->request($method, $url, empty($payload) ? [] : ['json' => $payload]);
     }
 
     ///> AUDIO
