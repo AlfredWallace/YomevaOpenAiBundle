@@ -1,6 +1,8 @@
 <?php
 
-namespace Yomeva\OpenAiBundle\Model\Assistant;
+namespace Yomeva\OpenAiBundle\Model\Tool;
+
+use Yomeva\OpenAiBundle\Model\Chunking\ChunkingStrategy;
 
 class FileSearchResourcesVectorStore
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Yomeva\OpenAiBundle\Model\Assistant;
+namespace Yomeva\OpenAiBundle\Model\Chunking;
 
 class AutoChunkingStrategy extends ChunkingStrategy
 {

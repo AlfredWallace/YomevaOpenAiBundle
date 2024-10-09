@@ -3,6 +3,7 @@
 namespace Yomeva\OpenAiBundle\Model\Assistant;
 
 use Symfony\Component\Validator\Constraints as Assert;
+use Yomeva\OpenAiBundle\Model\Tool\ToolResources;
 
 class CreateAssistantPayload
 {
