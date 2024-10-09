@@ -35,11 +35,17 @@ class OpenAiClient
     /**
      * @throws TransportExceptionInterface
      */
-    private function basicRequest(string $method, string $url, PayloadInterface $payload): ResponseInterface
+    private function basicRequest(string $method, string $url, ?PayloadInterface $payload = null): ResponseInterface
     {
-        $this->validator->validate($payload);
-        // TODO : normalize payload
-//        return $this->client->request($method, $url, empty($payload) ? [] : ['json' => $payload]);
+        if ($payload !== null) {
+            $this->validator->validate($payload);
+            // TODO : normalize payload
+        }
+
+
+        throw new NotImplementedException();
+
+        return $this->client->request($method, $url, empty($payload) ? [] : ['json' => $payload]);
     }
 
     ///> AUDIO
