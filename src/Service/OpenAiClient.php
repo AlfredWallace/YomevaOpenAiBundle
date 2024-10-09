@@ -4,11 +4,13 @@ namespace Yomeva\OpenAiBundle\Service;
 
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpClient\HttpOptions;
+use Symfony\Component\Validator\Exception\ValidationFailedException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 use Yomeva\OpenAiBundle\Exception\NotImplementedException;
+use Yomeva\OpenAiBundle\Model\Assistant\CreateAssistantPayload;
 use Yomeva\OpenAiBundle\Model\File\UploadFilePayload;
 use Yomeva\OpenAiBundle\Model\PayloadInterface;
 
@@ -38,7 +40,11 @@ class OpenAiClient
     private function basicRequest(string $method, string $url, ?PayloadInterface $payload = null): ResponseInterface
     {
         if ($payload !== null) {
-            $this->validator->validate($payload);
+
+            if (($violations = $this->validator->validate($payload)) > 0) {
+                throw new ValidationFailedException($payload, $violations);
+            }
+
             // TODO : normalize payload
         }
 
@@ -305,7 +311,7 @@ class OpenAiClient
     /**
      * @throws TransportExceptionInterface
      */
-    public function createAssistant(array $payload): ResponseInterface
+    public function createAssistant(CreateAssistantPayload $payload): ResponseInterface
     {
         return $this->basicRequest('POST', 'assistants', $payload);
     }
