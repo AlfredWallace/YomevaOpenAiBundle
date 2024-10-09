@@ -176,8 +176,14 @@ class OpenAiClient
 
         try {
             return $response->getContent();
-        } catch (\Throwable $exception) {
-            return $exception;
+        } catch (ClientExceptionInterface $e) {
+            return 'client' . $e->getMessage();
+        } catch (RedirectionExceptionInterface $e) {
+            return 'redirect' . $e->getMessage();
+        } catch (ServerExceptionInterface $e) {
+            return 'server' . $e->getMessage();
+        } catch (TransportExceptionInterface $e) {
+            return 'transport' . $e->getMessage();
         }
     }
 
