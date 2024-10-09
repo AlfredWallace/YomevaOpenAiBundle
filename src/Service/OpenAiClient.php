@@ -4,6 +4,9 @@ namespace Yomeva\OpenAiBundle\Service;
 
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpClient\HttpOptions;
+use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
@@ -155,12 +158,12 @@ class OpenAiClient
     /**
      * @throws TransportExceptionInterface
      */
-    public function uploadFile(UploadFilePayload $payload): ResponseInterface
+    public function uploadFile(UploadFilePayload $payload)
     {
         $handle = fopen($payload->uploadedFile->getRealPath(), 'r');
         stream_context_set_option($handle, 'http', 'filename', $payload->uploadedFile->getClientOriginalName());
 
-        return $this->client->request(
+        $response = $this->client->request(
             'POST',
             'files',
             [
@@ -170,6 +173,12 @@ class OpenAiClient
                 ]
             ]
         );
+
+        try {
+            return $response->getContent();
+        } catch (\Throwable $exception) {
+            return $exception;
+        }
     }
 
     /**
