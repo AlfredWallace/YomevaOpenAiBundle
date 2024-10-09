@@ -40,8 +40,9 @@ class OpenAiClient
     private function basicRequest(string $method, string $url, ?PayloadInterface $payload = null): ResponseInterface
     {
         if ($payload !== null) {
+            $violations = $this->validator->validate($payload);
 
-            if (($violations = $this->validator->validate($payload)) > 0) {
+            if (count($violations) > 0) {
                 throw new ValidationFailedException($payload, $violations);
             }
 
