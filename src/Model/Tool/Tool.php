@@ -1,8 +1,8 @@
 <?php
 
-namespace Yomeva\OpenAiBundle\Model\Chunking;
+namespace Yomeva\OpenAiBundle\Model\Tool;
 
-abstract class ChunkingStrategy
+abstract class Tool
 {
     public function __construct(public readonly string $type)
     {

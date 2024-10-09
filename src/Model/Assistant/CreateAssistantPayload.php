@@ -19,7 +19,7 @@ class CreateAssistantPayload
         #[Assert\Length(max: 256000)]
         public ?string $instructions = null,
 
-        // TODO : Assert that all array elements are one of the valid types
+        // TODO : Assert that all array elements are one of the valid types, max number of tools = 128
         public array $tools = [],
 
         public ?ToolResources $toolResources = null,
