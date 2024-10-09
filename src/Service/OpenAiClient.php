@@ -9,6 +9,7 @@ use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 use Yomeva\OpenAiBundle\Exception\NotImplementedException;
+use Yomeva\OpenAiBundle\Model\UploadFilePayload;
 
 class OpenAiClient
 {
@@ -155,17 +156,17 @@ class OpenAiClient
     /**
      * @throws TransportExceptionInterface
      */
-    public function uploadFile(string $purpose, UploadedFile $file): ResponseInterface
+    public function uploadFile(UploadFilePayload $payload): ResponseInterface
     {
-        $handle = fopen($file->getRealPath(), 'r');
-        stream_context_set_option($handle, 'http', 'filename', $file->getClientOriginalName());
+        $handle = fopen($payload->uploadedFile->getRealPath(), 'r');
+        stream_context_set_option($handle, 'http', 'filename', $payload->uploadedFile->getClientOriginalName());
 
         return $this->client->request(
             'POST',
             'files',
             [
                 'body' => [
-                    'purpose' => $purpose,
+                    'purpose' => $payload->purpose,
                     'file' => $handle,
                 ]
             ]
