@@ -2,7 +2,7 @@
 
 namespace Yomeva\OpenAiBundle\Model\Assistant;
 
-class FileSearch
+class FileSearchResources
 {
     public function __construct(
         public array $vectorStoreIds = [],

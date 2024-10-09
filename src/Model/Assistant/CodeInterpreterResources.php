@@ -2,7 +2,7 @@
 
 namespace Yomeva\OpenAiBundle\Model\Assistant;
 
-class CodeInterpreter
+class CodeInterpreterResources
 {
     public function __construct(public array $fileIds = [])
     {
