@@ -157,18 +157,14 @@ class OpenAiClient
     ///> FILES
 
     /**
-     * @throws ClientExceptionInterface
-     * @throws RedirectionExceptionInterface
-     * @throws ServerExceptionInterface
      * @throws TransportExceptionInterface
-     * @throws DecodingExceptionInterface
      */
-    public function uploadFile(UploadFilePayload $payload): array
+    public function uploadFile(UploadFilePayload $payload): ResponseInterface
     {
         $handle = fopen($payload->uploadedFile->getRealPath(), 'r');
         stream_context_set_option($handle, 'http', 'filename', $payload->uploadedFile->getClientOriginalName());
 
-        $response = $this->client->request(
+        return $this->client->request(
             'POST',
             'files',
             [
@@ -178,8 +174,6 @@ class OpenAiClient
                 ]
             ]
         );
-
-        return $response->toArray(false);
     }
 
     /**
