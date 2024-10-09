@@ -4,6 +4,7 @@ namespace Yomeva\OpenAiBundle\Service;
 
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpClient\HttpOptions;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
@@ -15,7 +16,10 @@ class OpenAiClient
 {
     private HttpClientInterface $client;
 
-    public function __construct(private readonly string $openAiApiKey)
+    public function __construct(
+        private readonly string $openAiApiKey,
+        private readonly ValidatorInterface $validator,
+    )
     {
         $this->client = HttpClient::create()
             ->withOptions(
@@ -33,7 +37,8 @@ class OpenAiClient
      */
     private function basicRequest(string $method, string $url, PayloadInterface $payload): ResponseInterface
     {
-
+        $this->validator->validate($payload);
+        // TODO : normalize payload
 //        return $this->client->request($method, $url, empty($payload) ? [] : ['json' => $payload]);
     }
 
