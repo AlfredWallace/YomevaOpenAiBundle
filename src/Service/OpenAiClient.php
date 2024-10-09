@@ -168,7 +168,7 @@ class OpenAiClient
         $handle = fopen($payload->uploadedFile->getRealPath(), 'r');
         stream_context_set_option($handle, 'http', 'filename', $payload->uploadedFile->getClientOriginalName());
 
-        return $this->client->request(
+        $response = $this->client->request(
             'POST',
             'files',
             [
@@ -177,7 +177,9 @@ class OpenAiClient
                     'file' => $handle,
                 ]
             ]
-        )->toArray(false);
+        );
+
+        return $response->toArray(false);
     }
 
     /**
