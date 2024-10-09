@@ -2,7 +2,7 @@
 
 namespace Yomeva\OpenAiBundle\Model\Chunking;
 
-class ChunkingStrategy
+abstract class ChunkingStrategy
 {
     public function __construct(
         public string $type = ''
