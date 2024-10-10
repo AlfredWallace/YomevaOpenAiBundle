@@ -27,6 +27,12 @@ class CreateAssistantPayload implements PayloadInterface
         public ?string $instructions = null,
 
         #[Assert\Count(max: 128)]
+        #[Assert\All(
+            [
+                new Assert\NotBlank(),
+                new Assert\Valid()
+            ]
+        )]
         #[TypedArray(
             [
                 CodeInterpreterTool::class,
@@ -34,7 +40,6 @@ class CreateAssistantPayload implements PayloadInterface
                 FunctionTool::class
             ]
         )]
-        #[Assert\All(new Assert\NotBlank())]
         public array $tools = [],
 
         #[Assert\Valid]
