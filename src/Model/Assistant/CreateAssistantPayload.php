@@ -5,9 +5,12 @@ namespace Yomeva\OpenAiBundle\Model\Assistant;
 use Symfony\Component\Validator\Constraints as Assert;
 use Yomeva\OpenAiBundle\Model\PayloadInterface;
 use Yomeva\OpenAiBundle\Model\ResponseFormat\ResponseFormat;
+use Yomeva\OpenAiBundle\Model\Tool\CodeInterpreterTool;
+use Yomeva\OpenAiBundle\Model\Tool\FileSearchTool;
+use Yomeva\OpenAiBundle\Model\Tool\FunctionTool;
 use Yomeva\OpenAiBundle\Model\Tool\ToolResources;
 use Yomeva\OpenAiBundle\Validator\Metadata;
-use Yomeva\OpenAiBundle\Validator\ToolsArray;
+use Yomeva\OpenAiBundle\Validator\TypedArray;
 
 class CreateAssistantPayload implements PayloadInterface
 {
@@ -24,7 +27,11 @@ class CreateAssistantPayload implements PayloadInterface
         public ?string $instructions = null,
 
         #[Assert\Count(max: 128)]
-        #[ToolsArray]
+        #[TypedArray([
+            CodeInterpreterTool::class,
+            FileSearchTool::class,
+            FunctionTool::class
+        ])]
         public array $tools = [],
 
         #[Assert\Valid]
