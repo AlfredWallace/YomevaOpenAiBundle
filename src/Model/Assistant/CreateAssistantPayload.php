@@ -28,11 +28,7 @@ class CreateAssistantPayload implements PayloadInterface
         public ?string $instructions = null,
 
         #[Assert\Count(max: 128)]
-        #[Assert\All(
-            [
-                new Assert\NotBlank(),
-            ]
-        )]
+        #[Assert\All([new Assert\NotBlank()])]
         #[TypedArray(
             [
                 CodeInterpreterTool::class,
