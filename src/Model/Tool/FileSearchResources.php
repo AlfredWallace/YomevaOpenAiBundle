@@ -12,9 +12,9 @@ class FileSearchResources
         #[Assert\All([new Assert\Type('string')])]
         public array $vectorStoreIds = [],
 
-
+        #[Assert\Count(max: 1)]
+        #[Assert\All([new Assert\Type(FileSearchResourcesVectorStore::class)])]
         public array $vectorStores = []
-    )
-    {
+    ) {
     }
 }
