@@ -4,6 +4,8 @@ namespace Yomeva\OpenAiBundle\Service;
 
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpClient\HttpOptions;
+use Symfony\Component\Serializer\Exception\ExceptionInterface;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Validator\Exception\ValidationFailedException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
@@ -21,8 +23,8 @@ class OpenAiClient
     public function __construct(
         private readonly string $openAiApiKey,
         private readonly ValidatorInterface $validator,
-    )
-    {
+        private readonly NormalizerInterface $normalizer,
+    ) {
         $this->client = HttpClient::create()
             ->withOptions(
                 (new HttpOptions())
@@ -36,9 +38,13 @@ class OpenAiClient
 
     /**
      * @throws TransportExceptionInterface
+     * @throws ExceptionInterface
      */
-    private function request(string $method, string $url, PayloadInterface|array|null $payload = null): ResponseInterface
-    {
+    private function request(
+        string $method,
+        string $url,
+        PayloadInterface|array|null $payload = null
+    ): ResponseInterface {
         if ($payload instanceof PayloadInterface) {
             $violations = $this->validator->validate($payload);
 
@@ -46,11 +52,13 @@ class OpenAiClient
                 throw new ValidationFailedException($payload, $violations);
             }
 
-            // TODO : normalize payload
+            $normalizedPayload = $this->normalizer->normalize($payload);
+            dump($normalizedPayload);
 
             throw new NotImplementedException();
+            return $this->arrayPayloadRequest($method, $url, $normalizedPayload);
         } elseif (is_array($payload) && !empty($payload)) {
-            return $this->jsonPayloadRequest($method, $url, $payload);
+            return $this->arrayPayloadRequest($method, $url, $payload);
         } else {
             return $this->client->request($method, $url);
         }
@@ -59,7 +67,7 @@ class OpenAiClient
     /**
      * @throws TransportExceptionInterface
      */
-    private function jsonPayloadRequest(string $method, string $url, array $payload): ResponseInterface
+    private function arrayPayloadRequest(string $method, string $url, array $payload): ResponseInterface
     {
         return $this->client->request($method, $url, ['json' => $payload]);
     }
