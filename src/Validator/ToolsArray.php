@@ -18,13 +18,10 @@ class ToolsArray extends Constraint
 
     public string $message;
 
-    public function __construct(?string $message = null, ?array $groups = null, mixed $payload = null)
+    public function __construct(?array $groups = null, mixed $payload = null)
     {
         parent::__construct([], $groups, $payload);
 
-        $this->message = $message ?? "One or more of the given values is invalid. Valid values are: " . implode(
-            ',',
-            self::TOOLS
-        );;
+        $this->message = "One or more of the given values is invalid. Valid values are: " . implode(', ', self::TOOLS);
     }
 }
