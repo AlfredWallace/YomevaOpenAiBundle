@@ -8,7 +8,7 @@ class CodeInterpreterResources
 {
     public function __construct(
 
-        #[Assert\Count(20)]
+        #[Assert\Count(max: 20)]
         #[Assert\All([new Assert\Type('string')])]
         public array $fileIds = []
     )
