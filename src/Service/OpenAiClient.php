@@ -37,9 +37,9 @@ class OpenAiClient
     /**
      * @throws TransportExceptionInterface
      */
-    private function basicRequest(string $method, string $url, ?PayloadInterface $payload = null): ResponseInterface
+    private function request(string $method, string $url, PayloadInterface|array|null $payload = null): ResponseInterface
     {
-        if ($payload !== null) {
+        if ($payload instanceof PayloadInterface) {
             $violations = $this->validator->validate($payload);
 
             if (count($violations) > 0) {
@@ -47,12 +47,21 @@ class OpenAiClient
             }
 
             // TODO : normalize payload
+
+            throw new NotImplementedException();
+        } elseif (is_array($payload) && !empty($payload)) {
+            return $this->jsonPayloadRequest($method, $url, $payload);
+        } else {
+            return $this->client->request($method, $url);
         }
+    }
 
-
-        throw new NotImplementedException();
-
-        return $this->client->request($method, $url, empty($payload) ? [] : ['json' => $payload]);
+    /**
+     * @throws TransportExceptionInterface
+     */
+    private function jsonPayloadRequest(string $method, string $url, array $payload): ResponseInterface
+    {
+        return $this->client->request($method, $url, ['json' => $payload]);
     }
 
     ///> AUDIO
@@ -197,7 +206,7 @@ class OpenAiClient
      */
     public function listFiles(): ResponseInterface
     {
-        return $this->basicRequest('GET', 'files');
+        return $this->request('GET', 'files');
     }
 
     /**
@@ -205,7 +214,7 @@ class OpenAiClient
      */
     public function retrieveFile(string $fileId): ResponseInterface
     {
-        return $this->basicRequest('GET', "files/$fileId");
+        return $this->request('GET', "files/$fileId");
     }
 
     /**
@@ -213,7 +222,7 @@ class OpenAiClient
      */
     public function deleteFile(string $fileId): ResponseInterface
     {
-        return $this->basicRequest('DELETE', "files/$fileId");
+        return $this->request('DELETE', "files/$fileId");
     }
 
     ///< FILES
@@ -278,7 +287,7 @@ class OpenAiClient
      */
     public function listModels(): ResponseInterface
     {
-        return $this->basicRequest('GET', 'models');
+        return $this->request('GET', 'models');
     }
 
     // GET https://api.openai.com/v1/models/{model}
@@ -314,7 +323,7 @@ class OpenAiClient
      */
     public function createAssistant(CreateAssistantPayload $payload): ResponseInterface
     {
-        return $this->basicRequest('POST', 'assistants', $payload);
+        return $this->request('POST', 'assistants', $payload);
     }
 
     /**
@@ -322,7 +331,7 @@ class OpenAiClient
      */
     public function listAssistants(): ResponseInterface
     {
-        return $this->basicRequest('GET', 'assistants');
+        return $this->request('GET', 'assistants');
     }
 
     /**
@@ -330,7 +339,7 @@ class OpenAiClient
      */
     public function retrieveAssistant(string $assistantId): ResponseInterface
     {
-        return $this->basicRequest('GET', "assistants/$assistantId");
+        return $this->request('GET', "assistants/$assistantId");
     }
 
     /**
@@ -338,7 +347,7 @@ class OpenAiClient
      */
     public function modifyAssistant(string $assistantId, array $payload): ResponseInterface
     {
-        return $this->basicRequest('POST', "assistants/$assistantId", $payload);
+        return $this->request('POST', "assistants/$assistantId", $payload);
     }
 
     /**
@@ -346,7 +355,7 @@ class OpenAiClient
      */
     public function deleteAssistant(string $assistantId): ResponseInterface
     {
-        return $this->basicRequest('DELETE', "assistants/$assistantId");
+        return $this->request('DELETE', "assistants/$assistantId");
     }
 
     ///< ASSISTANT
@@ -359,7 +368,7 @@ class OpenAiClient
      */
     public function createThread(array $payload = []): ResponseInterface
     {
-        return $this->basicRequest('POST', 'threads', $payload);
+        return $this->request('POST', 'threads', $payload);
     }
 
     /**
@@ -367,7 +376,7 @@ class OpenAiClient
      */
     public function retrieveThread(string $threadId): ResponseInterface
     {
-        return $this->basicRequest('GET', "threads/$threadId");
+        return $this->request('GET', "threads/$threadId");
     }
 
     /**
@@ -375,7 +384,7 @@ class OpenAiClient
      */
     public function modifyThread(string $threadId, array $payload): ResponseInterface
     {
-        return $this->basicRequest('POST', "threads/$threadId", $payload);
+        return $this->request('POST', "threads/$threadId", $payload);
     }
 
     /**
@@ -383,7 +392,7 @@ class OpenAiClient
      */
     public function deleteThread(string $threadId): ResponseInterface
     {
-        return $this->basicRequest('DELETE', "threads/$threadId");
+        return $this->request('DELETE', "threads/$threadId");
     }
 
     ///< THREADS
@@ -396,7 +405,7 @@ class OpenAiClient
      */
     public function createMessage(string $threadId, array $payload): ResponseInterface
     {
-        return $this->basicRequest('POST', "threads/$threadId/messages", $payload);
+        return $this->request('POST', "threads/$threadId/messages", $payload);
     }
 
     /**
@@ -404,7 +413,7 @@ class OpenAiClient
      */
     public function listMessages(string $threadId): ResponseInterface
     {
-        return $this->basicRequest('GET', "threads/$threadId/messages");
+        return $this->request('GET', "threads/$threadId/messages");
     }
 
     /**
@@ -412,7 +421,7 @@ class OpenAiClient
      */
     public function retrieveMessage(string $threadId, string $messageId): ResponseInterface
     {
-        return $this->basicRequest('GET', "threads/$threadId/messages/$messageId");
+        return $this->request('GET', "threads/$threadId/messages/$messageId");
     }
 
     /**
@@ -420,7 +429,7 @@ class OpenAiClient
      */
     public function modifyMessage(string $threadId, string $messageId, array $payload): ResponseInterface
     {
-        return $this->basicRequest('POST', "threads/$threadId/messages/$messageId", $payload);
+        return $this->request('POST', "threads/$threadId/messages/$messageId", $payload);
     }
 
     /**
@@ -428,7 +437,7 @@ class OpenAiClient
      */
     public function deleteMessage(string $threadId, string $messageId): ResponseInterface
     {
-        return $this->basicRequest('DELETE', "threads/$threadId/messages/$messageId");
+        return $this->request('DELETE', "threads/$threadId/messages/$messageId");
     }
 
     ///< MESSAGES
@@ -441,7 +450,7 @@ class OpenAiClient
      */
     public function createRun(string $threadId, array $payload): ResponseInterface
     {
-        return $this->basicRequest('POST', "threads/$threadId/runs", $payload);
+        return $this->request('POST', "threads/$threadId/runs", $payload);
     }
 
     /**
@@ -449,7 +458,7 @@ class OpenAiClient
      */
     public function createThreadAndRun(array $payload): ResponseInterface
     {
-        return $this->basicRequest('POST', 'threads/runs', $payload);
+        return $this->request('POST', 'threads/runs', $payload);
     }
 
     /**
@@ -457,7 +466,7 @@ class OpenAiClient
      */
     public function listRuns(string $threadId): ResponseInterface
     {
-        return $this->basicRequest('GET', "threads/$threadId/runs");
+        return $this->request('GET', "threads/$threadId/runs");
     }
 
     /**
@@ -465,7 +474,7 @@ class OpenAiClient
      */
     public function retrieveRun(string $threadId, string $runId): ResponseInterface
     {
-        return $this->basicRequest('GET', "threads/$threadId/runs/$runId");
+        return $this->request('GET', "threads/$threadId/runs/$runId");
     }
 
     /**
@@ -473,7 +482,7 @@ class OpenAiClient
      */
     public function modifyRun(string $threadId, string $runId, array $payload): ResponseInterface
     {
-        return $this->basicRequest('POST', "threads/$threadId/runs/$runId", $payload);
+        return $this->request('POST', "threads/$threadId/runs/$runId", $payload);
     }
 
     /**
@@ -481,7 +490,7 @@ class OpenAiClient
      */
     public function submitToolsOutputsToRun(string $threadId, string $runId, array $payload): ResponseInterface
     {
-        return $this->basicRequest('POST', "threads/$threadId/runs/$runId/submit_tool_outputs", $payload);
+        return $this->request('POST', "threads/$threadId/runs/$runId/submit_tool_outputs", $payload);
     }
 
     /**
@@ -489,7 +498,7 @@ class OpenAiClient
      */
     public function cancelRun(string $threadId, string $runId): ResponseInterface
     {
-        return $this->basicRequest('POST', "threads/$threadId/runs/$runId/cancel");
+        return $this->request('POST', "threads/$threadId/runs/$runId/cancel");
     }
 
     ///< RUNS
@@ -519,7 +528,7 @@ class OpenAiClient
      */
     public function createVectorStore(array $payload = []): ResponseInterface
     {
-        return $this->basicRequest('POST', 'vector_stores', $payload);
+        return $this->request('POST', 'vector_stores', $payload);
     }
 
     /**
@@ -527,7 +536,7 @@ class OpenAiClient
      */
     public function listVectorStores(): ResponseInterface
     {
-        return $this->basicRequest('GET', 'vector_stores');
+        return $this->request('GET', 'vector_stores');
     }
 
     /**
@@ -535,7 +544,7 @@ class OpenAiClient
      */
     public function retrieveVectorStore(string $vectorStoreId): ResponseInterface
     {
-        return $this->basicRequest('GET', "vector_stores/$vectorStoreId");
+        return $this->request('GET', "vector_stores/$vectorStoreId");
     }
 
     /**
@@ -543,7 +552,7 @@ class OpenAiClient
      */
     public function modifyVectorStore(string $vectorStoreId, array $payload = []): ResponseInterface
     {
-        return $this->basicRequest('POST', "vector_stores/$vectorStoreId", $payload);
+        return $this->request('POST', "vector_stores/$vectorStoreId", $payload);
     }
 
     /**
@@ -551,7 +560,7 @@ class OpenAiClient
      */
     public function deleteVectorStore(string $vectorStoreId): ResponseInterface
     {
-        return $this->basicRequest('DELETE', "vector_stores/$vectorStoreId");
+        return $this->request('DELETE', "vector_stores/$vectorStoreId");
     }
 
     ///< VECTOR STORES
@@ -564,7 +573,7 @@ class OpenAiClient
      */
     public function createVectorStoreFile(string $vectorStoreId, array $payload): ResponseInterface
     {
-        return $this->basicRequest('POST', "vector_stores/$vectorStoreId/files", $payload);
+        return $this->request('POST', "vector_stores/$vectorStoreId/files", $payload);
     }
 
     /**
@@ -572,7 +581,7 @@ class OpenAiClient
      */
     public function listVectorStoresFiles(string $vectorStoreId): ResponseInterface
     {
-        return $this->basicRequest('GET', "vector_stores/$vectorStoreId/files");
+        return $this->request('GET', "vector_stores/$vectorStoreId/files");
     }
 
     /**
@@ -580,7 +589,7 @@ class OpenAiClient
      */
     public function retrieveVectorStoreFile(string $vectorStoreId, string $fileId): ResponseInterface
     {
-        return $this->basicRequest('GET', "vector_stores/$vectorStoreId/files/$fileId");
+        return $this->request('GET', "vector_stores/$vectorStoreId/files/$fileId");
     }
 
     /**
@@ -588,7 +597,7 @@ class OpenAiClient
      */
     public function deleteVectorStoreFile(string $vectorStoreId, string $fileId): ResponseInterface
     {
-        return $this->basicRequest('DELETE', "vector_stores/$vectorStoreId/files/$fileId");
+        return $this->request('DELETE', "vector_stores/$vectorStoreId/files/$fileId");
     }
 
     ///< VECTOR STORE FILES
