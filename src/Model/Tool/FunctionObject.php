@@ -8,7 +8,8 @@ class FunctionObject
 {
     public function __construct(
 
-        // TODO assert a-z, A-Z, 0-9, underscores, dashes, max 64
+        #[Assert\Length(max: 64)]
+        #[Assert\Regex(pattern: '/^[a-zA-Z0-9_\-]+$/')]
         public string $name,
 
         public ?string $description = null,
