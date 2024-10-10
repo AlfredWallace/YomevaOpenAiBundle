@@ -30,8 +30,8 @@ class CreateAssistantPayload implements PayloadInterface
                 FileSearchTool::class,
                 FunctionTool::class
             ],
-            multiple: true)
-        ]
+            multiple: true
+        )]
         public array $tools = [],
 
         public ?ToolResources $toolResources = null,
