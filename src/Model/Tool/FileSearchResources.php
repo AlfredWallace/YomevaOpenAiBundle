@@ -9,11 +9,21 @@ class FileSearchResources
     public function __construct(
 
         #[Assert\Count(max: 1)]
-        #[Assert\All([new Assert\Type('string')])]
+        #[Assert\All(
+            [
+                new Assert\Type('string'),
+                new Assert\NotBlank(),
+            ]
+        )]
         public array $vectorStoreIds = [],
 
         #[Assert\Count(max: 1)]
-        #[Assert\All([new Assert\Type(FileSearchResourcesVectorStore::class)])]
+        #[Assert\All(
+            [
+                new Assert\Type(FileSearchResourcesVectorStore::class),
+                new Assert\NotBlank()
+            ]
+        )]
         public array $vectorStores = []
     ) {
     }

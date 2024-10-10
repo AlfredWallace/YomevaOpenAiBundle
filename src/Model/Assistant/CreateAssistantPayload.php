@@ -27,11 +27,14 @@ class CreateAssistantPayload implements PayloadInterface
         public ?string $instructions = null,
 
         #[Assert\Count(max: 128)]
-        #[TypedArray([
-            CodeInterpreterTool::class,
-            FileSearchTool::class,
-            FunctionTool::class
-        ])]
+        #[TypedArray(
+            [
+                CodeInterpreterTool::class,
+                FileSearchTool::class,
+                FunctionTool::class
+            ]
+        )]
+        #[Assert\All(new Assert\NotBlank())]
         public array $tools = [],
 
         #[Assert\Valid]
