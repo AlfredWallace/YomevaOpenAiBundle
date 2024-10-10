@@ -4,6 +4,7 @@ namespace Yomeva\OpenAiBundle\Model\Assistant;
 
 use Symfony\Component\Validator\Constraints as Assert;
 use Yomeva\OpenAiBundle\Model\PayloadInterface;
+use Yomeva\OpenAiBundle\Model\Tool\Tool;
 use Yomeva\OpenAiBundle\Model\Tool\ToolResources;
 
 class CreateAssistantPayload implements PayloadInterface
@@ -20,7 +21,8 @@ class CreateAssistantPayload implements PayloadInterface
         #[Assert\Length(max: 256000)]
         public ?string $instructions = null,
 
-        // TODO : Assert that all array elements are one of the valid types, max number of tools = 128
+        #[Assert\Count(max: 128)]
+        #[Assert\Choice(choices: [Tool::class], multiple: true)]
         public array $tools = [],
 
         public ?ToolResources $toolResources = null,
@@ -28,13 +30,13 @@ class CreateAssistantPayload implements PayloadInterface
         // TODO : Max array length = 16, max key length = 64, max value length = 512
         public array $metadata = [],
 
-        #[Assert\GreaterThanOrEqual(0)]
-        #[Assert\LessThanOrEqual(2)]
-        public float $temperature = 1,
+        #[Assert\GreaterThanOrEqual(0.0)]
+        #[Assert\LessThanOrEqual(2.0)]
+        public float $temperature = 1.0,
 
-        #[Assert\GreaterThanOrEqual(0)]
-        #[Assert\LessThanOrEqual(1)]
-        public float $topP = 1,
+        #[Assert\GreaterThanOrEqual(0.0)]
+        #[Assert\LessThanOrEqual(1.0)]
+        public float $topP = 1.0,
 
         // TODO
         public string|object|null $responseFormat = 'auto',
