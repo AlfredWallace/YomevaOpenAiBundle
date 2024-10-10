@@ -4,6 +4,7 @@ namespace Yomeva\OpenAiBundle\Model\Assistant;
 
 use Symfony\Component\Validator\Constraints as Assert;
 use Yomeva\OpenAiBundle\Model\PayloadInterface;
+use Yomeva\OpenAiBundle\Model\ResponseFormat\ResponseFormat;
 use Yomeva\OpenAiBundle\Model\Tool\ToolResources;
 use Yomeva\OpenAiBundle\Validator\Metadata;
 use Yomeva\OpenAiBundle\Validator\ToolsArray;
@@ -40,8 +41,7 @@ class CreateAssistantPayload implements PayloadInterface
         #[Assert\LessThanOrEqual(1.0)]
         public float $topP = 1.0,
 
-        // TODO
-        public string|object|null $responseFormat = 'auto',
+        public string|ResponseFormat|null $responseFormat = 'auto',
     ) {
     }
 }
