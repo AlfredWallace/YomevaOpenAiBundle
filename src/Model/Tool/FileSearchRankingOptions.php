@@ -8,14 +8,11 @@ class FileSearchRankingOptions
 {
     public function __construct(
 
-        #[Assert\GreaterThanOrEqual(0)]
-        #[Assert\LessThanOrEqual(1)]
+        #[Assert\GreaterThanOrEqual(0.0)]
+        #[Assert\LessThanOrEqual(1.0)]
         public float $scoreThreshold,
 
-
-        // enum 'auto', 'default_2024_08_21'
-        public string $ranker = 'auto'
-    )
-    {
+        public Ranker $ranker = Ranker::Auto
+    ) {
     }
 }
