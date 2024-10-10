@@ -12,6 +12,7 @@ use Yomeva\OpenAiBundle\Model\Tool\ToolResources;
 use Yomeva\OpenAiBundle\Validator\Metadata;
 use Yomeva\OpenAiBundle\Validator\TypedArray;
 
+#[Assert\Cascade]
 class CreateAssistantPayload implements PayloadInterface
 {
     public function __construct(
@@ -30,7 +31,6 @@ class CreateAssistantPayload implements PayloadInterface
         #[Assert\All(
             [
                 new Assert\NotBlank(),
-                new Assert\Valid()
             ]
         )]
         #[TypedArray(
@@ -42,7 +42,6 @@ class CreateAssistantPayload implements PayloadInterface
         )]
         public array $tools = [],
 
-        #[Assert\Valid]
         public ?ToolResources $toolResources = null,
 
         #[Assert\Count(max: 16)]
