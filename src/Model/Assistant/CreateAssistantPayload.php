@@ -27,6 +27,7 @@ class CreateAssistantPayload implements PayloadInterface
         #[ToolsArray]
         public array $tools = [],
 
+        #[Assert\Valid]
         public ?ToolResources $toolResources = null,
 
         #[Assert\Count(max: 16)]
