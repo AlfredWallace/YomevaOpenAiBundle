@@ -18,13 +18,13 @@ class FileSearchResourcesVectorStore
                 new Assert\NotBlank()
             ]
         )]
-        public array $fileIds = [],
+        public ?array $fileIds = null,
 
         public ?ChunkingStrategy $chunkingStrategy = null,
 
         #[Assert\Count(max: 16)]
         #[Metadata]
-        public array $metadata = []
+        public ?array $metadata = null
     ) {
     }
 }

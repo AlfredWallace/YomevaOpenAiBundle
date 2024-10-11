@@ -14,9 +14,9 @@ class StaticChunkingStrategyStatic
 
         #[Assert\GreaterThanOrEqual(100)]
         #[Assert\LessThanOrEqual(4096)]
-        public int $maxChunkSizeTokens = 800,
+        public ?int $maxChunkSizeTokens = null,
 
-        public int $chunkOverlapTokens = 400,
+        public ?int $chunkOverlapTokens = null,
     )
     {
     }
