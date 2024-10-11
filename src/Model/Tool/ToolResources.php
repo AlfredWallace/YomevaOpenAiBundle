@@ -10,10 +10,8 @@ use Yomeva\OpenAiBundle\Model\Tool\FileSearch\FileSearchResources;
 class ToolResources
 {
     public function __construct(
-        #[Assert\Valid]
         public ?CodeInterpreterResources $codeInterpreter = null,
 
-        #[Assert\Valid]
         public ?FileSearchResources $fileSearch = null,
     )
     {
