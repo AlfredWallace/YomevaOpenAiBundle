@@ -6,6 +6,7 @@ use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpClient\HttpOptions;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter;
+use Symfony\Component\Serializer\Normalizer\BackedEnumNormalizer;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
@@ -41,7 +42,10 @@ class OpenAiClient
 
         $this->validator = Validation::createValidator();
 
-        $this->normalizer = new Serializer([new ObjectNormalizer(null, new CamelCaseToSnakeCaseNameConverter())]);
+        $this->normalizer = new Serializer([
+            new BackedEnumNormalizer(),
+            new ObjectNormalizer(null, new CamelCaseToSnakeCaseNameConverter())
+        ]);
     }
 
     /**
@@ -61,6 +65,7 @@ class OpenAiClient
             }
 
             $normalizedPayload = $this->normalizer->normalize($payload);
+            dump($normalizedPayload);
 
             return $this->arrayPayloadRequest($method, $url, $normalizedPayload);
         } elseif (is_array($payload) && !empty($payload)) {
