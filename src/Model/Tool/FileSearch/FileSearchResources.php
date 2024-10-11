@@ -6,7 +6,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[Assert\Cascade]
 #[Assert\Expression(
-    "!(this.vectorStoreIds|length > 0 and this.vectorStores|length > 0)",
+    "!(count(this.vectorStoreIds) > 0 and count(this.vectorStores) > 0)",
     message: "Only one of vectorStoreIds or vectorStores should be provided."
 )]
 class FileSearchResources
