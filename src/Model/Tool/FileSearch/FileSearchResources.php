@@ -18,7 +18,7 @@ class FileSearchResources
                 new Assert\NotBlank(),
             ]
         )]
-        public array $vectorStoreIds = [],
+        public ?array $vectorStoreIds = null,
 
         #[Assert\Count(max: 1)]
         #[Assert\All(
@@ -27,7 +27,7 @@ class FileSearchResources
                 new Assert\NotBlank()
             ]
         )]
-        public array $vectorStores = []
+        public ?array $vectorStores = null
     ) {
     }
 }

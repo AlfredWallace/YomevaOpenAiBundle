@@ -17,7 +17,7 @@ class FunctionObject
         #[Assert\Json]
         public ?string $parameters = null,
 
-        public bool $strict = false,
+        public ?bool $strict = null,
     )
     {
     }

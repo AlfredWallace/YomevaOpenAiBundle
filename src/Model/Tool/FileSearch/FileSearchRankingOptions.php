@@ -12,7 +12,7 @@ class FileSearchRankingOptions
         #[Assert\LessThanOrEqual(1.0)]
         public float $scoreThreshold,
 
-        public Ranker $ranker = Ranker::Auto
+        public ?Ranker $ranker = null
     ) {
     }
 }

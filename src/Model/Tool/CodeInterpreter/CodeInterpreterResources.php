@@ -15,7 +15,7 @@ class CodeInterpreterResources
                 new Assert\NotBlank(),
             ]
         )]
-        public array $fileIds = []
+        public ?array $fileIds = null
     ) {
     }
 }

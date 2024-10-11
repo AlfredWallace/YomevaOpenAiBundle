@@ -17,7 +17,7 @@ class JsonSchema
         #[Assert\Json]
         public ?string $schema = null,
 
-        public bool $strict = false
+        public ?bool $strict = null
     )
     {
     }

@@ -11,7 +11,7 @@ class FileSearchToolOverrides
 
         #[Assert\GreaterThanOrEqual(1)]
         #[Assert\LessThanOrEqual(50)]
-        public int $maxNumResults = 20,
+        public ?int $maxNumResults = null,
 
         public ?FileSearchRankingOptions $rankingOptions = null
     )
