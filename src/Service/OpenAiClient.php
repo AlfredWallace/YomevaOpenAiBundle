@@ -23,11 +23,11 @@ use Yomeva\OpenAiBundle\Model\PayloadInterface;
 class OpenAiClient
 {
     private HttpClientInterface $client;
+    private ValidatorInterface $validator;
+    private NormalizerInterface $normalizer;
 
     public function __construct(
         private readonly string $openAiApiKey,
-        private ValidatorInterface $validator,
-        private NormalizerInterface $normalizer,
     ) {
         $this->client = HttpClient::create()
             ->withOptions(
