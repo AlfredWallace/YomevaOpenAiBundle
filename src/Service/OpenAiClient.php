@@ -6,6 +6,7 @@ use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpClient\HttpOptions;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter;
+use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
 use Symfony\Component\Serializer\Normalizer\BackedEnumNormalizer;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
@@ -64,7 +65,7 @@ class OpenAiClient
                 throw new ValidationFailedException($payload, $violations);
             }
 
-            $normalizedPayload = $this->normalizer->normalize($payload);
+            $normalizedPayload = $this->normalizer->normalize($payload, null, [AbstractObjectNormalizer::SKIP_NULL_VALUES => true]);
             dump($normalizedPayload); // todo remove
 
             return $this->arrayPayloadRequest($method, $url, $normalizedPayload);
