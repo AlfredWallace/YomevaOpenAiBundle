@@ -19,7 +19,7 @@ class CreateAssistantPayload implements PayloadInterface
         public string $model,
 
         #[Assert\Length(max: 256)]
-        public ?string $name = null,
+        public ?string $name,
 
         #[Assert\Length(max: 512)]
         public ?string $description = null,
