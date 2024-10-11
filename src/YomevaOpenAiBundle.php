@@ -33,5 +33,7 @@ class YomevaOpenAiBundle extends AbstractBundle
             ->arg(1, service(ValidatorInterface::class))
             ->arg(2, service(NormalizerInterface::class))
             ->alias(OpenAiClient::class, 'yomeva.open_ai.client');
+
+        $container->extension('serializer', ['name_converter' => 'camel_case_to_snake_case']);
     }
 }
