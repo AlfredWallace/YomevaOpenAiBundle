@@ -1,6 +1,8 @@
 <?php
 
-namespace Yomeva\OpenAiBundle\Model\Tool;
+namespace Yomeva\OpenAiBundle\Model\Tool\CodeInterpreter;
+
+use Yomeva\OpenAiBundle\Model\Tool\Tool;
 
 class CodeInterpreterTool extends Tool
 {

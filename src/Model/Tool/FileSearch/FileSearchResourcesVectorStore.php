@@ -1,6 +1,6 @@
 <?php
 
-namespace Yomeva\OpenAiBundle\Model\Tool;
+namespace Yomeva\OpenAiBundle\Model\Tool\FileSearch;
 
 use Symfony\Component\Validator\Constraints as Assert;
 use Yomeva\OpenAiBundle\Model\Chunking\ChunkingStrategy;

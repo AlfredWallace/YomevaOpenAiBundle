@@ -1,6 +1,6 @@
 <?php
 
-namespace Yomeva\OpenAiBundle\Model\Tool;
+namespace Yomeva\OpenAiBundle\Model\Tool\FileSearch;
 
 enum Ranker: string
 {
