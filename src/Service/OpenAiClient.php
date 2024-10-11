@@ -24,11 +24,11 @@ use Yomeva\OpenAiBundle\Model\PayloadInterface;
 class OpenAiClient
 {
     private HttpClientInterface $client;
-    private ValidatorInterface $validator;
     private NormalizerInterface $normalizer;
 
     public function __construct(
         private readonly string $openAiApiKey,
+        private readonly ValidatorInterface $validator,
     ) {
         $this->client = HttpClient::create()
             ->withOptions(
@@ -39,8 +39,6 @@ class OpenAiClient
                     ->setHeader('OpenAI-Beta', 'assistants=v2')
                     ->toArray()
             );
-
-        $this->validator = Validation::createValidator();
 
         $this->normalizer = new Serializer([
             new BackedEnumNormalizer(),
