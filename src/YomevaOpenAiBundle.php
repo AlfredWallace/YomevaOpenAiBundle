@@ -27,15 +27,15 @@ class YomevaOpenAiBundle extends AbstractBundle
 
     public function loadExtension(array $config, ContainerConfigurator $container, ContainerBuilder $builder): void
     {
-        $container->services()
-            ->set('yomeva.open_ai.validator', ValidatorInterface::class)
-            ->factory([Validation::class, 'createValidator']);
+//        $container->services()
+//            ->set('yomeva.open_ai.validator', ValidatorInterface::class)
+//            ->factory([Validation::class, 'createValidator']);
 
 
         $container->services()
             ->set('yomeva.open_ai.client', OpenAiClient::class)
             ->arg(0, $config['api_key'])
-            ->arg(1, service('yomeva.open_ai.validator'))
+//            ->arg(1, service('yomeva.open_ai.validator'))
             ->alias(OpenAiClient::class, 'yomeva.open_ai.client');
     }
 }
