@@ -5,8 +5,12 @@ namespace Yomeva\OpenAiBundle\Service;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpClient\HttpOptions;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
+use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Validator\Exception\ValidationFailedException;
+use Symfony\Component\Validator\Validation;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -22,8 +26,8 @@ class OpenAiClient
 
     public function __construct(
         private readonly string $openAiApiKey,
-        private readonly ValidatorInterface $validator,
-        private readonly NormalizerInterface $normalizer,
+        private ValidatorInterface $validator,
+        private NormalizerInterface $normalizer,
     ) {
         $this->client = HttpClient::create()
             ->withOptions(
@@ -34,6 +38,9 @@ class OpenAiClient
                     ->setHeader('OpenAI-Beta', 'assistants=v2')
                     ->toArray()
             );
+
+        $this->validator = Validation::createValidator();
+        $this->normalizer = new Serializer([new ObjectNormalizer(null, new CamelCaseToSnakeCaseNameConverter())], []);
     }
 
     /**
