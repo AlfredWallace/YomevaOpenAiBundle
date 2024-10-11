@@ -65,7 +65,7 @@ class OpenAiClient
             }
 
             $normalizedPayload = $this->normalizer->normalize($payload);
-            dump($normalizedPayload);
+            dump($normalizedPayload); // todo remove
 
             return $this->arrayPayloadRequest($method, $url, $normalizedPayload);
         } elseif (is_array($payload) && !empty($payload)) {
