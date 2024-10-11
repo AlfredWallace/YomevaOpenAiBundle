@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Exception\UnexpectedValueException;
 
 class MetadataValidator extends ConstraintValidator
 {
-    public function validate(mixed $value, Constraint $constraint)
+    public function validate(mixed $value, Constraint $constraint): void
     {
         if (!$constraint instanceof Metadata) {
             throw new UnexpectedTypeException($constraint, Metadata::class);
