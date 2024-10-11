@@ -5,6 +5,10 @@ namespace Yomeva\OpenAiBundle\Model\Tool\FileSearch;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[Assert\Cascade]
+#[Assert\Expression(
+    "!(this.vectorStoreIds|length > 0 and this.vectorStores|length > 0)",
+    message: "Only one of vectorStoreIds or vectorStores should be provided."
+)]
 class FileSearchResources
 {
     public function __construct(
