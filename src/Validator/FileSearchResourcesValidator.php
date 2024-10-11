@@ -20,7 +20,7 @@ class FileSearchResourcesValidator extends ConstraintValidator
             throw new UnexpectedValueException($value, FileSearchResourcesModel::class);
         }
 
-        if (count($value->vectorStoreIds) > 0 && count($value->vectorStores) > 0) {
+        if (!empty($value->vectorStoreIds) && !empty($value->vectorStores)) {
             $this->context->buildViolation($constraint->message)
                 ->addViolation();
         }
