@@ -19,7 +19,7 @@ class CreateAssistantPayload implements PayloadInterface
         public string $model,
 
         #[Assert\Length(max: 256)]
-        public ?string $name,
+        public ?string $name = null,
 
         #[Assert\Length(max: 512)]
         public ?string $description = null,
@@ -36,24 +36,24 @@ class CreateAssistantPayload implements PayloadInterface
                 FunctionTool::class
             ]
         )]
-        public array $tools = [],
+        public ?array $tools = null,
 
         #[Assert\Valid]
         public ?ToolResources $toolResources = null,
 
         #[Assert\Count(max: 16)]
         #[Metadata]
-        public array $metadata = [],
+        public ?array $metadata = null,
 
         #[Assert\GreaterThanOrEqual(0.0)]
         #[Assert\LessThanOrEqual(2.0)]
-        public float $temperature = 1.0,
+        public ?float $temperature = null,
 
         #[Assert\GreaterThanOrEqual(0.0)]
         #[Assert\LessThanOrEqual(1.0)]
-        public float $topP = 1.0,
+        public ?float $topP = null,
 
-        public string|ResponseFormat|null $responseFormat = 'auto',
+        public string|ResponseFormat|null $responseFormat = null,
     ) {
     }
 }
