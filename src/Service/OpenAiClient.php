@@ -40,7 +40,8 @@ class OpenAiClient
             );
 
         $this->validator = Validation::createValidator();
-        $this->normalizer = new Serializer([new ObjectNormalizer(null, new CamelCaseToSnakeCaseNameConverter())], []);
+
+        $this->normalizer = new Serializer([new ObjectNormalizer(null, new CamelCaseToSnakeCaseNameConverter())]);
     }
 
     /**
@@ -60,9 +61,7 @@ class OpenAiClient
             }
 
             $normalizedPayload = $this->normalizer->normalize($payload);
-            dump($normalizedPayload);
 
-            throw new NotImplementedException();
             return $this->arrayPayloadRequest($method, $url, $normalizedPayload);
         } elseif (is_array($payload) && !empty($payload)) {
             return $this->arrayPayloadRequest($method, $url, $payload);
