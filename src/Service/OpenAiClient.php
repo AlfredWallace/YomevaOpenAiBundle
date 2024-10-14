@@ -6,6 +6,7 @@ use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpClient\HttpOptions;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
 use Symfony\Component\Serializer\Normalizer\BackedEnumNormalizer;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
@@ -45,7 +46,14 @@ class OpenAiClient
 
         $this->normalizer = new Serializer([
             new BackedEnumNormalizer(),
-            new ObjectNormalizer(null, new CamelCaseToSnakeCaseNameConverter())
+            new ObjectNormalizer(
+                nameConverter: new CamelCaseToSnakeCaseNameConverter(),
+                defaultContext: [
+                    AbstractNormalizer::CALLBACKS => [
+                        'getAdditionalProperties' => fn ($object) => $object->getAdditionalProperties(),
+                    ]
+                ]
+            )
         ]);
     }
 

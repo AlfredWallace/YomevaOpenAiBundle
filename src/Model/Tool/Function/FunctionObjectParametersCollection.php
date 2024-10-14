@@ -28,7 +28,6 @@ class FunctionObjectParametersCollection
         return 'object';
     }
 
-    #[SerializedName('additionalProperties')]
     public function getAdditionalProperties(): bool
     {
         return false;
