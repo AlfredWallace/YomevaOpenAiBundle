@@ -4,8 +4,10 @@ namespace Yomeva\OpenAiBundle\Model\Tool\Function;
 
 use Symfony\Component\Validator\Constraints as Assert;
 use Yomeva\OpenAiBundle\Validator\StringIndexedArray;
+use Yomeva\OpenAiBundle\Validator\FunctionObjectParametersCollection as FunctionObjectParametersCollectionConstraint;
 
 #[Assert\Cascade]
+#[FunctionObjectParametersCollectionConstraint]
 class FunctionObjectParametersCollection
 {
     public function __construct(
@@ -16,7 +18,6 @@ class FunctionObjectParametersCollection
         ])]
         public ?array $parameters = null,
 
-        // TODO
         public ?array $required = null,
     ) {
     }
