@@ -4,6 +4,7 @@ namespace Yomeva\OpenAiBundle\Model\Tool\Function;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
+#[Assert\Cascade]
 class FunctionObject
 {
     public function __construct(
@@ -14,8 +15,7 @@ class FunctionObject
 
         public ?string $description = null,
 
-        #[Assert\Json]
-        public ?string $parameters = null,
+        public ?FunctionObjectParametersCollection $parameters = null,
 
         public ?bool $strict = null,
     )

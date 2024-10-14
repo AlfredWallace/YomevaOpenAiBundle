@@ -34,6 +34,7 @@ class MetadataValidator extends ConstraintValidator
             ) {
                 $this->context->buildViolation($constraint->message)
                     ->addViolation();
+                return;
             }
         }
     }
