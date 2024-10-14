@@ -70,6 +70,7 @@ class OpenAiClient
 
             $normalizedPayload = $this->normalizer->normalize($payload, null, [AbstractObjectNormalizer::SKIP_NULL_VALUES => true]);
             dump($normalizedPayload);
+            dump(json_encode($normalizedPayload));
 
             return $this->arrayPayloadRequest($method, $url, $normalizedPayload);
         } elseif (is_array($payload) && !empty($payload)) {
