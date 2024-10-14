@@ -4,6 +4,9 @@ namespace Yomeva\OpenAiBundle\Builder;
 
 use Yomeva\OpenAiBundle\Model\Assistant\CreateAssistantPayload;
 use Yomeva\OpenAiBundle\Model\ResponseFormat\ResponseFormat;
+use Yomeva\OpenAiBundle\Model\Tool\CodeInterpreter\CodeInterpreterTool;
+use Yomeva\OpenAiBundle\Model\Tool\Function\FunctionObject;
+use Yomeva\OpenAiBundle\Model\Tool\Function\FunctionTool;
 use Yomeva\OpenAiBundle\Model\Tool\Tool;
 use Yomeva\OpenAiBundle\Model\Tool\ToolResources;
 
@@ -42,6 +45,29 @@ class CreateAssistantPayloadBuilder implements PayloadBuilderInterface
     public function addTool(Tool $tool): self
     {
         $this->createAssistantPayload->tools[] = $tool;
+        return $this;
+    }
+
+    public function addCodeInterpreterTool(): self
+    {
+        $this->createAssistantPayload->tools[] = new CodeInterpreterTool();
+        return $this;
+    }
+
+    public function addFunctionTool(
+        string $name,
+        ?string $description = null,
+        ?string $parameters = null,
+        ?bool $strict = null
+    ): self {
+        $this->createAssistantPayload->tools[] = new FunctionTool(
+            new FunctionObject(
+                $name,
+                $description,
+                $parameters,
+                $strict
+            )
+        );
         return $this;
     }
 
