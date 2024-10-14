@@ -13,6 +13,11 @@ class CreateAssistantPayloadBuilder
         $this->createAssistantPayload = $createAssistantPayload;
     }
 
+    public function getPayload(): CreateAssistantPayload
+    {
+        return $this->createAssistantPayload;
+    }
+
     public static function make(string $model): CreateAssistantPayloadBuilder
     {
         $builder = new CreateAssistantPayloadBuilder();
