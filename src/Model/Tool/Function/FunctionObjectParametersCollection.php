@@ -2,7 +2,6 @@
 
 namespace Yomeva\OpenAiBundle\Model\Tool\Function;
 
-use Symfony\Component\Serializer\Attribute\SerializedName;
 use Symfony\Component\Validator\Constraints as Assert;
 use Yomeva\OpenAiBundle\Validator\StringIndexedArray;
 use Yomeva\OpenAiBundle\Validator\FunctionObjectParametersCollection as FunctionObjectParametersCollectionConstraint;
@@ -21,15 +20,5 @@ class FunctionObjectParametersCollection
 
         public ?array $required = null,
     ) {
-    }
-
-    public function getType(): string
-    {
-        return 'object';
-    }
-
-    public function getAdditionalProperties(): bool
-    {
-        return false;
     }
 }

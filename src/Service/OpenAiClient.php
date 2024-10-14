@@ -46,14 +46,7 @@ class OpenAiClient
 
         $this->normalizer = new Serializer([
             new BackedEnumNormalizer(),
-            new ObjectNormalizer(
-                nameConverter: new CamelCaseToSnakeCaseNameConverter(),
-                defaultContext: [
-                    AbstractNormalizer::CALLBACKS => [
-                        'getAdditionalProperties' => fn ($object) => $object->getAdditionalProperties(),
-                    ]
-                ]
-            )
+            new ObjectNormalizer(nameConverter: new CamelCaseToSnakeCaseNameConverter())
         ]);
     }
 
