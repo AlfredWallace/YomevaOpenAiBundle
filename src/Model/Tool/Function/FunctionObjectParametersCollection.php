@@ -26,4 +26,9 @@ class FunctionObjectParametersCollection
     {
         return 'object';
     }
+
+    public function getAdditionalProperties(): bool
+    {
+        return false;
+    }
 }
