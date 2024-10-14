@@ -16,7 +16,7 @@ class FunctionObjectParametersCollection
             new Assert\Type(FunctionObjectParameter::class),
             new Assert\NotBlank(),
         ])]
-        public ?array $parameters = null,
+        public ?array $properties = null,
 
         public ?array $required = null,
     ) {

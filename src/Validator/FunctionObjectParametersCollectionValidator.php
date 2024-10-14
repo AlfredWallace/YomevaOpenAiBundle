@@ -20,21 +20,21 @@ class FunctionObjectParametersCollectionValidator extends ConstraintValidator
             throw new UnexpectedValueException($value, FunctionObjectParametersCollectionModel::class);
         }
 
-        if ($value->parameters === null || $value->required === null) {
+        if ($value->properties === null || $value->required === null) {
             return;
         }
 
-        if (count($value->required) > count($value->parameters)) {
-            $this->context->buildViolation("You cannot have more 'required' thant 'parameters'.")
+        if (count($value->required) > count($value->properties)) {
+            $this->context->buildViolation("You cannot have more 'required' thant 'properties'.")
                 ->addViolation();
             return;
         }
 
-        $parameterKeys = array_keys($value->parameters);
+        $parameterKeys = array_keys($value->properties);
 
         foreach ($value->required as $required) {
             if (!in_array($required, $parameterKeys, true)) {
-                $this->context->buildViolation("All values from 'required' have to be a key in 'parameters'.")
+                $this->context->buildViolation("All values from 'required' have to be a key in 'properties'.")
                     ->addViolation();
                 return;
             }
