@@ -4,20 +4,13 @@ namespace Yomeva\OpenAiBundle\Builder;
 
 use Yomeva\OpenAiBundle\Model\Assistant\CreateAssistantPayload;
 
-class CreateAssistantPayloadBuilder
+class CreateAssistantPayloadBuilder implements PayloadBuilderInterface
 {
     private CreateAssistantPayload $createAssistantPayload;
 
-    public static function make(string $model): CreateAssistantPayloadBuilder
+    public function __construct(string $model)
     {
-        $builder = new self();
-        $builder->setPayload(new CreateAssistantPayload($model));
-        return $builder;
-    }
-
-    private function setPayload(CreateAssistantPayload $createAssistantPayload): void
-    {
-        $this->createAssistantPayload = $createAssistantPayload;
+        $this->createAssistantPayload = new CreateAssistantPayload($model);
     }
 
     public function getPayload(): CreateAssistantPayload
