@@ -64,17 +64,22 @@ class CreateAssistantPayloadBuilder implements PayloadBuilderInterface
         ?array $required = null,
         ?bool $strict = null
     ): self {
-        $this->createAssistantPayload->tools[] = new FunctionTool(
+        $functionTool = new FunctionTool(
             new FunctionObject(
-                $name,
-                $description,
-                new FunctionObjectParametersCollection(
-                    $parameters,
-                    $required
-                ),
-                $strict
+                name: $name,
+                description: $description,
+                strict: $strict
             )
         );
+
+        if ($parameters !== null) {
+            $functionTool->function->parameters = new FunctionObjectParametersCollection(
+                $parameters,
+                $required
+            );
+        }
+
+        $this->createAssistantPayload->tools[] = $functionTool;
         return $this;
     }
 
@@ -82,8 +87,7 @@ class CreateAssistantPayloadBuilder implements PayloadBuilderInterface
         ?int $maxNumResults = null,
         ?float $scoreThreshold = null,
         ?Ranker $ranker = null
-    ): self
-    {
+    ): self {
         if ($scoreThreshold === null && $ranker !== null) {
             throw new \InvalidArgumentException('Ranker cannot be set without scoreThreshold.');
         }
