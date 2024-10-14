@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 class StringIndexedArrayValidator extends ConstraintValidator
 {
 
-    public function validate(mixed $value, Constraint $constraint)
+    public function validate(mixed $value, Constraint $constraint): void
     {
         if (!$constraint instanceof StringIndexedArray) {
             throw new UnexpectedTypeException($constraint, StringIndexedArray::class);
