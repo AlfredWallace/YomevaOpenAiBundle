@@ -2,6 +2,7 @@
 
 namespace Yomeva\OpenAiBundle\Model\Tool\Function;
 
+use Symfony\Component\Serializer\Attribute\SerializedName;
 use Symfony\Component\Validator\Constraints as Assert;
 use Yomeva\OpenAiBundle\Validator\StringIndexedArray;
 use Yomeva\OpenAiBundle\Validator\FunctionObjectParametersCollection as FunctionObjectParametersCollectionConstraint;
@@ -27,6 +28,7 @@ class FunctionObjectParametersCollection
         return 'object';
     }
 
+    #[SerializedName('additionalProperties')]
     public function getAdditionalProperties(): bool
     {
         return false;
