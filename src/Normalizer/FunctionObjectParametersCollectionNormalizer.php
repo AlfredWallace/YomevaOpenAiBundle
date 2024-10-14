@@ -3,6 +3,7 @@
 namespace Yomeva\OpenAiBundle\Normalizer;
 
 use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter;
+use Symfony\Component\Serializer\Normalizer\BackedEnumNormalizer;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
@@ -16,6 +17,7 @@ class FunctionObjectParametersCollectionNormalizer implements NormalizerInterfac
         array $context = []
     ): array|string|int|float|bool|\ArrayObject|null {
         $serializer = new Serializer([
+            new BackedEnumNormalizer(),
             new ObjectNormalizer(nameConverter: new CamelCaseToSnakeCaseNameConverter())
         ]);
         $normalizedObject = $serializer->normalize($object, $format, $context);
