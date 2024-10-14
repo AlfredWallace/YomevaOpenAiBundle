@@ -5,6 +5,10 @@ namespace Yomeva\OpenAiBundle\Builder;
 use Yomeva\OpenAiBundle\Model\Assistant\CreateAssistantPayload;
 use Yomeva\OpenAiBundle\Model\ResponseFormat\ResponseFormat;
 use Yomeva\OpenAiBundle\Model\Tool\CodeInterpreter\CodeInterpreterTool;
+use Yomeva\OpenAiBundle\Model\Tool\FileSearch\FileSearchRankingOptions;
+use Yomeva\OpenAiBundle\Model\Tool\FileSearch\FileSearchTool;
+use Yomeva\OpenAiBundle\Model\Tool\FileSearch\FileSearchToolOverrides;
+use Yomeva\OpenAiBundle\Model\Tool\FileSearch\Ranker;
 use Yomeva\OpenAiBundle\Model\Tool\Function\FunctionObject;
 use Yomeva\OpenAiBundle\Model\Tool\Function\FunctionTool;
 use Yomeva\OpenAiBundle\Model\Tool\Tool;
@@ -68,6 +72,36 @@ class CreateAssistantPayloadBuilder implements PayloadBuilderInterface
                 $strict
             )
         );
+        return $this;
+    }
+
+    public function addFileSearchTool(
+        ?int $maxNumResults = null,
+        ?float $scoreThreshold = null,
+        ?Ranker $ranker = null
+    ): self
+    {
+        if ($scoreThreshold === null && $ranker !== null) {
+            throw new \InvalidArgumentException('Ranker cannot be set without scoreThreshold.');
+        }
+
+        // No options passed
+        if ($maxNumResults === null && $scoreThreshold === null) {
+            $this->createAssistantPayload->tools[] = new FileSearchTool();
+            return $this;
+        }
+
+        $fileSearch = new FileSearchToolOverrides();
+
+        if ($maxNumResults !== null) {
+            $fileSearch->maxNumResults = $maxNumResults;
+        }
+
+        if ($scoreThreshold !== null) {
+            $fileSearch->rankingOptions = new FileSearchRankingOptions($scoreThreshold, $ranker);
+        }
+
+        $this->createAssistantPayload->tools[] = new FileSearchTool($fileSearch);
         return $this;
     }
 
