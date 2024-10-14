@@ -10,6 +10,8 @@ use Yomeva\OpenAiBundle\Model\Tool\FileSearch\FileSearchTool;
 use Yomeva\OpenAiBundle\Model\Tool\FileSearch\FileSearchToolOverrides;
 use Yomeva\OpenAiBundle\Model\Tool\FileSearch\Ranker;
 use Yomeva\OpenAiBundle\Model\Tool\Function\FunctionObject;
+use Yomeva\OpenAiBundle\Model\Tool\Function\FunctionObjectParameter;
+use Yomeva\OpenAiBundle\Model\Tool\Function\FunctionObjectParametersCollection;
 use Yomeva\OpenAiBundle\Model\Tool\Function\FunctionTool;
 use Yomeva\OpenAiBundle\Model\Tool\Tool;
 use Yomeva\OpenAiBundle\Model\Tool\ToolResources;
@@ -46,29 +48,30 @@ class CreateAssistantPayloadBuilder implements PayloadBuilderInterface
         return $this;
     }
 
-    public function addTool(Tool $tool): self
-    {
-        $this->createAssistantPayload->tools[] = $tool;
-        return $this;
-    }
-
     public function addCodeInterpreterTool(): self
     {
         $this->createAssistantPayload->tools[] = new CodeInterpreterTool();
         return $this;
     }
 
+    /**
+     * @param FunctionObjectParameter[] $parameters
+     */
     public function addFunctionTool(
         string $name,
         ?string $description = null,
-        ?string $parameters = null,
+        ?array $parameters = null,
+        ?array $required = null,
         ?bool $strict = null
     ): self {
         $this->createAssistantPayload->tools[] = new FunctionTool(
             new FunctionObject(
                 $name,
                 $description,
-                $parameters,
+                new FunctionObjectParametersCollection(
+                    $parameters,
+                    $required
+                ),
                 $strict
             )
         );
