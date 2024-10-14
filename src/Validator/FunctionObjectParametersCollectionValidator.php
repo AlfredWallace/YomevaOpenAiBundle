@@ -20,6 +20,10 @@ class FunctionObjectParametersCollectionValidator extends ConstraintValidator
             throw new UnexpectedValueException($value, FunctionObjectParametersCollectionModel::class);
         }
 
+        if ($value->parameters === null || $value->required === null) {
+            return;
+        }
+
         if (count($value->required) > count($value->parameters)) {
             $this->context->buildViolation("You cannot have more 'required' thant 'parameters'.")
                 ->addViolation();
