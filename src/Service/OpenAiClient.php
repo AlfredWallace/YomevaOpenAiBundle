@@ -21,7 +21,6 @@ use Yomeva\OpenAiBundle\Exception\NotImplementedException;
 use Yomeva\OpenAiBundle\Model\Assistant\CreateAssistantPayload;
 use Yomeva\OpenAiBundle\Model\File\UploadFilePayload;
 use Yomeva\OpenAiBundle\Model\PayloadInterface;
-use Yomeva\OpenAiBundle\Normalizer\FunctionObjectParametersCollectionNormalizer;
 
 class OpenAiClient
 {
@@ -46,7 +45,6 @@ class OpenAiClient
 
         $this->normalizer = new Serializer([
             new BackedEnumNormalizer(),
-            new FunctionObjectParametersCollectionNormalizer(),
             new ObjectNormalizer(nameConverter: new CamelCaseToSnakeCaseNameConverter())
         ]);
     }
