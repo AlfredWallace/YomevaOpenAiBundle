@@ -4,6 +4,7 @@ namespace Yomeva\OpenAiBundle\Builder;
 
 use Yomeva\OpenAiBundle\Model\Assistant\CreateAssistantPayload;
 use Yomeva\OpenAiBundle\Model\ResponseFormat\ResponseFormat;
+use Yomeva\OpenAiBundle\Model\Tool\CodeInterpreter\CodeInterpreterResources;
 use Yomeva\OpenAiBundle\Model\Tool\CodeInterpreter\CodeInterpreterTool;
 use Yomeva\OpenAiBundle\Model\Tool\FileSearch\FileSearchRankingOptions;
 use Yomeva\OpenAiBundle\Model\Tool\FileSearch\FileSearchTool;
@@ -13,7 +14,6 @@ use Yomeva\OpenAiBundle\Model\Tool\Function\FunctionObject;
 use Yomeva\OpenAiBundle\Model\Tool\Function\FunctionObjectParameter;
 use Yomeva\OpenAiBundle\Model\Tool\Function\FunctionObjectParametersCollection;
 use Yomeva\OpenAiBundle\Model\Tool\Function\FunctionTool;
-use Yomeva\OpenAiBundle\Model\Tool\Tool;
 use Yomeva\OpenAiBundle\Model\Tool\ToolResources;
 
 class CreateAssistantPayloadBuilder implements PayloadBuilderInterface
@@ -113,19 +113,26 @@ class CreateAssistantPayloadBuilder implements PayloadBuilderInterface
     }
 
     /**
-     * @param Tool[] $tools
+     * @param string[] $fileIds
      */
-    public function setTools(array $tools): self
+    public function setCodeInterpreterToolResources(array $fileIds): self
     {
-        foreach ($tools as $tool) {
-            $this->addTool($tool);
+        if ($this->createAssistantPayload->toolResources === null) {
+            $this->createAssistantPayload->toolResources = new ToolResources();
         }
+
+        $this->createAssistantPayload->toolResources->codeInterpreter = new CodeInterpreterResources($fileIds);
         return $this;
     }
 
-    public function setToolResources(ToolResources $toolResources): self
+    public function setFileSearchResources(): self
     {
-        $this->createAssistantPayload->toolResources = $toolResources;
+        if ($this->createAssistantPayload->toolResources === null) {
+            $this->createAssistantPayload->toolResources = new ToolResources();
+        }
+
+        // TODO
+
         return $this;
     }
 
