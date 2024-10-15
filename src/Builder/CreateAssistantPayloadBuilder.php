@@ -7,6 +7,8 @@ use Yomeva\OpenAiBundle\Model\ResponseFormat\ResponseFormat;
 use Yomeva\OpenAiBundle\Model\Tool\CodeInterpreter\CodeInterpreterResources;
 use Yomeva\OpenAiBundle\Model\Tool\CodeInterpreter\CodeInterpreterTool;
 use Yomeva\OpenAiBundle\Model\Tool\FileSearch\FileSearchRankingOptions;
+use Yomeva\OpenAiBundle\Model\Tool\FileSearch\FileSearchResources;
+use Yomeva\OpenAiBundle\Model\Tool\FileSearch\FileSearchResourcesVectorStore;
 use Yomeva\OpenAiBundle\Model\Tool\FileSearch\FileSearchTool;
 use Yomeva\OpenAiBundle\Model\Tool\FileSearch\FileSearchToolOverrides;
 use Yomeva\OpenAiBundle\Model\Tool\FileSearch\Ranker;
@@ -125,14 +127,19 @@ class CreateAssistantPayloadBuilder implements PayloadBuilderInterface
         return $this;
     }
 
-    public function setFileSearchResources(): self
+    /**
+     * @param string[] $vectorStoreIds
+     * @param FileSearchResourcesVectorStore[] $vectorStores
+     *
+     * Maybe later add a builder for the vector stores inside
+     */
+    public function setFileSearchResources(array $vectorStoreIds = null, array $vectorStores = null): self
     {
         if ($this->createAssistantPayload->toolResources === null) {
             $this->createAssistantPayload->toolResources = new ToolResources();
         }
 
-        // TODO
-
+        $this->createAssistantPayload->toolResources->fileSearch = new FileSearchResources($vectorStoreIds, $vectorStores);
         return $this;
     }
 
