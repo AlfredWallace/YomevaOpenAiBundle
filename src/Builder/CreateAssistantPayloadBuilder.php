@@ -139,13 +139,26 @@ class CreateAssistantPayloadBuilder implements PayloadBuilderInterface
             $this->createAssistantPayload->toolResources = new ToolResources();
         }
 
-        $this->createAssistantPayload->toolResources->fileSearch = new FileSearchResources($vectorStoreIds, $vectorStores);
+        $this->createAssistantPayload->toolResources->fileSearch = new FileSearchResources(
+            $vectorStoreIds,
+            $vectorStores
+        );
         return $this;
     }
 
     public function setMetadata(array $metadata): self
     {
         $this->createAssistantPayload->metadata = $metadata;
+        return $this;
+    }
+
+    public function addMetadata(string $key, string $value): self
+    {
+        if ($this->createAssistantPayload->metadata === null) {
+            $this->createAssistantPayload->metadata = [];
+        }
+
+        $this->createAssistantPayload->metadata[$key] = $value;
         return $this;
     }
 
