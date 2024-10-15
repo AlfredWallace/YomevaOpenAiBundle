@@ -13,6 +13,8 @@ use Yomeva\OpenAiBundle\Validator\Metadata;
 use Yomeva\OpenAiBundle\Validator\TypedArray;
 
 #[Assert\Cascade]
+// TODO : Si on a au moins 1 tool qui n'est pas Function (donc Code interpreter ou FileSearch) alors response format doit être 'text'
+// TODO : Si on a ResponseFormat à JsonObject ou JsonSchema, alors on ne peux avoir que des FunctionTools
 class CreateAssistantPayload implements PayloadInterface
 {
     public function __construct(
