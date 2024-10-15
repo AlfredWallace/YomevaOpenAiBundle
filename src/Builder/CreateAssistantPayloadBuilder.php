@@ -6,6 +6,7 @@ use Yomeva\OpenAiBundle\Model\Assistant\CreateAssistantPayload;
 use Yomeva\OpenAiBundle\Model\ResponseFormat\JsonObjectResponseFormat;
 use Yomeva\OpenAiBundle\Model\ResponseFormat\JsonSchemaResponseFormat;
 use Yomeva\OpenAiBundle\Model\ResponseFormat\JsonSchemaResponseFormatObject;
+use Yomeva\OpenAiBundle\Model\ResponseFormat\ResponseFormat;
 use Yomeva\OpenAiBundle\Model\ResponseFormat\TextResponseFormat;
 use Yomeva\OpenAiBundle\Model\Tool\CodeInterpreter\CodeInterpreterResources;
 use Yomeva\OpenAiBundle\Model\Tool\CodeInterpreter\CodeInterpreterTool;
@@ -175,7 +176,7 @@ class CreateAssistantPayloadBuilder implements PayloadBuilderInterface
 
     public function setResponseFormatToAuto(): self
     {
-        $this->createAssistantPayload->responseFormat = 'auto';
+        $this->createAssistantPayload->responseFormat = ResponseFormat::AUTO;
         return $this;
     }
 
