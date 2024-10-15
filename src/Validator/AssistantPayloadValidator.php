@@ -28,11 +28,11 @@ class AssistantPayloadValidator extends ConstraintValidator
             return;
         }
 
-//        if ($this->containsNotFunctionTools($value) && $this->isJsonResponse($value)) {
-//            $this->context->buildViolation("You cannot have a json_schema or json_object response format if you add other tools than function tools.
-//            Either keep your tools and change the response format to 'auto' or 'text', or remove tools that aren't function tools.")
-//                ->addViolation();
-//        }
+        if ($this->containsNotFunctionTools($value) && $this->isJsonResponse($value)) {
+            $this->context->buildViolation("You cannot have a json_schema or json_object response format if you add other tools than function tools.
+            Either keep your tools and change the response format to 'auto' or 'text', or remove tools that aren't function tools.")
+                ->addViolation();
+        }
     }
 
     private function isJsonResponse(CreateAssistantPayload $payload): bool
