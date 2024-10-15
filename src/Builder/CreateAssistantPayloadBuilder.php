@@ -3,7 +3,10 @@
 namespace Yomeva\OpenAiBundle\Builder;
 
 use Yomeva\OpenAiBundle\Model\Assistant\CreateAssistantPayload;
-use Yomeva\OpenAiBundle\Model\ResponseFormat\ResponseFormat;
+use Yomeva\OpenAiBundle\Model\ResponseFormat\JsonObjectResponseFormat;
+use Yomeva\OpenAiBundle\Model\ResponseFormat\JsonSchemaResponseFormat;
+use Yomeva\OpenAiBundle\Model\ResponseFormat\JsonSchemaResponseFormatObject;
+use Yomeva\OpenAiBundle\Model\ResponseFormat\TextResponseFormat;
 use Yomeva\OpenAiBundle\Model\Tool\CodeInterpreter\CodeInterpreterResources;
 use Yomeva\OpenAiBundle\Model\Tool\CodeInterpreter\CodeInterpreterTool;
 use Yomeva\OpenAiBundle\Model\Tool\FileSearch\FileSearchRankingOptions;
@@ -170,9 +173,37 @@ class CreateAssistantPayloadBuilder implements PayloadBuilderInterface
         return $this;
     }
 
-    public function setResponseFormat(string|ResponseFormat $responseFormat): self
+    public function setResponseFormatToAuto(): self
     {
-        $this->createAssistantPayload->responseFormat = $responseFormat;
+        $this->createAssistantPayload->responseFormat = 'auto';
+        return $this;
+    }
+
+    public function setResponseFormatToText(): self
+    {
+        $this->createAssistantPayload->responseFormat = new TextResponseFormat();
+        return $this;
+    }
+
+    public function setResponseFormatToJsonObject(): self
+    {
+        $this->createAssistantPayload->responseFormat = new JsonObjectResponseFormat();
+        return $this;
+    }
+
+    public function setResponseFormatToJsonSchema(
+        string $name,
+        ?string $description = null,
+        /**
+         * The schema for the response format, described as a JSON Schema object.
+         * See: https://json-schema.org/understanding-json-schema
+         */
+        ?array $schema = null,
+        ?bool $strict = null
+    ): self {
+        $this->createAssistantPayload->responseFormat = new JsonSchemaResponseFormat(
+            new JsonSchemaResponseFormatObject($name, $description, $schema, $strict)
+        );
         return $this;
     }
 }

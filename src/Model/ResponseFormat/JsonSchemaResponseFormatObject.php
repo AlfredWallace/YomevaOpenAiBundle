@@ -4,7 +4,7 @@ namespace Yomeva\OpenAiBundle\Model\ResponseFormat;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-class JsonSchema
+class JsonSchemaResponseFormatObject
 {
     public function __construct(
 
@@ -14,8 +14,11 @@ class JsonSchema
 
         public ?string $description = null,
 
-        #[Assert\Json]
-        public ?string $schema = null,
+        /**
+         * The schema for the response format, described as a JSON Schema object.
+         * See: https://json-schema.org/understanding-json-schema
+         */
+        public ?array $schema = null,
 
         public ?bool $strict = null
     )
