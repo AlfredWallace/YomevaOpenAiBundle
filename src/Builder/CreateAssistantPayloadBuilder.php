@@ -193,16 +193,16 @@ class CreateAssistantPayloadBuilder implements PayloadBuilderInterface
 
     public function setResponseFormatToJsonSchema(
         string $name,
-        ?string $description = null,
         /**
          * The schema for the response format, described as a JSON Schema object.
          * See: https://json-schema.org/understanding-json-schema
          */
-        ?array $schema = null,
+        array $schema,
+        ?string $description = null,
         ?bool $strict = null
     ): self {
         $this->createAssistantPayload->responseFormat = new JsonSchemaResponseFormat(
-            new JsonSchemaResponseFormatObject($name, $description, $schema, $strict)
+            new JsonSchemaResponseFormatObject($name, $schema, $description, $strict)
         );
         return $this;
     }
