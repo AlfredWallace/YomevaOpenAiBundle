@@ -13,8 +13,6 @@ use Yomeva\OpenAiBundle\Model\Tool\FileSearch\FileSearchTool;
 use Yomeva\OpenAiBundle\Model\Tool\FileSearch\FileSearchToolOverrides;
 use Yomeva\OpenAiBundle\Model\Tool\FileSearch\Ranker;
 use Yomeva\OpenAiBundle\Model\Tool\Function\FunctionObject;
-use Yomeva\OpenAiBundle\Model\Tool\Function\FunctionObjectParameter;
-use Yomeva\OpenAiBundle\Model\Tool\Function\FunctionObjectParametersCollection;
 use Yomeva\OpenAiBundle\Model\Tool\Function\FunctionTool;
 use Yomeva\OpenAiBundle\Model\Tool\ToolResources;
 
@@ -56,32 +54,30 @@ class CreateAssistantPayloadBuilder implements PayloadBuilderInterface
         return $this;
     }
 
-    /**
-     * @param FunctionObjectParameter[] $parameters
-     */
     public function addFunctionTool(
         string $name,
         ?string $description = null,
+        /**
+         * OpenAI doc :
+         * The parameters the functions accepts, described as a JSON Schema object.
+         *
+         * See the guide for examples:
+         * https://platform.openai.com/docs/guides/function-calling
+         *
+         * And the JSON Schema reference for documentation about the format :
+         * https://json-schema.org/understanding-json-schema
+         */
         ?array $parameters = null,
-        ?array $required = null,
         ?bool $strict = null
     ): self {
-        $functionTool = new FunctionTool(
+        $this->createAssistantPayload->tools[] = new FunctionTool(
             new FunctionObject(
-                name: $name,
-                description: $description,
-                strict: $strict
+                $name,
+                $description,
+                $parameters,
+                $strict
             )
         );
-
-        if ($parameters !== null) {
-            $functionTool->function->parameters = new FunctionObjectParametersCollection(
-                $parameters,
-                $required
-            );
-        }
-
-        $this->createAssistantPayload->tools[] = $functionTool;
         return $this;
     }
 

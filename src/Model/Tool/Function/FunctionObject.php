@@ -15,7 +15,17 @@ class FunctionObject
 
         public ?string $description = null,
 
-        public ?FunctionObjectParametersCollection $parameters = null,
+        /**
+         * OpenAI doc :
+         * The parameters the functions accepts, described as a JSON Schema object.
+         *
+         * See the guide for examples:
+         * https://platform.openai.com/docs/guides/function-calling
+         *
+         * And the JSON Schema reference for documentation about the format :
+         * https://json-schema.org/understanding-json-schema
+         */
+        public ?array $parameters = null,
 
         public ?bool $strict = null,
     )
