@@ -1,7 +1,8 @@
-<phpunit bootstrap="./vendor/autoload.php">
+<phpunit bootstrap="./tests/bootstrap.php">
+
     <testsuites>
-        <testsuite name="yomeva/open-ai-bundle">
-            <directory>tests</directory>
+        <testsuite name="integration">
+            <directory>tests/integration</directory>
         </testsuite>
     </testsuites>
 </phpunit>
