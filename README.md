@@ -37,5 +37,5 @@ Define the YAML config as follows and use an environment variable
 # config/packages/yomeva_open_ai.yaml
 
 yomeva_open_ai:
-    api_key: '%env(resolve:DATABASE_URL)%'
+    api_key: '%env(resolve:OPEN_AI_API_KEY)%'
 ```
