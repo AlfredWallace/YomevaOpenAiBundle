@@ -28,7 +28,7 @@ return [
 ];
 ```
 
-### Step 3 : Add the OpenAI API key to a config file
+### Step 3: Add a OpenAI API key env var to a config file
 
 Define the YAML config as follows and use an environment variable
 
@@ -38,4 +38,9 @@ Define the YAML config as follows and use an environment variable
 
 yomeva_open_ai:
     api_key: '%env(resolve:OPEN_AI_API_KEY)%'
+```
+
+### Step 4: Add a staging project OpenAI API key to a .env.test.local file for PHPUnit (data of this OpenAI project can be lost)
+```.dotenv
+OPEN_AI_API_KEY=your-staging-key
 ```
