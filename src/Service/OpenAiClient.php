@@ -30,8 +30,9 @@ class OpenAiClient
 
     public function __construct(
         private readonly string $openAiApiKey,
+        ?HttpClientInterface $httpClient = null,
     ) {
-        $this->client = HttpClient::create()
+        $this->client = $httpClient ?? HttpClient::create()
             ->withOptions(
                 (new HttpOptions())
                     ->setBaseUri('https://api.openai.com/v1/')
@@ -45,7 +46,12 @@ class OpenAiClient
 
         $this->normalizer = new Serializer([
             new BackedEnumNormalizer(),
-            new ObjectNormalizer(nameConverter: new CamelCaseToSnakeCaseNameConverter())
+            new ObjectNormalizer(
+                nameConverter: new CamelCaseToSnakeCaseNameConverter(),
+                defaultContext: [
+                    AbstractObjectNormalizer::SKIP_NULL_VALUES => true
+                ]
+            )
         ]);
     }
 
@@ -65,13 +71,7 @@ class OpenAiClient
                 throw new ValidationFailedException($payload, $violations);
             }
 
-            $normalizedPayload = $this->normalizer->normalize(
-                $payload,
-                null,
-                [
-                    AbstractObjectNormalizer::SKIP_NULL_VALUES => true
-                ]
-            );
+            $normalizedPayload = $this->normalizer->normalize($payload);
 
             return $this->arrayPayloadRequest($method, $url, $normalizedPayload);
         } elseif (is_array($payload) && !empty($payload)) {
@@ -345,6 +345,7 @@ class OpenAiClient
 
     /**
      * @throws TransportExceptionInterface
+     * @throws ExceptionInterface
      */
     public function createAssistant(CreateAssistantPayload $payload): ResponseInterface
     {

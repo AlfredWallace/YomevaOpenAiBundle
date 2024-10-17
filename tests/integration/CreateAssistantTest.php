@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Yomeva\OpenAiBundle\Tests\integration;
 
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
@@ -15,13 +16,14 @@ use Yomeva\OpenAiBundle\Service\OpenAiClient;
 
 final class CreateAssistantTest extends TestCase
 {
-    private OpenAiClient $client;
-    private string $assistantId;
+    private static OpenAiClient $client;
+    private ?string $assistantId = null;
 
-    protected function setUp(): void
+    public static function setUpBeforeClass(): void
     {
         // this has to be a key for an OpenAI project used for tests where all data can be deleted
-        $this->client = new OpenAiClient($_ENV['OPEN_AI_API_KEY']);
+        self::$client = new OpenAiClient($_ENV['OPEN_AI_API_KEY']);
+        parent::setUpBeforeClass();
     }
 
     /**
@@ -30,10 +32,11 @@ final class CreateAssistantTest extends TestCase
      * @throws DecodingExceptionInterface
      * @throws RedirectionExceptionInterface
      * @throws ServerExceptionInterface
+     * @throws ExceptionInterface
      */
     public function testCreateBasicAssistant(): void
     {
-        $response = $this->client->createAssistant(
+        $response = self::$client->createAssistant(
             (new CreateAssistantPayloadBuilder('gpt-4o'))
                 ->getPayload()
         );
@@ -51,7 +54,9 @@ final class CreateAssistantTest extends TestCase
      */
     protected function tearDown(): void
     {
-        $this->client->deleteAssistant($this->assistantId)->getContent(false);
+        if ($this->assistantId !== null) {
+            self::$client->deleteAssistant($this->assistantId)->getContent(false);
+        }
         parent::tearDown();
     }
 }
