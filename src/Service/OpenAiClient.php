@@ -11,6 +11,7 @@ use Symfony\Component\Serializer\Normalizer\BackedEnumNormalizer;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Exception\ValidationFailedException;
 use Symfony\Component\Validator\Validation;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -24,15 +25,14 @@ use Yomeva\OpenAiBundle\Model\PayloadInterface;
 
 class OpenAiClient
 {
-    private HttpClientInterface $client;
+    private HttpClientInterface $httpClient;
     private ValidatorInterface $validator;
-    private NormalizerInterface $normalizer;
+    private SerializerInterface $serializer;
 
     public function __construct(
         private readonly string $openAiApiKey,
-        ?HttpClientInterface $httpClient = null,
     ) {
-        $this->client = $httpClient ?? HttpClient::create()
+        $this->httpClient = HttpClient::create()
             ->withOptions(
                 (new HttpOptions())
                     ->setBaseUri('https://api.openai.com/v1/')
@@ -44,7 +44,7 @@ class OpenAiClient
 
         $this->validator = Validation::createValidatorBuilder()->enableAttributeMapping()->getValidator();
 
-        $this->normalizer = new Serializer([
+        $this->serializer = new Serializer([
             new BackedEnumNormalizer(),
             new ObjectNormalizer(
                 nameConverter: new CamelCaseToSnakeCaseNameConverter(),
@@ -65,28 +65,35 @@ class OpenAiClient
         PayloadInterface|array|null $payload = null
     ): ResponseInterface {
         if ($payload instanceof PayloadInterface) {
-            $violations = $this->validator->validate($payload);
+            $violations = $this->getValidator()->validate($payload);
 
             if (count($violations) > 0) {
                 throw new ValidationFailedException($payload, $violations);
             }
 
-            $normalizedPayload = $this->normalizer->normalize($payload);
+            $normalizedPayload = $this->getSerializer()->normalize($payload);
 
-            return $this->arrayPayloadRequest($method, $url, $normalizedPayload);
+            return $this->getHttpClient()->request($method, $url, ['json' => $normalizedPayload]);
         } elseif (is_array($payload) && !empty($payload)) {
-            return $this->arrayPayloadRequest($method, $url, $payload);
+            return $this->getHttpClient()->request($method, $url, ['json' => $payload]);
         } else {
-            return $this->client->request($method, $url);
+            return $this->getHttpClient()->request($method, $url);
         }
     }
 
-    /**
-     * @throws TransportExceptionInterface
-     */
-    private function arrayPayloadRequest(string $method, string $url, array $payload): ResponseInterface
+    public function getHttpClient(): HttpClientInterface
     {
-        return $this->client->request($method, $url, ['json' => $payload]);
+        return $this->httpClient;
+    }
+
+    public function getValidator(): ValidatorInterface
+    {
+        return $this->validator;
+    }
+
+    public function getSerializer(): SerializerInterface
+    {
+        return $this->serializer;
     }
 
     ///> AUDIO
@@ -214,7 +221,7 @@ class OpenAiClient
         $handle = fopen($payload->uploadedFile->getRealPath(), 'r');
         stream_context_set_option($handle, 'http', 'filename', $payload->uploadedFile->getClientOriginalName());
 
-        return $this->client->request(
+        return $this->httpClient->request(
             'POST',
             'files',
             [
