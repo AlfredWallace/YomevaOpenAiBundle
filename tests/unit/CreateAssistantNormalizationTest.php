@@ -17,8 +17,6 @@ class CreateAssistantNormalizationTest extends NormalizationTestCase
      */
     public function testCreateAssistant(CreateAssistantPayload $payload, array $expected): void
     {
-//        dump($expected);
-//        dump(self::$serializer->normalize($payload));
         $this->assertEqualsAssociativeArraysRecursive(
             expected: $expected,
             actual: self::$serializer->normalize($payload)
