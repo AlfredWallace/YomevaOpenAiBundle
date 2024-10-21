@@ -5,12 +5,6 @@ namespace Yomeva\OpenAiBundle\Service;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpClient\HttpOptions;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
-use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter;
-use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
-use Symfony\Component\Serializer\Normalizer\BackedEnumNormalizer;
-use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Exception\ValidationFailedException;
 use Symfony\Component\Validator\Validation;
@@ -18,6 +12,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
+use Yomeva\OpenAiBundle\Builder\SerializerBuilder;
 use Yomeva\OpenAiBundle\Exception\NotImplementedException;
 use Yomeva\OpenAiBundle\Model\Assistant\CreateAssistantPayload;
 use Yomeva\OpenAiBundle\Model\File\UploadFilePayload;
@@ -44,15 +39,7 @@ class OpenAiClient
 
         $this->validator = Validation::createValidatorBuilder()->enableAttributeMapping()->getValidator();
 
-        $this->serializer = new Serializer([
-            new BackedEnumNormalizer(),
-            new ObjectNormalizer(
-                nameConverter: new CamelCaseToSnakeCaseNameConverter(),
-                defaultContext: [
-                    AbstractObjectNormalizer::SKIP_NULL_VALUES => true
-                ]
-            )
-        ]);
+        $this->serializer = (new SerializerBuilder())->makeSerializer();
     }
 
     /**

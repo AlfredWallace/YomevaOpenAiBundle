@@ -3,12 +3,8 @@
 namespace Yomeva\OpenAiBundle\Tests\unit;
 
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter;
-use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
-use Symfony\Component\Serializer\Normalizer\BackedEnumNormalizer;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\SerializerInterface;
+use Yomeva\OpenAiBundle\Builder\SerializerBuilder;
 use Yomeva\OpenAiBundle\Exception\RecursionDepthException;
 
 class NormalizationTestCase extends TestCase
@@ -18,15 +14,7 @@ class NormalizationTestCase extends TestCase
 
     public static function setUpBeforeClass(): void
     {
-        self::$serializer = new Serializer([
-            new BackedEnumNormalizer(),
-            new ObjectNormalizer(
-                nameConverter: new CamelCaseToSnakeCaseNameConverter(),
-                defaultContext: [
-                    AbstractObjectNormalizer::SKIP_NULL_VALUES => true
-                ]
-            )
-        ]);
+        self::$serializer = (new SerializerBuilder())->makeSerializer();
 
         parent::setUpBeforeClass();
     }
