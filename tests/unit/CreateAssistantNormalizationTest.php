@@ -3,7 +3,9 @@
 namespace Yomeva\OpenAiBundle\Tests\unit;
 
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
+use Yomeva\OpenAiBundle\Builder\ChunkingStrategy;
 use Yomeva\OpenAiBundle\Builder\CreateAssistantPayloadBuilder;
+use Yomeva\OpenAiBundle\Builder\FileSearchVectorStoreBuilder;
 use Yomeva\OpenAiBundle\Model\Assistant\CreateAssistantPayload;
 use Yomeva\OpenAiBundle\Model\Tool\FileSearch\Ranker;
 
@@ -15,6 +17,8 @@ class CreateAssistantNormalizationTest extends NormalizationTestCase
      */
     public function testCreateAssistant(CreateAssistantPayload $payload, array $expected): void
     {
+//        dump($expected);
+//        dump(self::$serializer->normalize($payload));
         $this->assertEqualsAssociativeArraysRecursive(
             expected: $expected,
             actual: self::$serializer->normalize($payload)
@@ -125,6 +129,178 @@ class CreateAssistantNormalizationTest extends NormalizationTestCase
                             "vector_store_ids" => [
                                 "vector-store-id-1",
                                 "vector-store-id-2",
+                            ]
+                        ]
+                    ],
+                    "metadata" => [
+                        "foo" => "bar",
+                        "hello" => "world",
+                        "afp" => "was here"
+                    ],
+                    "temperature" => 1.2,
+                    "top_p" => 0.3
+                ]
+            ],
+
+            'full_test___file_search_vector_stores___no_response_format' => [
+                'payload' =>
+                    (new CreateAssistantPayloadBuilder('gpt-4o'))
+                        ->setName('My new assistant')
+                        ->setDescription("Description de l'assistant")
+                        ->setInstructions("Tu es un assistant d'assistanat")
+                        ->addCodeInterpreterTool()
+                        ->addFileSearchTool(25, 0.5, Ranker::Default)
+                        ->addFunctionTool(
+                            'Ma super fonction',
+                            'Elle fait plein de choses',
+                            [
+                                "type" => "object",
+                                "properties" => [
+                                    "arg1" => [
+                                        'type' => 'string',
+                                        'description' => 'Argument 1',
+                                        'enum' => ['one', 'two', 'three']
+                                    ],
+                                    "arg2" => [
+                                        'type' => 'integer',
+                                        'description' => 'Argument 2',
+                                    ]
+                                ],
+                                "required" => ['arg1'],
+                                'additionalProperties' => false
+                            ],
+                            false
+                        )
+                        ->setCodeInterpreterToolResources(["file-id-1", "file-id-2"])
+                        ->setFileSearchResources(
+                            vectorStores: [
+                                (new FileSearchVectorStoreBuilder())->getVectorStore(),
+                                (new FileSearchVectorStoreBuilder(
+                                    ["file-id-1", "file-id-2"]
+                                ))->getVectorStore(),
+                                (new FileSearchVectorStoreBuilder(
+                                    strategy: ChunkingStrategy::Auto
+                                ))->getVectorStore(),
+                                (new FileSearchVectorStoreBuilder(
+                                    strategy: ChunkingStrategy::Static
+                                ))->getVectorStore(),
+                                (new FileSearchVectorStoreBuilder(
+                                    strategy: ChunkingStrategy::Static,
+                                    maxChunkSizeTokens: 255,
+                                    chunkOverlapTokens: 128
+                                ))->getVectorStore(),
+                                (new FileSearchVectorStoreBuilder(
+                                    fileIds: ["file-id-3", "file-id-4"],
+                                    strategy: ChunkingStrategy::Static,
+                                    maxChunkSizeTokens: 900,
+                                    chunkOverlapTokens: 300,
+                                    metadata: [
+                                        "foo" => "bar",
+                                        "hello" => "world",
+                                        "afp" => "was here"
+                                    ]
+                                ))->getVectorStore()
+                            ]
+                        )
+                        ->setMetadata([
+                            "foo" => "bar",
+                            "hello" => "world"
+                        ])
+                        ->addMetadata("afp", "was here")
+                        ->setTemperature(1.2)
+                        ->setTopP(0.3)
+                        ->getPayload(),
+                'expected' => [
+                    'model' => 'gpt-4o',
+                    'name' => 'My new assistant',
+                    'description' => "Description de l'assistant",
+                    'instructions' => "Tu es un assistant d'assistanat",
+                    'tools' => [
+                        [
+                            'type' => 'code_interpreter'
+                        ],
+                        [
+                            'type' => 'file_search',
+                            'file_search' => [
+                                'max_num_results' => 25,
+                                'ranking_options' => [
+                                    'score_threshold' => 0.5,
+                                    'ranker' => Ranker::Default->value
+                                ]
+                            ]
+                        ],
+                        [
+                            'type' => 'function',
+                            'function' => [
+                                'name' => 'Ma super fonction',
+                                'description' => 'Elle fait plein de choses',
+                                'parameters' => [
+                                    "type" => "object",
+                                    "properties" => [
+                                        "arg1" => [
+                                            'type' => 'string',
+                                            'description' => 'Argument 1',
+                                            'enum' => ['one', 'two', 'three']
+                                        ],
+                                        "arg2" => [
+                                            'type' => 'integer',
+                                            'description' => 'Argument 2',
+                                        ]
+                                    ],
+                                    "required" => ['arg1'],
+                                    'additionalProperties' => false
+                                ],
+                                'strict' => false
+                            ]
+                        ],
+                    ],
+                    'tool_resources' => [
+                        'code_interpreter' => [
+                            'file_ids' => [
+                                "file-id-1",
+                                "file-id-2",
+                            ]
+                        ],
+                        "file_search" => [
+                            "vector_stores" => [
+                                [],
+                                ["file_ids" => ["file-id-1", "file-id-2"]],
+                                [
+                                    "chunking_strategy" =>
+                                        [
+                                            "type" => "auto"
+                                        ]
+                                ],
+                                [
+                                    "chunking_strategy" => [
+                                        "type" => "static",
+                                        "static" => []
+                                    ]
+                                ],
+                                [
+                                    "chunking_strategy" => [
+                                        "type" => "static",
+                                        "static" => [
+                                            "max_chunk_size_tokens" => 255,
+                                            "chunk_overlap_tokens" => 128
+                                        ]
+                                    ]
+                                ],
+                                [
+                                    "file_ids" => ["file-id-3", "file-id-4"],
+                                    "chunking_strategy" => [
+                                        "type" => "static",
+                                        "static" => [
+                                            "max_chunk_size_tokens" => 900,
+                                            "chunk_overlap_tokens" => 300
+                                        ]
+                                    ],
+                                    "metadata" => [
+                                        "foo" => "bar",
+                                        "hello" => "world",
+                                        "afp" => "was here"
+                                    ]
+                                ]
                             ]
                         ]
                     ],
