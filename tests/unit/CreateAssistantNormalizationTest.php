@@ -312,6 +312,235 @@ class CreateAssistantNormalizationTest extends NormalizationTestCase
                     "temperature" => 1.2,
                     "top_p" => 0.3
                 ]
+            ],
+
+            'full_test___response_format_auto' => [
+                'payload' => (new CreateAssistantPayloadBuilder('gpt-4o'))
+                    ->setName('My new assistant')
+                    ->setDescription("Description de l'assistant")
+                    ->setInstructions("Tu es un assistant d'assistanat")
+                    ->addCodeInterpreterTool()
+                    ->addFileSearchTool(25, 0.5, Ranker::Default)
+                    ->addFunctionTool(
+                        name: 'Ma super fonction',
+                        strict: true
+                    )
+                    ->setMetadata([
+                        "foo" => "bar",
+                        "hello" => "world"
+                    ])
+                    ->addMetadata("afp", "was here")
+                    ->setTemperature(1.2)
+                    ->setTopP(0.3)
+                    ->setResponseFormatToAuto()
+                    ->getPayload(),
+                'expected' => [
+                    'model' => 'gpt-4o',
+                    'name' => 'My new assistant',
+                    'description' => "Description de l'assistant",
+                    'instructions' => "Tu es un assistant d'assistanat",
+                    'tools' => [
+                        [
+                            'type' => 'code_interpreter'
+                        ],
+                        [
+                            'type' => 'file_search',
+                            'file_search' => [
+                                'max_num_results' => 25,
+                                'ranking_options' => [
+                                    'score_threshold' => 0.5,
+                                    'ranker' => Ranker::Default->value
+                                ]
+                            ]
+                        ],
+                        [
+                            'type' => 'function',
+                            'function' => [
+                                'name' => 'Ma super fonction',
+                                'strict' => true
+                            ]
+                        ],
+                    ],
+                    "metadata" => [
+                        "foo" => "bar",
+                        "hello" => "world",
+                        "afp" => "was here"
+                    ],
+                    "temperature" => 1.2,
+                    "top_p" => 0.3,
+                    "response_format" => "auto",
+                ]
+            ],
+
+            'full_test___response_format_text' => [
+                'payload' => (new CreateAssistantPayloadBuilder('gpt-4o'))
+                    ->setName('My new assistant')
+                    ->setDescription("Description de l'assistant")
+                    ->setInstructions("Tu es un assistant d'assistanat")
+                    ->addCodeInterpreterTool()
+                    ->addFileSearchTool(25, 0.5, Ranker::Default)
+                    ->addFunctionTool(
+                        name: 'Ma super fonction',
+                        strict: true
+                    )
+                    ->setMetadata([
+                        "foo" => "bar",
+                        "hello" => "world"
+                    ])
+                    ->addMetadata("afp", "was here")
+                    ->setTemperature(1.2)
+                    ->setTopP(0.3)
+                    ->setResponseFormatToText()
+                    ->getPayload(),
+                'expected' => [
+                    'model' => 'gpt-4o',
+                    'name' => 'My new assistant',
+                    'description' => "Description de l'assistant",
+                    'instructions' => "Tu es un assistant d'assistanat",
+                    'tools' => [
+                        [
+                            'type' => 'code_interpreter'
+                        ],
+                        [
+                            'type' => 'file_search',
+                            'file_search' => [
+                                'max_num_results' => 25,
+                                'ranking_options' => [
+                                    'score_threshold' => 0.5,
+                                    'ranker' => Ranker::Default->value
+                                ]
+                            ]
+                        ],
+                        [
+                            'type' => 'function',
+                            'function' => [
+                                'name' => 'Ma super fonction',
+                                'strict' => true
+                            ]
+                        ],
+                    ],
+                    "metadata" => [
+                        "foo" => "bar",
+                        "hello" => "world",
+                        "afp" => "was here"
+                    ],
+                    "temperature" => 1.2,
+                    "top_p" => 0.3,
+                    "response_format" => [
+                        "type" => "text"
+                    ],
+                ]
+            ],
+
+            'full_test___response_format_json_object' => [
+                'payload' => (new CreateAssistantPayloadBuilder('gpt-4o'))
+                    ->setName('My new assistant')
+                    ->setDescription("Description de l'assistant")
+                    ->setInstructions("Tu es un assistant d'assistanat")
+                    ->addFunctionTool(
+                        name: 'Ma super fonction',
+                        strict: true
+                    )
+                    ->setMetadata([
+                        "foo" => "bar",
+                        "hello" => "world"
+                    ])
+                    ->addMetadata("afp", "was here")
+                    ->setTemperature(1.2)
+                    ->setTopP(0.3)
+                    ->setResponseFormatToJsonObject()
+                    ->getPayload(),
+                'expected' => [
+                    'model' => 'gpt-4o',
+                    'name' => 'My new assistant',
+                    'description' => "Description de l'assistant",
+                    'instructions' => "Tu es un assistant d'assistanat",
+                    'tools' => [
+                        [
+                            'type' => 'function',
+                            'function' => [
+                                'name' => 'Ma super fonction',
+                                'strict' => true
+                            ]
+                        ],
+                    ],
+                    "metadata" => [
+                        "foo" => "bar",
+                        "hello" => "world",
+                        "afp" => "was here"
+                    ],
+                    "temperature" => 1.2,
+                    "top_p" => 0.3,
+                    "response_format" => [
+                        "type" => "json_object"
+                    ],
+                ]
+            ],
+
+            'full_test___response_format_json_schema' => [
+                'payload' => (new CreateAssistantPayloadBuilder('gpt-4o'))
+                    ->setName('My new assistant')
+                    ->setDescription("Description de l'assistant")
+                    ->setInstructions("Tu es un assistant d'assistanat")
+                    ->addFunctionTool(
+                        name: 'Ma super fonction',
+                        strict: true
+                    )
+                    ->setMetadata([
+                        "foo" => "bar",
+                        "hello" => "world"
+                    ])
+                    ->addMetadata("afp", "was here")
+                    ->setTemperature(1.2)
+                    ->setTopP(0.3)
+                    ->setResponseFormatToJsonSchema(
+                        "schema name schema name",
+                        [
+                            "type" => "object",
+                            "properties" => ["arg1" => ["type" => "string"], "arg2" => ["type" => "integer"]],
+                            "required" => ["arg1"],
+                            "additionalProperties" => false
+                        ],
+                        "this is a famous song",
+                        true
+                    )
+                    ->getPayload(),
+                'expected' => [
+                    'model' => 'gpt-4o',
+                    'name' => 'My new assistant',
+                    'description' => "Description de l'assistant",
+                    'instructions' => "Tu es un assistant d'assistanat",
+                    'tools' => [
+                        [
+                            'type' => 'function',
+                            'function' => [
+                                'name' => 'Ma super fonction',
+                                'strict' => true
+                            ]
+                        ],
+                    ],
+                    "metadata" => [
+                        "foo" => "bar",
+                        "hello" => "world",
+                        "afp" => "was here"
+                    ],
+                    "temperature" => 1.2,
+                    "top_p" => 0.3,
+                    "response_format" => [
+                        "type" => "json_schema",
+                        "json_schema" => [
+                            "name" => "schema name schema name",
+                            "description" => "this is a famous song",
+                            "schema" => [
+                                "type" => "object",
+                                "properties" => ["arg1" => ["type" => "string"], "arg2" => ["type" => "integer"]],
+                                "required" => ["arg1"],
+                                "additionalProperties" => false
+                            ],
+                            "strict" => true
+                        ]
+                    ],
+                ]
             ]
         ];
     }
