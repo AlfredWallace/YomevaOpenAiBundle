@@ -1,8 +1,9 @@
 <?php
 
-namespace Yomeva\OpenAiBundle\Builder\Payload;
+namespace Yomeva\OpenAiBundle\Builder\Payload\Assistant;
 
-use Yomeva\OpenAiBundle\Model\Assistant\CreateAssistantPayload;
+use Yomeva\OpenAiBundle\Builder\Payload\PayloadBuilderInterface;
+use Yomeva\OpenAiBundle\Model\Assistant\AssistantPayload;
 use Yomeva\OpenAiBundle\Model\ResponseFormat\JsonObjectResponseFormat;
 use Yomeva\OpenAiBundle\Model\ResponseFormat\JsonSchemaResponseFormat;
 use Yomeva\OpenAiBundle\Model\ResponseFormat\JsonSchemaResponseFormatObject;
@@ -20,41 +21,36 @@ use Yomeva\OpenAiBundle\Model\Tool\Function\FunctionObject;
 use Yomeva\OpenAiBundle\Model\Tool\Function\FunctionTool;
 use Yomeva\OpenAiBundle\Model\Tool\ToolResources;
 
-class CreateAssistantPayloadBuilder implements PayloadBuilderInterface
+abstract class AssistantPayloadBuilder implements PayloadBuilderInterface
 {
-    private CreateAssistantPayload $createAssistantPayload;
+    protected AssistantPayload $assistantPayload;
 
-    public function __construct(string $model)
+    public function getPayload(): AssistantPayload
     {
-        $this->createAssistantPayload = new CreateAssistantPayload($model);
-    }
-
-    public function getPayload(): CreateAssistantPayload
-    {
-        return $this->createAssistantPayload;
+        return $this->assistantPayload;
     }
 
     public function setName(string $name): self
     {
-        $this->createAssistantPayload->name = $name;
+        $this->assistantPayload->name = $name;
         return $this;
     }
 
     public function setDescription(string $description): self
     {
-        $this->createAssistantPayload->description = $description;
+        $this->assistantPayload->description = $description;
         return $this;
     }
 
     public function setInstructions(string $instructions): self
     {
-        $this->createAssistantPayload->instructions = $instructions;
+        $this->assistantPayload->instructions = $instructions;
         return $this;
     }
 
     public function addCodeInterpreterTool(): self
     {
-        $this->createAssistantPayload->tools[] = new CodeInterpreterTool();
+        $this->assistantPayload->tools[] = new CodeInterpreterTool();
         return $this;
     }
 
@@ -74,7 +70,7 @@ class CreateAssistantPayloadBuilder implements PayloadBuilderInterface
         ?array $parameters = null,
         ?bool $strict = null
     ): self {
-        $this->createAssistantPayload->tools[] = new FunctionTool(
+        $this->assistantPayload->tools[] = new FunctionTool(
             new FunctionObject(
                 $name,
                 $description,
@@ -96,7 +92,7 @@ class CreateAssistantPayloadBuilder implements PayloadBuilderInterface
 
         // No options passed
         if ($maxNumResults === null && $scoreThreshold === null) {
-            $this->createAssistantPayload->tools[] = new FileSearchTool();
+            $this->assistantPayload->tools[] = new FileSearchTool();
             return $this;
         }
 
@@ -110,7 +106,7 @@ class CreateAssistantPayloadBuilder implements PayloadBuilderInterface
             $fileSearch->rankingOptions = new FileSearchRankingOptions($scoreThreshold, $ranker);
         }
 
-        $this->createAssistantPayload->tools[] = new FileSearchTool($fileSearch);
+        $this->assistantPayload->tools[] = new FileSearchTool($fileSearch);
         return $this;
     }
 
@@ -119,11 +115,11 @@ class CreateAssistantPayloadBuilder implements PayloadBuilderInterface
      */
     public function setCodeInterpreterToolResources(array $fileIds): self
     {
-        if ($this->createAssistantPayload->toolResources === null) {
-            $this->createAssistantPayload->toolResources = new ToolResources();
+        if ($this->assistantPayload->toolResources === null) {
+            $this->assistantPayload->toolResources = new ToolResources();
         }
 
-        $this->createAssistantPayload->toolResources->codeInterpreter = new CodeInterpreterResources($fileIds);
+        $this->assistantPayload->toolResources->codeInterpreter = new CodeInterpreterResources($fileIds);
         return $this;
     }
 
@@ -135,11 +131,11 @@ class CreateAssistantPayloadBuilder implements PayloadBuilderInterface
      */
     public function setFileSearchResources(array $vectorStoreIds = null, array $vectorStores = null): self
     {
-        if ($this->createAssistantPayload->toolResources === null) {
-            $this->createAssistantPayload->toolResources = new ToolResources();
+        if ($this->assistantPayload->toolResources === null) {
+            $this->assistantPayload->toolResources = new ToolResources();
         }
 
-        $this->createAssistantPayload->toolResources->fileSearch = new FileSearchResources(
+        $this->assistantPayload->toolResources->fileSearch = new FileSearchResources(
             $vectorStoreIds,
             $vectorStores
         );
@@ -148,47 +144,47 @@ class CreateAssistantPayloadBuilder implements PayloadBuilderInterface
 
     public function setMetadata(array $metadata): self
     {
-        $this->createAssistantPayload->metadata = $metadata;
+        $this->assistantPayload->metadata = $metadata;
         return $this;
     }
 
     public function addMetadata(string $key, string $value): self
     {
-        if ($this->createAssistantPayload->metadata === null) {
-            $this->createAssistantPayload->metadata = [];
+        if ($this->assistantPayload->metadata === null) {
+            $this->assistantPayload->metadata = [];
         }
 
-        $this->createAssistantPayload->metadata[$key] = $value;
+        $this->assistantPayload->metadata[$key] = $value;
         return $this;
     }
 
     public function setTemperature(float $temperature): self
     {
-        $this->createAssistantPayload->temperature = $temperature;
+        $this->assistantPayload->temperature = $temperature;
         return $this;
     }
 
     public function setTopP(float $topP): self
     {
-        $this->createAssistantPayload->topP = $topP;
+        $this->assistantPayload->topP = $topP;
         return $this;
     }
 
     public function setResponseFormatToAuto(): self
     {
-        $this->createAssistantPayload->responseFormat = ResponseFormat::AUTO;
+        $this->assistantPayload->responseFormat = ResponseFormat::AUTO;
         return $this;
     }
 
     public function setResponseFormatToText(): self
     {
-        $this->createAssistantPayload->responseFormat = new TextResponseFormat();
+        $this->assistantPayload->responseFormat = new TextResponseFormat();
         return $this;
     }
 
     public function setResponseFormatToJsonObject(): self
     {
-        $this->createAssistantPayload->responseFormat = new JsonObjectResponseFormat();
+        $this->assistantPayload->responseFormat = new JsonObjectResponseFormat();
         return $this;
     }
 
@@ -202,7 +198,7 @@ class CreateAssistantPayloadBuilder implements PayloadBuilderInterface
         ?string $description = null,
         ?bool $strict = null
     ): self {
-        $this->createAssistantPayload->responseFormat = new JsonSchemaResponseFormat(
+        $this->assistantPayload->responseFormat = new JsonSchemaResponseFormat(
             new JsonSchemaResponseFormatObject($name, $schema, $description, $strict)
         );
         return $this;

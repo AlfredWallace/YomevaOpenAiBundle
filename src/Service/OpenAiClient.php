@@ -14,6 +14,7 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
 use Yomeva\OpenAiBundle\Builder\SerializerBuilder;
 use Yomeva\OpenAiBundle\Exception\NotImplementedException;
 use Yomeva\OpenAiBundle\Model\Assistant\CreateAssistantPayload;
+use Yomeva\OpenAiBundle\Model\Assistant\ModifyAssistantPayload;
 use Yomeva\OpenAiBundle\Model\File\UploadFilePayload;
 use Yomeva\OpenAiBundle\Model\PayloadInterface;
 
@@ -375,7 +376,7 @@ class OpenAiClient
     /**
      * @throws TransportExceptionInterface
      */
-    public function modifyAssistant(string $assistantId, array $payload): ResponseInterface
+    public function modifyAssistant(string $assistantId, ModifyAssistantPayload $payload): ResponseInterface
     {
         return $this->request('POST', "assistants/$assistantId", $payload);
     }

@@ -2,10 +2,10 @@
 
 namespace Yomeva\OpenAiBundle\Model\Assistant;
 
-class CreateAssistantPayload extends AssistantPayload
+class ModifyAssistantPayload extends AssistantPayload
 {
     public function __construct(
-        public string $model,
+        public ?string $model = null,
         ...$arguments
     ) {
         parent::__construct(...$arguments);

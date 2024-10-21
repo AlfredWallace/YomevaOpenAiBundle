@@ -12,12 +12,12 @@ use Yomeva\OpenAiBundle\Model\ResponseFormat\JsonSchemaResponseFormat;
 use Yomeva\OpenAiBundle\Model\ResponseFormat\ResponseFormat;
 use Yomeva\OpenAiBundle\Model\Tool\Function\FunctionTool;
 
-class AssistantPayloadValidator extends ConstraintValidator
+class AssistantToolsResponseFormatValidator extends ConstraintValidator
 {
     public function validate(mixed $value, Constraint $constraint): void
     {
-        if (!$constraint instanceof AssistantPayload) {
-            throw new UnexpectedTypeException($constraint, AssistantPayload::class);
+        if (!$constraint instanceof AssistantToolsResponseFormat) {
+            throw new UnexpectedTypeException($constraint, AssistantToolsResponseFormat::class);
         }
 
         if (!$value instanceof CreateAssistantPayload) {

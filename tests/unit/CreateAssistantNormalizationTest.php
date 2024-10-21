@@ -3,9 +3,9 @@
 namespace Yomeva\OpenAiBundle\Tests\unit;
 
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
-use Yomeva\OpenAiBundle\Builder\Payload\ChunkingStrategy;
-use Yomeva\OpenAiBundle\Builder\Payload\CreateAssistantPayloadBuilder;
-use Yomeva\OpenAiBundle\Builder\Payload\FileSearchVectorStoreBuilder;
+use Yomeva\OpenAiBundle\Builder\Payload\Assistant\ChunkingStrategy;
+use Yomeva\OpenAiBundle\Builder\Payload\Assistant\CreateAssistantPayloadBuilder;
+use Yomeva\OpenAiBundle\Builder\Payload\Assistant\FileSearchVectorStoreBuilder;
 use Yomeva\OpenAiBundle\Model\Assistant\CreateAssistantPayload;
 use Yomeva\OpenAiBundle\Model\Tool\FileSearch\Ranker;
 

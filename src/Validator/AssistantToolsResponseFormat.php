@@ -5,7 +5,7 @@ namespace Yomeva\OpenAiBundle\Validator;
 use Symfony\Component\Validator\Constraint;
 
 #[\Attribute]
-class AssistantPayload extends Constraint
+class AssistantToolsResponseFormat extends Constraint
 {
     public function __construct(?array $groups = null, mixed $payload = null)
     {
