@@ -4,7 +4,6 @@ namespace Yomeva\OpenAiBundle\Service;
 
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpClient\HttpOptions;
-use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Exception\ValidationFailedException;
 use Symfony\Component\Validator\Validation;
@@ -18,12 +17,25 @@ use Yomeva\OpenAiBundle\Model\Assistant\CreateAssistantPayload;
 use Yomeva\OpenAiBundle\Model\File\UploadFilePayload;
 use Yomeva\OpenAiBundle\Model\PayloadInterface;
 
+/**
+ * This service is the entry point of the bundle. You should inject it wherever you need, and use functions to
+ * make calls to the OpenAI APIs, thanks to the api_key you provided in the configuration.
+ */
 class OpenAiClient
 {
     private HttpClientInterface $httpClient;
     private ValidatorInterface $validator;
     private SerializerInterface $serializer;
 
+    /**
+     * This client initializes :
+     * - a Symfony HTTP client with basic headers needed by the OpenAI APIs and ths OpenAI base URI as default
+     * - a Symfony Validator
+     * - a Symfony Serializer initialized with a dedicated configuration (check the SerializerBuilder)
+     *
+     * An OpenAI API key. This should ideally come from an ENV VAR.
+     * @param string $openAiApiKey
+     */
     public function __construct(
         private readonly string $openAiApiKey,
     ) {
@@ -43,6 +55,21 @@ class OpenAiClient
     }
 
     /**
+     *
+     * The HTTP method sent to the OpenAI APIs
+     * @param string $method
+     *
+     * The URI part appended to the base OpenAI URI
+     * @param string $url
+     *
+     * The payload, or body, sent to the OpenAI APIs.
+     * If the payload is of type PayloadInterface, then it will be validated and normalized before being sent.
+     * If it's an array, it's sent directly without any check.
+     * @param PayloadInterface|array|null $payload
+     *
+     * This response is directly returned from the Symfony HTTP client without any modification.
+     * @return ResponseInterface
+     *
      * @throws TransportExceptionInterface
      */
     private function request(

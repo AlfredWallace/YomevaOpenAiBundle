@@ -10,6 +10,13 @@ use Yomeva\OpenAiBundle\Service\OpenAiClient;
 
 class YomevaOpenAiBundle extends AbstractBundle
 {
+    /**
+     * The configuration contains only one variable, api_key, which must contain one of your OpenAI API key.
+     * The provided key should depend on the environment of your app, which should be matched with an OpenAI project.
+     *
+     * @param DefinitionConfigurator $definition
+     * @return void
+     */
     public function configure(DefinitionConfigurator $definition): void
     {
         $definition->rootNode()
@@ -21,6 +28,14 @@ class YomevaOpenAiBundle extends AbstractBundle
         ;
     }
 
+    /**
+     * The bundle exposes only one service, the client allowing you to easily make calls on the OpenAI APIs.
+     *
+     * @param array $config
+     * @param ContainerConfigurator $container
+     * @param ContainerBuilder $builder
+     * @return void
+     */
     public function loadExtension(array $config, ContainerConfigurator $container, ContainerBuilder $builder): void
     {
         $container->services()

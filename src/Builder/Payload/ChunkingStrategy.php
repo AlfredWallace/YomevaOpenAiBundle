@@ -1,6 +1,6 @@
 <?php
 
-namespace Yomeva\OpenAiBundle\Builder;
+namespace Yomeva\OpenAiBundle\Builder\Payload;
 
 enum ChunkingStrategy: string
 {

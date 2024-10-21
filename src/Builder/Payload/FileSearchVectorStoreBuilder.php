@@ -1,6 +1,6 @@
 <?php
 
-namespace Yomeva\OpenAiBundle\Builder;
+namespace Yomeva\OpenAiBundle\Builder\Payload;
 
 use Yomeva\OpenAiBundle\Model\Chunking\AutoChunkingStrategy;
 use Yomeva\OpenAiBundle\Model\Chunking\StaticChunkingStrategy;
