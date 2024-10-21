@@ -3,35 +3,12 @@
 namespace Yomeva\OpenAiBundle\Tests\unit;
 
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
-use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter;
-use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
-use Symfony\Component\Serializer\Normalizer\BackedEnumNormalizer;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Symfony\Component\Serializer\Serializer;
-use Symfony\Component\Serializer\SerializerInterface;
 use Yomeva\OpenAiBundle\Builder\CreateAssistantPayloadBuilder;
 use Yomeva\OpenAiBundle\Model\Assistant\CreateAssistantPayload;
 use Yomeva\OpenAiBundle\Model\Tool\FileSearch\Ranker;
 
-class NormalizationTest extends YomevaOpenAiTestCase
+class CreateAssistantNormalizationTest extends NormalizationTestCase
 {
-    private static SerializerInterface $serializer;
-
-    public static function setUpBeforeClass(): void
-    {
-        self::$serializer = new Serializer([
-            new BackedEnumNormalizer(),
-            new ObjectNormalizer(
-                nameConverter: new CamelCaseToSnakeCaseNameConverter(),
-                defaultContext: [
-                    AbstractObjectNormalizer::SKIP_NULL_VALUES => true
-                ]
-            )
-        ]);
-
-        parent::setUpBeforeClass();
-    }
-
     /**
      * @dataProvider createAssistantProvider
      * @throws ExceptionInterface
@@ -53,6 +30,7 @@ class NormalizationTest extends YomevaOpenAiTestCase
                     'model' => 'gpt-4o'
                 ],
             ],
+
             'full_test___file_search_vector_store_ids___no_response_format' => [
                 'payload' =>
                     (new CreateAssistantPayloadBuilder('gpt-4o'))
@@ -92,7 +70,6 @@ class NormalizationTest extends YomevaOpenAiTestCase
                         ->setTemperature(1.2)
                         ->setTopP(0.3)
                         ->getPayload(),
-
                 'expected' => [
                     'model' => 'gpt-4o',
                     'name' => 'My new assistant',

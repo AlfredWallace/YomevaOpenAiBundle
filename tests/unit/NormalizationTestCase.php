@@ -3,10 +3,34 @@
 namespace Yomeva\OpenAiBundle\Tests\unit;
 
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter;
+use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
+use Symfony\Component\Serializer\Normalizer\BackedEnumNormalizer;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\SerializerInterface;
 use Yomeva\OpenAiBundle\Exception\RecursionDepthException;
 
-class YomevaOpenAiTestCase extends TestCase
+class NormalizationTestCase extends TestCase
 {
+
+    protected static SerializerInterface $serializer;
+
+    public static function setUpBeforeClass(): void
+    {
+        self::$serializer = new Serializer([
+            new BackedEnumNormalizer(),
+            new ObjectNormalizer(
+                nameConverter: new CamelCaseToSnakeCaseNameConverter(),
+                defaultContext: [
+                    AbstractObjectNormalizer::SKIP_NULL_VALUES => true
+                ]
+            )
+        ]);
+
+        parent::setUpBeforeClass();
+    }
+
     protected function assertEqualsAssociativeArraysRecursive(array $expected, array $actual, int $depth = 0): void
     {
         if ($depth >= RecursionDepthException::MAX_DEPTH) {
