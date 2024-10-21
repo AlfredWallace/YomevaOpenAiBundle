@@ -44,7 +44,6 @@ class OpenAiClient
 
     /**
      * @throws TransportExceptionInterface
-     * @throws ExceptionInterface
      */
     private function request(
         string $method,
@@ -324,7 +323,6 @@ class OpenAiClient
 
     /**
      * @throws TransportExceptionInterface
-     * @throws ExceptionInterface
      */
     public function createAssistant(CreateAssistantPayload $payload): ResponseInterface
     {
