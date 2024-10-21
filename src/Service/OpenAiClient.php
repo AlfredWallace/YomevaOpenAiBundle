@@ -52,35 +52,20 @@ class OpenAiClient
         PayloadInterface|array|null $payload = null
     ): ResponseInterface {
         if ($payload instanceof PayloadInterface) {
-            $violations = $this->getValidator()->validate($payload);
+            $violations = $this->validator->validate($payload);
 
             if (count($violations) > 0) {
                 throw new ValidationFailedException($payload, $violations);
             }
 
-            $normalizedPayload = $this->getSerializer()->normalize($payload);
+            $normalizedPayload = $this->serializer->normalize($payload);
 
-            return $this->getHttpClient()->request($method, $url, ['json' => $normalizedPayload]);
+            return $this->httpClient->request($method, $url, ['json' => $normalizedPayload]);
         } elseif (is_array($payload) && !empty($payload)) {
-            return $this->getHttpClient()->request($method, $url, ['json' => $payload]);
+            return $this->httpClient->request($method, $url, ['json' => $payload]);
         } else {
-            return $this->getHttpClient()->request($method, $url);
+            return $this->httpClient->request($method, $url);
         }
-    }
-
-    public function getHttpClient(): HttpClientInterface
-    {
-        return $this->httpClient;
-    }
-
-    public function getValidator(): ValidatorInterface
-    {
-        return $this->validator;
-    }
-
-    public function getSerializer(): SerializerInterface
-    {
-        return $this->serializer;
     }
 
     ///> AUDIO
