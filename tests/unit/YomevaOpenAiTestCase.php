@@ -9,7 +9,7 @@ class YomevaOpenAiTestCase extends TestCase
 {
     protected function assertEqualsAssociativeArraysRecursive(array $expected, array $actual, int $depth = 0): void
     {
-        if ($depth >= 100) {
+        if ($depth >= RecursionDepthException::MAX_DEPTH) {
             throw new RecursionDepthException();
         }
 
@@ -27,9 +27,11 @@ class YomevaOpenAiTestCase extends TestCase
             // no need to check if all keys of $expected are in $actual because they have the same size
             $this->assertArrayHasKey($key, $expected);
 
-            // if $actual[$key] is an array, then $expected[$key] has to be an array
+            // if $actual[$key] ($value) is an array, then $expected[$key] has to be an array
             if (is_array($value)) {
                 $this->assertIsArray($expected[$key]);
+
+                // /!\ recursive /!\
                 $this->assertEqualsAssociativeArraysRecursive($expected[$key], $value, $depth + 1);
             } else {
                 $this->assertEquals($expected[$key], $value);
