@@ -53,7 +53,7 @@ class NormalizationTest extends YomevaOpenAiTestCase
                     'model' => 'gpt-4o'
                 ],
             ],
-            'full_test' => [
+            'full_test___file_search_vector_store_ids___no_response_format' => [
                 'payload' =>
                     (new CreateAssistantPayloadBuilder('gpt-4o'))
                         ->setName('My new assistant')
@@ -82,6 +82,15 @@ class NormalizationTest extends YomevaOpenAiTestCase
                             ],
                             false
                         )
+                        ->setCodeInterpreterToolResources(["file-id-1", "file-id-2"])
+                        ->setFileSearchResources(["vector-store-id-1", "vector-store-id-2"])
+                        ->setMetadata([
+                            "foo" => "bar",
+                            "hello" => "world"
+                        ])
+                        ->addMetadata("afp", "was here")
+                        ->setTemperature(1.2)
+                        ->setTopP(0.3)
                         ->getPayload(),
 
                 'expected' => [
@@ -127,7 +136,28 @@ class NormalizationTest extends YomevaOpenAiTestCase
                                 'strict' => false
                             ]
                         ],
-                    ]
+                    ],
+                    'tool_resources' => [
+                        'code_interpreter' => [
+                            'file_ids' => [
+                                "file-id-1",
+                                "file-id-2",
+                            ]
+                        ],
+                        "file_search" => [
+                            "vector_store_ids" => [
+                                "vector-store-id-1",
+                                "vector-store-id-2",
+                            ]
+                        ]
+                    ],
+                    "metadata" => [
+                        "foo" => "bar",
+                        "hello" => "world",
+                        "afp" => "was here"
+                    ],
+                    "temperature" => 1.2,
+                    "top_p" => 0.3
                 ]
             ]
         ];

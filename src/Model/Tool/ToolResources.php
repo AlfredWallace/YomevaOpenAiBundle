@@ -15,7 +15,6 @@ class ToolResources
 {
     public function __construct(
         public ?CodeInterpreterResources $codeInterpreter = null,
-
         public ?FileSearchResources $fileSearch = null,
     )
     {
