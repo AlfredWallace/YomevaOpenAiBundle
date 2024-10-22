@@ -13,7 +13,7 @@ use Yomeva\OpenAiBundle\Model\Tool\FileSearch\Ranker;
 class AssistantNormalizationTest extends NormalizationTestCase
 {
     /**
-     * @dataProvider assistantData
+     * @dataProvider assistantDataProvider
      * @throws ExceptionInterface
      */
     public function testCreateAssistant(callable $payloadFunction, array $expected): void
@@ -27,7 +27,7 @@ class AssistantNormalizationTest extends NormalizationTestCase
     }
 
     /**
-     * @dataProvider assistantData
+     * @dataProvider assistantDataProvider
      * @throws ExceptionInterface
      */
     public function testModifyAssistant(callable $payloadFunction, array $expected): void
@@ -40,7 +40,7 @@ class AssistantNormalizationTest extends NormalizationTestCase
         );
     }
 
-    public function assistantData(): array
+    public function assistantDataProvider(): array
     {
         return [
             'basic_test' => [

@@ -9,7 +9,6 @@ use Yomeva\OpenAiBundle\Exception\RecursionDepthException;
 
 class NormalizationTestCase extends TestCase
 {
-
     protected static SerializerInterface $serializer;
 
     public static function setUpBeforeClass(): void
