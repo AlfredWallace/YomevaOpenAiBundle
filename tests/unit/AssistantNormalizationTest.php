@@ -14,7 +14,6 @@ class AssistantNormalizationTest extends NormalizationTestCase
 {
     /**
      * @dataProvider assistantDataProvider
-     * @throws ExceptionInterface
      */
     public function testCreateAssistant(callable $payloadFunction, array $expected): void
     {
@@ -28,7 +27,6 @@ class AssistantNormalizationTest extends NormalizationTestCase
 
     /**
      * @dataProvider assistantDataProvider
-     * @throws ExceptionInterface
      */
     public function testModifyAssistant(callable $payloadFunction, array $expected): void
     {
@@ -44,9 +42,9 @@ class AssistantNormalizationTest extends NormalizationTestCase
     {
         return [
             'basic_test' => [
-                'payloadFunction' => (function (AssistantPayloadBuilder $builder) {
+                'payloadFunction' => function (AssistantPayloadBuilder $builder) {
                     return $builder;
-                }),
+                },
                 'expected' => [
                     'model' => 'gpt-4o'
                 ],
