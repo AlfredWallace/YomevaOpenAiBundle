@@ -4,10 +4,10 @@ namespace Yomeva\OpenAiBundle\Tests\unit;
 
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Yomeva\OpenAiBundle\Builder\Payload\Assistant\AssistantPayloadBuilder;
-use Yomeva\OpenAiBundle\Builder\Payload\Assistant\ChunkingStrategy;
 use Yomeva\OpenAiBundle\Builder\Payload\Assistant\CreateAssistantPayloadBuilder;
-use Yomeva\OpenAiBundle\Builder\Payload\Assistant\FileSearchVectorStoreBuilder;
 use Yomeva\OpenAiBundle\Builder\Payload\Assistant\ModifyAssistantPayloadBuilder;
+use Yomeva\OpenAiBundle\Builder\Payload\Tool\ChunkingStrategy;
+use Yomeva\OpenAiBundle\Builder\Payload\Tool\FileSearchVectorStoreBuilder;
 use Yomeva\OpenAiBundle\Model\Tool\FileSearch\Ranker;
 
 class AssistantNormalizationTest extends NormalizationTestCase

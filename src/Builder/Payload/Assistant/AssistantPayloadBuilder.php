@@ -3,26 +3,27 @@
 namespace Yomeva\OpenAiBundle\Builder\Payload\Assistant;
 
 use Yomeva\OpenAiBundle\Builder\Payload\PayloadBuilderInterface;
+use Yomeva\OpenAiBundle\Builder\Payload\Tool\HasMetadataTrait;
+use Yomeva\OpenAiBundle\Builder\Payload\Tool\HasToolResourcesTrait;
 use Yomeva\OpenAiBundle\Model\Assistant\AssistantPayload;
 use Yomeva\OpenAiBundle\Model\ResponseFormat\JsonObjectResponseFormat;
 use Yomeva\OpenAiBundle\Model\ResponseFormat\JsonSchemaResponseFormat;
 use Yomeva\OpenAiBundle\Model\ResponseFormat\JsonSchemaResponseFormatObject;
 use Yomeva\OpenAiBundle\Model\ResponseFormat\ResponseFormat;
 use Yomeva\OpenAiBundle\Model\ResponseFormat\TextResponseFormat;
-use Yomeva\OpenAiBundle\Model\Tool\CodeInterpreter\CodeInterpreterResources;
 use Yomeva\OpenAiBundle\Model\Tool\CodeInterpreter\CodeInterpreterTool;
 use Yomeva\OpenAiBundle\Model\Tool\FileSearch\FileSearchRankingOptions;
-use Yomeva\OpenAiBundle\Model\Tool\FileSearch\FileSearchResources;
-use Yomeva\OpenAiBundle\Model\Tool\FileSearch\FileSearchResourcesVectorStore;
 use Yomeva\OpenAiBundle\Model\Tool\FileSearch\FileSearchTool;
 use Yomeva\OpenAiBundle\Model\Tool\FileSearch\FileSearchToolOverrides;
 use Yomeva\OpenAiBundle\Model\Tool\FileSearch\Ranker;
 use Yomeva\OpenAiBundle\Model\Tool\Function\FunctionObject;
 use Yomeva\OpenAiBundle\Model\Tool\Function\FunctionTool;
-use Yomeva\OpenAiBundle\Model\Tool\ToolResources;
 
 abstract class AssistantPayloadBuilder implements PayloadBuilderInterface
 {
+    use HasMetadataTrait;
+    use HasToolResourcesTrait;
+
     protected AssistantPayload $assistantPayload;
 
     public function getPayload(): AssistantPayload
@@ -107,54 +108,6 @@ abstract class AssistantPayloadBuilder implements PayloadBuilderInterface
         }
 
         $this->assistantPayload->tools[] = new FileSearchTool($fileSearch);
-        return $this;
-    }
-
-    /**
-     * @param string[] $fileIds
-     */
-    public function setCodeInterpreterToolResources(array $fileIds): self
-    {
-        if ($this->assistantPayload->toolResources === null) {
-            $this->assistantPayload->toolResources = new ToolResources();
-        }
-
-        $this->assistantPayload->toolResources->codeInterpreter = new CodeInterpreterResources($fileIds);
-        return $this;
-    }
-
-    /**
-     * @param string[] $vectorStoreIds
-     * @param FileSearchResourcesVectorStore[] $vectorStores
-     *
-     * Maybe later add a builder for the vector stores inside
-     */
-    public function setFileSearchResources(array $vectorStoreIds = null, array $vectorStores = null): self
-    {
-        if ($this->assistantPayload->toolResources === null) {
-            $this->assistantPayload->toolResources = new ToolResources();
-        }
-
-        $this->assistantPayload->toolResources->fileSearch = new FileSearchResources(
-            $vectorStoreIds,
-            $vectorStores
-        );
-        return $this;
-    }
-
-    public function setMetadata(array $metadata): self
-    {
-        $this->assistantPayload->metadata = $metadata;
-        return $this;
-    }
-
-    public function addMetadata(string $key, string $value): self
-    {
-        if ($this->assistantPayload->metadata === null) {
-            $this->assistantPayload->metadata = [];
-        }
-
-        $this->assistantPayload->metadata[$key] = $value;
         return $this;
     }
 
