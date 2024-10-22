@@ -42,6 +42,39 @@ class ThreadNormalizationTest extends NormalizationTestCase
                     return $builder;
                 },
                 'expected' => []
+            ],
+            'full_test___file_search_vector_store_ids' => [
+                'payloadFunction' => function (ThreadPayloadBuilder $builder) {
+                    return $builder
+                        ->setCodeInterpreterToolResources(["file-id-1", "file-id-2"])
+                        ->setFileSearchResources(["vector-id-1", "vector-id-2"])
+                        ->setMetadata([
+                            "foo" => "bar",
+                            "bar" => "baz"
+                        ])
+                        ->addMetadata("baz", "qux");
+                },
+                'expected' => [
+                    'tool_resources' => [
+                        'code_interpreter' => [
+                            'file_ids' => [
+                                "file-id-1",
+                                "file-id-2",
+                            ]
+                        ],
+                        'file_search' => [
+                            'vector_store_ids' => [
+                                "vector-id-1",
+                                "vector-id-2"
+                            ]
+                        ]
+                    ],
+                    "metadata" => [
+                        "foo" => "bar",
+                        "bar" => "baz",
+                        "baz" => "qux"
+                    ]
+                ]
             ]
         ];
     }
