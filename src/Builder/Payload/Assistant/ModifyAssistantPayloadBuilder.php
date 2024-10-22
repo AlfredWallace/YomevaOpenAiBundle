@@ -10,4 +10,10 @@ class ModifyAssistantPayloadBuilder extends AssistantPayloadBuilder
     {
         $this->assistantPayload = new ModifyAssistantPayload($model);
     }
+
+    public function setModel(string $model): self
+    {
+        $this->assistantPayload->model = $model;
+        return $this;
+    }
 }

@@ -3,75 +3,95 @@
 namespace Yomeva\OpenAiBundle\Tests\unit;
 
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
+use Yomeva\OpenAiBundle\Builder\Payload\Assistant\AssistantPayloadBuilder;
 use Yomeva\OpenAiBundle\Builder\Payload\Assistant\ChunkingStrategy;
 use Yomeva\OpenAiBundle\Builder\Payload\Assistant\CreateAssistantPayloadBuilder;
 use Yomeva\OpenAiBundle\Builder\Payload\Assistant\FileSearchVectorStoreBuilder;
-use Yomeva\OpenAiBundle\Model\Assistant\CreateAssistantPayload;
+use Yomeva\OpenAiBundle\Builder\Payload\Assistant\ModifyAssistantPayloadBuilder;
 use Yomeva\OpenAiBundle\Model\Tool\FileSearch\Ranker;
 
-class CreateAssistantNormalizationTest extends NormalizationTestCase
+class AssistantNormalizationTest extends NormalizationTestCase
 {
     /**
-     * @dataProvider createAssistantProvider
+     * @dataProvider assistantData
      * @throws ExceptionInterface
      */
-    public function testCreateAssistant(CreateAssistantPayload $payload, array $expected): void
+    public function testCreateAssistant(callable $payloadFunction, array $expected): void
     {
         $this->assertEqualsAssociativeArraysRecursive(
             expected: $expected,
-            actual: self::$serializer->normalize($payload)
+            actual: self::$serializer->normalize(
+                $payloadFunction(new CreateAssistantPayloadBuilder('gpt-4o'))->getPayload()
+            ),
         );
     }
 
-    public function createAssistantProvider(): array
+    /**
+     * @dataProvider assistantData
+     * @throws ExceptionInterface
+     */
+    public function testModifyAssistant(callable $payloadFunction, array $expected): void
+    {
+        $this->assertEqualsAssociativeArraysRecursive(
+            expected: $expected,
+            actual: self::$serializer->normalize(
+                $payloadFunction(new ModifyAssistantPayloadBuilder())->setModel('gpt-4o')->getPayload()
+            ),
+        );
+    }
+
+    public function assistantData(): array
     {
         return [
             'basic_test' => [
-                'payload' => (new CreateAssistantPayloadBuilder('gpt-4o'))->getPayload(),
+                'payloadFunction' => (function (AssistantPayloadBuilder $builder) {
+                    return $builder;
+                }),
                 'expected' => [
                     'model' => 'gpt-4o'
                 ],
             ],
 
             'full_test___file_search_vector_store_ids___no_response_format' => [
-                'payload' =>
-                    (new CreateAssistantPayloadBuilder('gpt-4o'))
-                        ->setName('My new assistant')
-                        ->setDescription("Description de l'assistant")
-                        ->setInstructions("Tu es un assistant d'assistanat")
-                        ->addCodeInterpreterTool()
-                        ->addFileSearchTool(25, 0.5, Ranker::Default)
-                        ->addFunctionTool(
-                            'Ma super fonction',
-                            'Elle fait plein de choses',
-                            [
-                                "type" => "object",
-                                "properties" => [
-                                    "arg1" => [
-                                        'type' => 'string',
-                                        'description' => 'Argument 1',
-                                        'enum' => ['one', 'two', 'three']
+                'payloadFunction' =>
+                    function (AssistantPayloadBuilder $builder) {
+                        return $builder
+                            ->setName('My new assistant')
+                            ->setDescription("Description de l'assistant")
+                            ->setInstructions("Tu es un assistant d'assistanat")
+                            ->addCodeInterpreterTool()
+                            ->addFileSearchTool(25, 0.5, Ranker::Default)
+                            ->addFunctionTool(
+                                'Ma super fonction',
+                                'Elle fait plein de choses',
+                                [
+                                    "type" => "object",
+                                    "properties" => [
+                                        "arg1" => [
+                                            'type' => 'string',
+                                            'description' => 'Argument 1',
+                                            'enum' => ['one', 'two', 'three']
+                                        ],
+                                        "arg2" => [
+                                            'type' => 'integer',
+                                            'description' => 'Argument 2',
+                                        ]
                                     ],
-                                    "arg2" => [
-                                        'type' => 'integer',
-                                        'description' => 'Argument 2',
-                                    ]
+                                    "required" => ['arg1'],
+                                    'additionalProperties' => false
                                 ],
-                                "required" => ['arg1'],
-                                'additionalProperties' => false
-                            ],
-                            false
-                        )
-                        ->setCodeInterpreterToolResources(["file-id-1", "file-id-2"])
-                        ->setFileSearchResources(["vector-store-id-1", "vector-store-id-2"])
-                        ->setMetadata([
-                            "foo" => "bar",
-                            "hello" => "world"
-                        ])
-                        ->addMetadata("afp", "was here")
-                        ->setTemperature(1.2)
-                        ->setTopP(0.3)
-                        ->getPayload(),
+                                false
+                            )
+                            ->setCodeInterpreterToolResources(["file-id-1", "file-id-2"])
+                            ->setFileSearchResources(["vector-store-id-1", "vector-store-id-2"])
+                            ->setMetadata([
+                                "foo" => "bar",
+                                "hello" => "world"
+                            ])
+                            ->addMetadata("afp", "was here")
+                            ->setTemperature(1.2)
+                            ->setTopP(0.3);
+                    },
                 'expected' => [
                     'model' => 'gpt-4o',
                     'name' => 'My new assistant',
@@ -142,72 +162,73 @@ class CreateAssistantNormalizationTest extends NormalizationTestCase
 
             'full_test___file_search_vector_stores___no_response_format' => [
                 'payload' =>
-                    (new CreateAssistantPayloadBuilder('gpt-4o'))
-                        ->setName('My new assistant')
-                        ->setDescription("Description de l'assistant")
-                        ->setInstructions("Tu es un assistant d'assistanat")
-                        ->addCodeInterpreterTool()
-                        ->addFileSearchTool(25, 0.5, Ranker::Default)
-                        ->addFunctionTool(
-                            'Ma super fonction',
-                            'Elle fait plein de choses',
-                            [
-                                "type" => "object",
-                                "properties" => [
-                                    "arg1" => [
-                                        'type' => 'string',
-                                        'description' => 'Argument 1',
-                                        'enum' => ['one', 'two', 'three']
+                    function (AssistantPayloadBuilder $builder) {
+                        return $builder
+                            ->setName('My new assistant')
+                            ->setDescription("Description de l'assistant")
+                            ->setInstructions("Tu es un assistant d'assistanat")
+                            ->addCodeInterpreterTool()
+                            ->addFileSearchTool(25, 0.5, Ranker::Default)
+                            ->addFunctionTool(
+                                'Ma super fonction',
+                                'Elle fait plein de choses',
+                                [
+                                    "type" => "object",
+                                    "properties" => [
+                                        "arg1" => [
+                                            'type' => 'string',
+                                            'description' => 'Argument 1',
+                                            'enum' => ['one', 'two', 'three']
+                                        ],
+                                        "arg2" => [
+                                            'type' => 'integer',
+                                            'description' => 'Argument 2',
+                                        ]
                                     ],
-                                    "arg2" => [
-                                        'type' => 'integer',
-                                        'description' => 'Argument 2',
-                                    ]
+                                    "required" => ['arg1'],
+                                    'additionalProperties' => false
                                 ],
-                                "required" => ['arg1'],
-                                'additionalProperties' => false
-                            ],
-                            false
-                        )
-                        ->setCodeInterpreterToolResources(["file-id-1", "file-id-2"])
-                        ->setFileSearchResources(
-                            vectorStores: [
-                                (new FileSearchVectorStoreBuilder())->getVectorStore(),
-                                (new FileSearchVectorStoreBuilder(
-                                    ["file-id-1", "file-id-2"]
-                                ))->getVectorStore(),
-                                (new FileSearchVectorStoreBuilder(
-                                    strategy: ChunkingStrategy::Auto
-                                ))->getVectorStore(),
-                                (new FileSearchVectorStoreBuilder(
-                                    strategy: ChunkingStrategy::Static
-                                ))->getVectorStore(),
-                                (new FileSearchVectorStoreBuilder(
-                                    strategy: ChunkingStrategy::Static,
-                                    maxChunkSizeTokens: 255,
-                                    chunkOverlapTokens: 128
-                                ))->getVectorStore(),
-                                (new FileSearchVectorStoreBuilder(
-                                    fileIds: ["file-id-3", "file-id-4"],
-                                    strategy: ChunkingStrategy::Static,
-                                    maxChunkSizeTokens: 900,
-                                    chunkOverlapTokens: 300,
-                                    metadata: [
-                                        "foo" => "bar",
-                                        "hello" => "world",
-                                        "afp" => "was here"
-                                    ]
-                                ))->getVectorStore()
-                            ]
-                        )
-                        ->setMetadata([
-                            "foo" => "bar",
-                            "hello" => "world"
-                        ])
-                        ->addMetadata("afp", "was here")
-                        ->setTemperature(1.2)
-                        ->setTopP(0.3)
-                        ->getPayload(),
+                                false
+                            )
+                            ->setCodeInterpreterToolResources(["file-id-1", "file-id-2"])
+                            ->setFileSearchResources(
+                                vectorStores: [
+                                    (new FileSearchVectorStoreBuilder())->getVectorStore(),
+                                    (new FileSearchVectorStoreBuilder(
+                                        ["file-id-1", "file-id-2"]
+                                    ))->getVectorStore(),
+                                    (new FileSearchVectorStoreBuilder(
+                                        strategy: ChunkingStrategy::Auto
+                                    ))->getVectorStore(),
+                                    (new FileSearchVectorStoreBuilder(
+                                        strategy: ChunkingStrategy::Static
+                                    ))->getVectorStore(),
+                                    (new FileSearchVectorStoreBuilder(
+                                        strategy: ChunkingStrategy::Static,
+                                        maxChunkSizeTokens: 255,
+                                        chunkOverlapTokens: 128
+                                    ))->getVectorStore(),
+                                    (new FileSearchVectorStoreBuilder(
+                                        fileIds: ["file-id-3", "file-id-4"],
+                                        strategy: ChunkingStrategy::Static,
+                                        maxChunkSizeTokens: 900,
+                                        chunkOverlapTokens: 300,
+                                        metadata: [
+                                            "foo" => "bar",
+                                            "hello" => "world",
+                                            "afp" => "was here"
+                                        ]
+                                    ))->getVectorStore()
+                                ]
+                            )
+                            ->setMetadata([
+                                "foo" => "bar",
+                                "hello" => "world"
+                            ])
+                            ->addMetadata("afp", "was here")
+                            ->setTemperature(1.2)
+                            ->setTopP(0.3);
+                    },
                 'expected' => [
                     'model' => 'gpt-4o',
                     'name' => 'My new assistant',
@@ -313,25 +334,27 @@ class CreateAssistantNormalizationTest extends NormalizationTestCase
             ],
 
             'full_test___response_format_auto' => [
-                'payload' => (new CreateAssistantPayloadBuilder('gpt-4o'))
-                    ->setName('My new assistant')
-                    ->setDescription("Description de l'assistant")
-                    ->setInstructions("Tu es un assistant d'assistanat")
-                    ->addCodeInterpreterTool()
-                    ->addFileSearchTool(25, 0.5, Ranker::Default)
-                    ->addFunctionTool(
-                        name: 'Ma super fonction',
-                        strict: true
-                    )
-                    ->setMetadata([
-                        "foo" => "bar",
-                        "hello" => "world"
-                    ])
-                    ->addMetadata("afp", "was here")
-                    ->setTemperature(1.2)
-                    ->setTopP(0.3)
-                    ->setResponseFormatToAuto()
-                    ->getPayload(),
+                'payload' =>
+                    function (AssistantPayloadBuilder $builder) {
+                        return $builder
+                            ->setName('My new assistant')
+                            ->setDescription("Description de l'assistant")
+                            ->setInstructions("Tu es un assistant d'assistanat")
+                            ->addCodeInterpreterTool()
+                            ->addFileSearchTool(25, 0.5, Ranker::Default)
+                            ->addFunctionTool(
+                                name: 'Ma super fonction',
+                                strict: true
+                            )
+                            ->setMetadata([
+                                "foo" => "bar",
+                                "hello" => "world"
+                            ])
+                            ->addMetadata("afp", "was here")
+                            ->setTemperature(1.2)
+                            ->setTopP(0.3)
+                            ->setResponseFormatToAuto();
+                    },
                 'expected' => [
                     'model' => 'gpt-4o',
                     'name' => 'My new assistant',
@@ -371,25 +394,27 @@ class CreateAssistantNormalizationTest extends NormalizationTestCase
             ],
 
             'full_test___response_format_text' => [
-                'payload' => (new CreateAssistantPayloadBuilder('gpt-4o'))
-                    ->setName('My new assistant')
-                    ->setDescription("Description de l'assistant")
-                    ->setInstructions("Tu es un assistant d'assistanat")
-                    ->addCodeInterpreterTool()
-                    ->addFileSearchTool(25, 0.5, Ranker::Default)
-                    ->addFunctionTool(
-                        name: 'Ma super fonction',
-                        strict: true
-                    )
-                    ->setMetadata([
-                        "foo" => "bar",
-                        "hello" => "world"
-                    ])
-                    ->addMetadata("afp", "was here")
-                    ->setTemperature(1.2)
-                    ->setTopP(0.3)
-                    ->setResponseFormatToText()
-                    ->getPayload(),
+                'payload' =>
+                    function (AssistantPayloadBuilder $builder) {
+                        return $builder
+                            ->setName('My new assistant')
+                            ->setDescription("Description de l'assistant")
+                            ->setInstructions("Tu es un assistant d'assistanat")
+                            ->addCodeInterpreterTool()
+                            ->addFileSearchTool(25, 0.5, Ranker::Default)
+                            ->addFunctionTool(
+                                name: 'Ma super fonction',
+                                strict: true
+                            )
+                            ->setMetadata([
+                                "foo" => "bar",
+                                "hello" => "world"
+                            ])
+                            ->addMetadata("afp", "was here")
+                            ->setTemperature(1.2)
+                            ->setTopP(0.3)
+                            ->setResponseFormatToText();
+                    },
                 'expected' => [
                     'model' => 'gpt-4o',
                     'name' => 'My new assistant',
@@ -431,23 +456,25 @@ class CreateAssistantNormalizationTest extends NormalizationTestCase
             ],
 
             'full_test___response_format_json_object' => [
-                'payload' => (new CreateAssistantPayloadBuilder('gpt-4o'))
-                    ->setName('My new assistant')
-                    ->setDescription("Description de l'assistant")
-                    ->setInstructions("Tu es un assistant d'assistanat")
-                    ->addFunctionTool(
-                        name: 'Ma super fonction',
-                        strict: true
-                    )
-                    ->setMetadata([
-                        "foo" => "bar",
-                        "hello" => "world"
-                    ])
-                    ->addMetadata("afp", "was here")
-                    ->setTemperature(1.2)
-                    ->setTopP(0.3)
-                    ->setResponseFormatToJsonObject()
-                    ->getPayload(),
+                'payload' =>
+                    function (AssistantPayloadBuilder $builder) {
+                        return $builder
+                            ->setName('My new assistant')
+                            ->setDescription("Description de l'assistant")
+                            ->setInstructions("Tu es un assistant d'assistanat")
+                            ->addFunctionTool(
+                                name: 'Ma super fonction',
+                                strict: true
+                            )
+                            ->setMetadata([
+                                "foo" => "bar",
+                                "hello" => "world"
+                            ])
+                            ->addMetadata("afp", "was here")
+                            ->setTemperature(1.2)
+                            ->setTopP(0.3)
+                            ->setResponseFormatToJsonObject();
+                    },
                 'expected' => [
                     'model' => 'gpt-4o',
                     'name' => 'My new assistant',
@@ -476,33 +503,35 @@ class CreateAssistantNormalizationTest extends NormalizationTestCase
             ],
 
             'full_test___response_format_json_schema' => [
-                'payload' => (new CreateAssistantPayloadBuilder('gpt-4o'))
-                    ->setName('My new assistant')
-                    ->setDescription("Description de l'assistant")
-                    ->setInstructions("Tu es un assistant d'assistanat")
-                    ->addFunctionTool(
-                        name: 'Ma super fonction',
-                        strict: true
-                    )
-                    ->setMetadata([
-                        "foo" => "bar",
-                        "hello" => "world"
-                    ])
-                    ->addMetadata("afp", "was here")
-                    ->setTemperature(1.2)
-                    ->setTopP(0.3)
-                    ->setResponseFormatToJsonSchema(
-                        "schema name schema name",
-                        [
-                            "type" => "object",
-                            "properties" => ["arg1" => ["type" => "string"], "arg2" => ["type" => "integer"]],
-                            "required" => ["arg1"],
-                            "additionalProperties" => false
-                        ],
-                        "this is a famous song",
-                        true
-                    )
-                    ->getPayload(),
+                'payload' =>
+                    function (AssistantPayloadBuilder $builder) {
+                        return $builder
+                            ->setName('My new assistant')
+                            ->setDescription("Description de l'assistant")
+                            ->setInstructions("Tu es un assistant d'assistanat")
+                            ->addFunctionTool(
+                                name: 'Ma super fonction',
+                                strict: true
+                            )
+                            ->setMetadata([
+                                "foo" => "bar",
+                                "hello" => "world"
+                            ])
+                            ->addMetadata("afp", "was here")
+                            ->setTemperature(1.2)
+                            ->setTopP(0.3)
+                            ->setResponseFormatToJsonSchema(
+                                "schema name schema name",
+                                [
+                                    "type" => "object",
+                                    "properties" => ["arg1" => ["type" => "string"], "arg2" => ["type" => "integer"]],
+                                    "required" => ["arg1"],
+                                    "additionalProperties" => false
+                                ],
+                                "this is a famous song",
+                                true
+                            );
+                    },
                 'expected' => [
                     'model' => 'gpt-4o',
                     'name' => 'My new assistant',
