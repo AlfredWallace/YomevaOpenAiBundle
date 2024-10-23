@@ -3,7 +3,6 @@
 namespace Yomeva\OpenAiBundle\Model\Assistant;
 
 use Symfony\Component\Validator\Constraints as Assert;
-use Yomeva\OpenAiBundle\Model\PayloadInterface;
 use Yomeva\OpenAiBundle\Model\ResponseFormat\ResponseFormat;
 use Yomeva\OpenAiBundle\Model\Tool\CodeInterpreter\CodeInterpreterTool;
 use Yomeva\OpenAiBundle\Model\Tool\FileSearch\FileSearchTool;
@@ -15,7 +14,7 @@ use Yomeva\OpenAiBundle\Validator\TypedArray;
 
 #[Assert\Cascade]
 #[AssistantToolsResponseFormat]
-abstract class AssistantPayload implements PayloadInterface
+abstract class AssistantPayload implements AssistantPayloadInterface
 {
     public function __construct(
         #[Assert\Length(max: 256)]
