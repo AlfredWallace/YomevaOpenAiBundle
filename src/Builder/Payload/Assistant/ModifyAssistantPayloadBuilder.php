@@ -4,7 +4,7 @@ namespace Yomeva\OpenAiBundle\Builder\Payload\Assistant;
 
 use Yomeva\OpenAiBundle\Model\Assistant\ModifyAssistantPayload;
 
-class ModifyAssistantPayloadBuilder implements AssistantPayloadBuilder
+class ModifyAssistantPayloadBuilder implements AssistantPayloadBuilderInterface
 {
     use AssistantPayloadBuilderTrait;
 

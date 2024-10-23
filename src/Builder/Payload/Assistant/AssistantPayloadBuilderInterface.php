@@ -6,7 +6,7 @@ use Yomeva\OpenAiBundle\Builder\Payload\PayloadBuilderInterface;
 use Yomeva\OpenAiBundle\Model\Assistant\AssistantPayload;
 use Yomeva\OpenAiBundle\Model\Tool\FileSearch\Ranker;
 
-interface AssistantPayloadBuilder extends PayloadBuilderInterface
+interface AssistantPayloadBuilderInterface extends PayloadBuilderInterface
 {
     public function getPayload(): AssistantPayload;
 

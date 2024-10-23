@@ -4,7 +4,7 @@ namespace Yomeva\OpenAiBundle\Tests\unit;
 
 use Yomeva\OpenAiBundle\Builder\Payload\Thread\CreateThreadPayloadBuilder;
 use Yomeva\OpenAiBundle\Builder\Payload\Thread\ModifyThreadPayloadBuilder;
-use Yomeva\OpenAiBundle\Builder\Payload\Thread\ThreadPayloadBuilder;
+use Yomeva\OpenAiBundle\Builder\Payload\Thread\ThreadPayloadBuilderInterface;
 use Yomeva\OpenAiBundle\Builder\Payload\Tool\ChunkingStrategy;
 use Yomeva\OpenAiBundle\Builder\Payload\Tool\FileSearchVectorStoreBuilder;
 
@@ -40,14 +40,14 @@ class ThreadNormalizationTest extends NormalizationTestCase
     {
         return [
             'basic_test' => [
-                'payloadFunction' => function (ThreadPayloadBuilder $builder) {
+                'payloadFunction' => function (ThreadPayloadBuilderInterface $builder) {
                     return $builder;
                 },
                 'expected' => []
             ],
 
             'full_test___file_search_vector_store_ids' => [
-                'payloadFunction' => function (ThreadPayloadBuilder $builder) {
+                'payloadFunction' => function (ThreadPayloadBuilderInterface $builder) {
                     return $builder
                         ->setCodeInterpreterToolResources(["file-id-1", "file-id-2"])
                         ->setFileSearchResources(["vector-id-1", "vector-id-2"])
@@ -81,7 +81,7 @@ class ThreadNormalizationTest extends NormalizationTestCase
             ],
 
             'full_test___file_search_vector_stores' => [
-                'payloadFunction' => function (ThreadPayloadBuilder $builder) {
+                'payloadFunction' => function (ThreadPayloadBuilderInterface $builder) {
                     return $builder
                         ->setCodeInterpreterToolResources(["file-id-3", "file-id-4"])
                         ->setFileSearchResources(

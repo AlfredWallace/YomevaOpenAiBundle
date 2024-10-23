@@ -2,7 +2,7 @@
 
 namespace Yomeva\OpenAiBundle\Tests\unit;
 
-use Yomeva\OpenAiBundle\Builder\Payload\Assistant\AssistantPayloadBuilder;
+use Yomeva\OpenAiBundle\Builder\Payload\Assistant\AssistantPayloadBuilderInterface;
 use Yomeva\OpenAiBundle\Builder\Payload\Assistant\CreateAssistantPayloadBuilder;
 use Yomeva\OpenAiBundle\Builder\Payload\Assistant\ModifyAssistantPayloadBuilder;
 use Yomeva\OpenAiBundle\Builder\Payload\Tool\ChunkingStrategy;
@@ -41,7 +41,7 @@ class AssistantNormalizationTest extends NormalizationTestCase
     {
         return [
             'basic_test' => [
-                'payloadFunction' => function (AssistantPayloadBuilder $builder) {
+                'payloadFunction' => function (AssistantPayloadBuilderInterface $builder) {
                     return $builder;
                 },
                 'expected' => [
@@ -51,7 +51,7 @@ class AssistantNormalizationTest extends NormalizationTestCase
 
             'full_test___file_search_vector_store_ids___no_response_format' => [
                 'payloadFunction' =>
-                    function (AssistantPayloadBuilder $builder) {
+                    function (AssistantPayloadBuilderInterface $builder) {
                         return $builder
                             ->setName('My new assistant')
                             ->setDescription("Description de l'assistant")
@@ -159,7 +159,7 @@ class AssistantNormalizationTest extends NormalizationTestCase
 
             'full_test___file_search_vector_stores___no_response_format' => [
                 'payload' =>
-                    function (AssistantPayloadBuilder $builder) {
+                    function (AssistantPayloadBuilderInterface $builder) {
                         return $builder
                             ->setName('My new assistant')
                             ->setDescription("Description de l'assistant")
@@ -332,7 +332,7 @@ class AssistantNormalizationTest extends NormalizationTestCase
 
             'full_test___response_format_auto' => [
                 'payload' =>
-                    function (AssistantPayloadBuilder $builder) {
+                    function (AssistantPayloadBuilderInterface $builder) {
                         return $builder
                             ->setName('My new assistant')
                             ->setDescription("Description de l'assistant")
@@ -392,7 +392,7 @@ class AssistantNormalizationTest extends NormalizationTestCase
 
             'full_test___response_format_text' => [
                 'payload' =>
-                    function (AssistantPayloadBuilder $builder) {
+                    function (AssistantPayloadBuilderInterface $builder) {
                         return $builder
                             ->setName('My new assistant')
                             ->setDescription("Description de l'assistant")
@@ -454,7 +454,7 @@ class AssistantNormalizationTest extends NormalizationTestCase
 
             'full_test___response_format_json_object' => [
                 'payload' =>
-                    function (AssistantPayloadBuilder $builder) {
+                    function (AssistantPayloadBuilderInterface $builder) {
                         return $builder
                             ->setName('My new assistant')
                             ->setDescription("Description de l'assistant")
@@ -501,7 +501,7 @@ class AssistantNormalizationTest extends NormalizationTestCase
 
             'full_test___response_format_json_schema' => [
                 'payload' =>
-                    function (AssistantPayloadBuilder $builder) {
+                    function (AssistantPayloadBuilderInterface $builder) {
                         return $builder
                             ->setName('My new assistant')
                             ->setDescription("Description de l'assistant")
