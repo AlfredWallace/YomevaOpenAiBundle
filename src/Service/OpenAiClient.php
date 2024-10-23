@@ -17,6 +17,8 @@ use Yomeva\OpenAiBundle\Model\Assistant\CreateAssistantPayload;
 use Yomeva\OpenAiBundle\Model\Assistant\ModifyAssistantPayload;
 use Yomeva\OpenAiBundle\Model\File\UploadFilePayload;
 use Yomeva\OpenAiBundle\Model\PayloadInterface;
+use Yomeva\OpenAiBundle\Model\Thread\CreateThreadPayload;
+use Yomeva\OpenAiBundle\Model\Thread\ModifyThreadPayload;
 
 /**
  * This service is the entry point of the bundle. You should inject it wherever you need, and use functions to
@@ -352,7 +354,7 @@ class OpenAiClient
     /**
      * @throws TransportExceptionInterface
      */
-    public function createAssistant(CreateAssistantPayload $payload): ResponseInterface
+    public function createAssistant(array|CreateAssistantPayload $payload): ResponseInterface
     {
         return $this->request('POST', 'assistants', $payload);
     }
@@ -376,7 +378,7 @@ class OpenAiClient
     /**
      * @throws TransportExceptionInterface
      */
-    public function modifyAssistant(string $assistantId, ModifyAssistantPayload $payload): ResponseInterface
+    public function modifyAssistant(string $assistantId, array|ModifyAssistantPayload $payload): ResponseInterface
     {
         return $this->request('POST', "assistants/$assistantId", $payload);
     }
@@ -397,7 +399,7 @@ class OpenAiClient
     /**
      * @throws TransportExceptionInterface
      */
-    public function createThread(array $payload = []): ResponseInterface
+    public function createThread(array|CreateThreadPayload $payload): ResponseInterface
     {
         return $this->request('POST', 'threads', $payload);
     }
@@ -413,7 +415,7 @@ class OpenAiClient
     /**
      * @throws TransportExceptionInterface
      */
-    public function modifyThread(string $threadId, array $payload): ResponseInterface
+    public function modifyThread(string $threadId, array|ModifyThreadPayload $payload): ResponseInterface
     {
         return $this->request('POST', "threads/$threadId", $payload);
     }
