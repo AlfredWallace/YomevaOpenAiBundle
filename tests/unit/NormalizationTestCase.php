@@ -7,7 +7,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 use Yomeva\OpenAiBundle\Builder\SerializerBuilder;
 use Yomeva\OpenAiBundle\Exception\RecursionDepthException;
 
-class NormalizationTestCase extends TestCase
+abstract class NormalizationTestCase extends TestCase
 {
     protected static SerializerInterface $serializer;
 

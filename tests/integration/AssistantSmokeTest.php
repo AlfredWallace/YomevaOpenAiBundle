@@ -2,7 +2,6 @@
 
 namespace Yomeva\OpenAiBundle\Tests\integration;
 
-use PHPUnit\Framework\TestCase;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
@@ -10,19 +9,9 @@ use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Yomeva\OpenAiBundle\Builder\Payload\Assistant\CreateAssistantPayloadBuilder;
 use Yomeva\OpenAiBundle\Builder\Payload\Assistant\ModifyAssistantPayloadBuilder;
-use Yomeva\OpenAiBundle\Service\OpenAiClient;
 
-final class AssistantSmokeTest extends TestCase
+final class AssistantSmokeTest extends ClientTestCase
 {
-    private static OpenAiClient $client;
-
-    public static function setUpBeforeClass(): void
-    {
-        // this has to be a key for an OpenAI project used for tests where all data can be deleted
-        self::$client = new OpenAiClient($_ENV['OPEN_AI_API_KEY']);
-        parent::setUpBeforeClass();
-    }
-
     /**
      * @throws ClientExceptionInterface
      * @throws DecodingExceptionInterface

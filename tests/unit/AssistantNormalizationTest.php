@@ -9,7 +9,7 @@ use Yomeva\OpenAiBundle\Builder\Payload\Tool\ChunkingStrategy;
 use Yomeva\OpenAiBundle\Builder\Payload\Tool\FileSearchVectorStoreBuilder;
 use Yomeva\OpenAiBundle\Model\Tool\FileSearch\Ranker;
 
-class AssistantNormalizationTest extends NormalizationTestCase
+final class AssistantNormalizationTest extends NormalizationTestCase
 {
     /**
      * @dataProvider assistantDataProvider

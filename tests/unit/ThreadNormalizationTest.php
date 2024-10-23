@@ -8,7 +8,7 @@ use Yomeva\OpenAiBundle\Builder\Payload\Thread\ThreadPayloadBuilderInterface;
 use Yomeva\OpenAiBundle\Builder\Payload\Tool\ChunkingStrategy;
 use Yomeva\OpenAiBundle\Builder\Payload\Tool\FileSearchVectorStoreBuilder;
 
-class ThreadNormalizationTest extends NormalizationTestCase
+final class ThreadNormalizationTest extends NormalizationTestCase
 {
     /**
      * @dataProvider threadDataProvider
