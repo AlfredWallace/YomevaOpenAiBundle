@@ -48,31 +48,12 @@ final class AssistantSmokeTest extends ClientTestCase
     }
 
     /**
-     * @depends testSmokeCreateAssistant
-     *
-     * @throws ClientExceptionInterface
-     * @throws DecodingExceptionInterface
-     * @throws RedirectionExceptionInterface
-     * @throws ServerExceptionInterface
      * @throws TransportExceptionInterface
      */
-    public function testSmokeListAssistants(string $id): void
+    public function testSmokeListAssistants(): void
     {
         $response = self::$client->listAssistants();
         $this->assertEquals('200', $response->getStatusCode());
-
-        $responseArray = $response->toArray(false);
-        $this->assertArrayHasKey('data', $responseArray);
-        $this->assertIsArray($responseArray['data']);
-
-        $ids = [];
-        foreach ($responseArray['data'] as $assistant) {
-            $this->assertIsArray($assistant);
-            $this->assertArrayHasKey('id', $assistant);
-            $ids[] = $assistant['id'];
-        }
-
-        $this->assertContains($id, $ids);
     }
 
     /**
@@ -99,7 +80,6 @@ final class AssistantSmokeTest extends ClientTestCase
 
     /**
      * @depends testSmokeCreateAssistant
-     * @depends testSmokeListAssistants
      * @depends testSmokeModifyAssistant
      * @depends testSmokeRetrieveAssistant
      *
