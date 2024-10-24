@@ -13,6 +13,8 @@ final class AssistantNormalizationTest extends NormalizationTestCase
 {
     /**
      * @dataProvider assistantDataProvider
+     *
+     * @param callable(): CreateAssistantPayloadBuilder $payloadFunction
      */
     public function testCreateAssistant(callable $payloadFunction, array $expected): void
     {
@@ -26,6 +28,8 @@ final class AssistantNormalizationTest extends NormalizationTestCase
 
     /**
      * @dataProvider assistantDataProvider
+     *
+     * @param callable(): ModifyAssistantPayloadBuilder $payloadFunction
      */
     public function testModifyAssistant(callable $payloadFunction, array $expected): void
     {
@@ -41,9 +45,10 @@ final class AssistantNormalizationTest extends NormalizationTestCase
     {
         return [
             'basic_test' => [
-                'payloadFunction' => function (AssistantPayloadBuilderInterface $builder) {
-                    return $builder;
-                },
+                'payloadFunction' =>
+                    function (AssistantPayloadBuilderInterface $builder): AssistantPayloadBuilderInterface {
+                        return $builder;
+                    },
                 'expected' => [
                     'model' => 'gpt-4o'
                 ],
@@ -51,7 +56,7 @@ final class AssistantNormalizationTest extends NormalizationTestCase
 
             'full_test___file_search_vector_store_ids___no_response_format' => [
                 'payloadFunction' =>
-                    function (AssistantPayloadBuilderInterface $builder) {
+                    function (AssistantPayloadBuilderInterface $builder): AssistantPayloadBuilderInterface {
                         return $builder
                             ->setName('My new assistant')
                             ->setDescription("Description de l'assistant")
@@ -159,7 +164,7 @@ final class AssistantNormalizationTest extends NormalizationTestCase
 
             'full_test___file_search_vector_stores___no_response_format' => [
                 'payload' =>
-                    function (AssistantPayloadBuilderInterface $builder) {
+                    function (AssistantPayloadBuilderInterface $builder): AssistantPayloadBuilderInterface {
                         return $builder
                             ->setName('My new assistant')
                             ->setDescription("Description de l'assistant")
@@ -332,7 +337,7 @@ final class AssistantNormalizationTest extends NormalizationTestCase
 
             'full_test___response_format_auto' => [
                 'payload' =>
-                    function (AssistantPayloadBuilderInterface $builder) {
+                    function (AssistantPayloadBuilderInterface $builder): AssistantPayloadBuilderInterface {
                         return $builder
                             ->setName('My new assistant')
                             ->setDescription("Description de l'assistant")
@@ -392,7 +397,7 @@ final class AssistantNormalizationTest extends NormalizationTestCase
 
             'full_test___response_format_text' => [
                 'payload' =>
-                    function (AssistantPayloadBuilderInterface $builder) {
+                    function (AssistantPayloadBuilderInterface $builder): AssistantPayloadBuilderInterface {
                         return $builder
                             ->setName('My new assistant')
                             ->setDescription("Description de l'assistant")
@@ -454,7 +459,7 @@ final class AssistantNormalizationTest extends NormalizationTestCase
 
             'full_test___response_format_json_object' => [
                 'payload' =>
-                    function (AssistantPayloadBuilderInterface $builder) {
+                    function (AssistantPayloadBuilderInterface $builder): AssistantPayloadBuilderInterface {
                         return $builder
                             ->setName('My new assistant')
                             ->setDescription("Description de l'assistant")
@@ -501,7 +506,7 @@ final class AssistantNormalizationTest extends NormalizationTestCase
 
             'full_test___response_format_json_schema' => [
                 'payload' =>
-                    function (AssistantPayloadBuilderInterface $builder) {
+                    function (AssistantPayloadBuilderInterface $builder): AssistantPayloadBuilderInterface {
                         return $builder
                             ->setName('My new assistant')
                             ->setDescription("Description de l'assistant")

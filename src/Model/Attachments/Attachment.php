@@ -1,0 +1,24 @@
+<?php
+
+namespace Yomeva\OpenAiBundle\Model\Attachments;
+
+use Symfony\Component\Validator\Constraints as Assert;
+use Yomeva\OpenAiBundle\Model\Tool\CodeInterpreter\CodeInterpreterTool;
+use Yomeva\OpenAiBundle\Model\Tool\FileSearch\FileSearchBasicTool;
+use Yomeva\OpenAiBundle\Validator\TypedArray;
+
+#[Assert\Cascade]
+class Attachment
+{
+    public function __construct(
+        public ?string $fileId = null,
+
+        #[TypedArray([
+            CodeInterpreterTool::class,
+            FileSearchBasicTool::class
+        ])]
+        public ?array $tools = null,
+    )
+    {
+    }
+}
