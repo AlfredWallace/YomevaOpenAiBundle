@@ -17,7 +17,7 @@ final class ThreadNormalizationTest extends NormalizationTestCase
      */
     public function testCreateThread(callable $payloadFunction, array $expected): void
     {
-        $this->assertEqualsAssociativeArraysRecursive(
+        $this->assertSameArrays(
             expected: $expected,
             actual: self::$serializer->normalize(
                 $payloadFunction(new CreateThreadPayloadBuilder())->getPayload()
@@ -32,7 +32,7 @@ final class ThreadNormalizationTest extends NormalizationTestCase
      */
     public function testModifyThread(callable $payloadFunction, array $expected): void
     {
-        $this->assertEqualsAssociativeArraysRecursive(
+        $this->assertSameArrays(
             expected: $expected,
             actual: self::$serializer->normalize(
                 $payloadFunction(new ModifyThreadPayloadBuilder())->getPayload()

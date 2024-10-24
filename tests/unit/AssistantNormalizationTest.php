@@ -18,7 +18,7 @@ final class AssistantNormalizationTest extends NormalizationTestCase
      */
     public function testCreateAssistant(callable $payloadFunction, array $expected): void
     {
-        $this->assertEqualsAssociativeArraysRecursive(
+        $this->assertSameArrays(
             expected: $expected,
             actual: self::$serializer->normalize(
                 $payloadFunction(new CreateAssistantPayloadBuilder('gpt-4o'))->getPayload()
@@ -33,7 +33,7 @@ final class AssistantNormalizationTest extends NormalizationTestCase
      */
     public function testModifyAssistant(callable $payloadFunction, array $expected): void
     {
-        $this->assertEqualsAssociativeArraysRecursive(
+        $this->assertSameArrays(
             expected: $expected,
             actual: self::$serializer->normalize(
                 $payloadFunction(new ModifyAssistantPayloadBuilder())->setModel('gpt-4o')->getPayload()

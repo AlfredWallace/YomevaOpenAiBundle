@@ -18,7 +18,7 @@ abstract class NormalizationTestCase extends TestCase
         parent::setUpBeforeClass();
     }
 
-    protected function assertEqualsAssociativeArraysRecursive(array $expected, array $actual, int $depth = 0): void
+    protected function assertSameArrays(array $expected, array $actual, int $depth = 0): void
     {
         if ($depth >= RecursionDepthException::MAX_DEPTH) {
             throw new RecursionDepthException();
@@ -43,9 +43,9 @@ abstract class NormalizationTestCase extends TestCase
                 $this->assertIsArray($expected[$key]);
 
                 // /!\ recursive /!\
-                $this->assertEqualsAssociativeArraysRecursive($expected[$key], $value, $depth + 1);
+                $this->assertSameArrays($expected[$key], $value, $depth + 1);
             } else {
-                $this->assertEquals($expected[$key], $value);
+                $this->assertSame($expected[$key], $value);
             }
         }
     }
