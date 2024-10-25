@@ -18,7 +18,7 @@ abstract class NormalizationTestCase extends TestCase
         parent::setUpBeforeClass();
     }
 
-    protected function assertEqualsAssociativeArraysRecursive(array $expected, array $actual, int $depth = 0): void
+    protected function assertSameArrays(array $expected, array $actual, int $depth = 0): void
     {
         if ($depth >= RecursionDepthException::MAX_DEPTH) {
             throw new RecursionDepthException();
@@ -33,20 +33,62 @@ abstract class NormalizationTestCase extends TestCase
             return;
         }
 
+        [$integerIndexedActual, $stringIndexedActual] = $this->splitArrayByKeyType($actual);
+        [$integerIndexedExpected, $stringIndexedExpected] = $this->splitArrayByKeyType($expected);
+
+        $this->assertIntegerIndexedSame($integerIndexedActual, $integerIndexedExpected);
+        $this->assertStringIndexedSame($stringIndexedExpected, $stringIndexedActual, $depth + 1);
+    }
+
+    private function assertIntegerIndexedSame(array $expected, array $actual): void
+    {
+        $this->assertSameSize($expected, $actual);
+
+        $this->sortIntegerIndexed($actual);
+        $this->sortIntegerIndexed($expected);
+
+        $this->assertSame($expected, $actual);
+    }
+
+    private function assertStringIndexedSame(array $expected, array $actual, int $depth): void
+    {
+        $this->assertSameSize($expected, $actual);
+
         foreach ($actual as $key => $value) {
-            // check if all keys of $actual are in $expected
-            // no need to check if all keys of $expected are in $actual because they have the same size
             $this->assertArrayHasKey($key, $expected);
 
-            // if $actual[$key] ($value) is an array, then $expected[$key] has to be an array
             if (is_array($value)) {
                 $this->assertIsArray($expected[$key]);
-
-                // /!\ recursive /!\
-                $this->assertEqualsAssociativeArraysRecursive($expected[$key], $value, $depth + 1);
+                $this->assertStringIndexedSame($value, $expected[$key], $depth + 1);
             } else {
-                $this->assertEquals($expected[$key], $value);
+                $this->assertSame($value, $expected[$key]);
             }
         }
+    }
+
+    private function splitArrayByKeyType(array $array): array
+    {
+        $numeric = [];
+        $assoc = [];
+
+        foreach ($array as $key => $value) {
+            if (is_int($key)) {
+                $numeric[] = $value;
+            } else {
+                $assoc[$key] = $value;
+            }
+        }
+
+        return [$numeric, $assoc];
+    }
+
+    private function sortIntegerIndexed(array &$array, int $depth = 0): void
+    {
+        foreach ($array as &$value) {
+            if (is_array($value)) {
+                $this->sortIntegerIndexed($value, $depth + 1);
+            }
+        }
+        sort($array);
     }
 }
