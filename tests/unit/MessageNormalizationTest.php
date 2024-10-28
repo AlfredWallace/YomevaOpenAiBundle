@@ -54,7 +54,11 @@ final class MessageNormalizationTest extends NormalizationTestCase
                     ->addAttachment("attachment-id-2", useCodeInterpreter: true)
                     ->addAttachment("attachment-id-3", useFileSearch: true)
                     ->addAttachment("attachment-id-4", useCodeInterpreter: true, useFileSearch: true)
-                    // todo metadata
+                    ->setMetadata([
+                        "foo" => "bar",
+                        "afp" => "test"
+                    ])
+                    ->addMetadata("hello", "world")
                     ->getPayload(),
                 'expected' => [
                     'role' => Role::Assistant->value,
@@ -126,6 +130,11 @@ final class MessageNormalizationTest extends NormalizationTestCase
                                 ]
                             ]
                         ],
+                    ],
+                    'metadata' => [
+                        "foo" => "bar",
+                        "afp" => "test",
+                        "hello" => "world"
                     ]
                 ]
             ]
