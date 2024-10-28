@@ -10,7 +10,7 @@ use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Yomeva\OpenAiBundle\Builder\Payload\Thread\CreateThreadPayloadBuilder;
 use Yomeva\OpenAiBundle\Builder\Payload\Thread\ModifyThreadPayloadBuilder;
 
-class ThreadSmokeTest extends ClientTestCase
+final class ThreadSmokeTest extends ClientTestCase
 {
     /**
      * @throws TransportExceptionInterface

@@ -137,6 +137,80 @@ final class MessageNormalizationTest extends NormalizationTestCase
                         "hello" => "world"
                     ]
                 ]
+            ],
+            'full_test___no_content' => [
+                'payload' => (new CreateMessagePayloadBuilder(Role::User))
+                    ->addText("Un message additionnel")
+                    ->addImageFile("file-id-3", Detail::Low)
+                    ->addImageFile("file-id-4", Detail::High)
+                    ->addImageUrl("image-url-3")
+                    ->addImageUrl("image-url-4", Detail::High)
+                    ->addAttachment("attachment-id-5")
+                    ->addAttachment("attachment-id-6", useFileSearch: true)
+                    ->addAttachment("attachment-id-7", useFileSearch: false)
+                    ->setMetadata([
+                        "alpha" => "beta",
+                        "test_key" => "test_value"
+                    ])
+                    ->addMetadata("additional", "data")
+                    ->getPayload(),
+                'expected' => [
+                    'role' => Role::User->value,
+                    'content' => [
+                        [
+                            "type" => "text",
+                            "text" => "Un message additionnel"
+                        ],
+                        [
+                            "type" => "image_file",
+                            "image_file" => [
+                                "file_id" => "file-id-3",
+                                "detail" => Detail::Low->value,
+                            ]
+                        ],
+                        [
+                            "type" => "image_file",
+                            "image_file" => [
+                                "file_id" => "file-id-4",
+                                "detail" => Detail::High->value,
+                            ]
+                        ],
+                        [
+                            "type" => "image_url",
+                            "image_url" => [
+                                "url" => "image-url-3",
+                            ]
+                        ],
+                        [
+                            "type" => "image_url",
+                            "image_url" => [
+                                "url" => "image-url-4",
+                                "detail" => Detail::High->value,
+                            ]
+                        ]
+                    ],
+                    'attachments' => [
+                        [
+                            "file_id" => "attachment-id-5",
+                        ],
+                        [
+                            "file_id" => "attachment-id-6",
+                            "tools" => [
+                                [
+                                    "type" => "file_search",
+                                ]
+                            ]
+                        ],
+                        [
+                            "file_id" => "attachment-id-7"
+                        ]
+                    ],
+                    'metadata' => [
+                        "alpha" => "beta",
+                        "test_key" => "test_value",
+                        "additional" => "data"
+                    ]
+                ]
             ]
         ];
     }
