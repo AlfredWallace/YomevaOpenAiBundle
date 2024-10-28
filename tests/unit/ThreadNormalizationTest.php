@@ -17,10 +17,11 @@ final class ThreadNormalizationTest extends NormalizationTestCase
      */
     public function testCreateThread(callable $payloadFunction, array $expected): void
     {
-        $this->assertEqualsAssociativeArraysRecursive(
-            expected: $expected,
-            actual: self::$serializer->normalize(
-                $payloadFunction(new CreateThreadPayloadBuilder())->getPayload()
+        $this->assertJsonStringEqualsJsonString(
+            expectedJson: json_encode($expected),
+            actualJson: self::$serializer->serialize(
+                $payloadFunction(new CreateThreadPayloadBuilder())->getPayload(),
+                'json'
             ),
         );
     }
@@ -32,10 +33,11 @@ final class ThreadNormalizationTest extends NormalizationTestCase
      */
     public function testModifyThread(callable $payloadFunction, array $expected): void
     {
-        $this->assertEqualsAssociativeArraysRecursive(
-            expected: $expected,
-            actual: self::$serializer->normalize(
-                $payloadFunction(new ModifyThreadPayloadBuilder())->getPayload()
+        $this->assertJsonStringEqualsJsonString(
+            expectedJson: json_encode($expected),
+            actualJson: self::$serializer->serialize(
+                $payloadFunction(new ModifyThreadPayloadBuilder())->getPayload(),
+                'json'
             )
         );
     }

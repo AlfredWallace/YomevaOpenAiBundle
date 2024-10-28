@@ -13,12 +13,12 @@ class Attachment
     public function __construct(
         public ?string $fileId = null,
 
+        #[Assert\Count(max: 2)]
         #[TypedArray([
             CodeInterpreterTool::class,
             FileSearchBasicTool::class
         ])]
         public ?array $tools = null,
-    )
-    {
+    ) {
     }
 }

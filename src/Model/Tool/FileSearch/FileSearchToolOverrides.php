@@ -14,7 +14,6 @@ class FileSearchToolOverrides
         public ?int $maxNumResults = null,
 
         public ?FileSearchRankingOptions $rankingOptions = null
-    )
-    {
+    ) {
     }
 }

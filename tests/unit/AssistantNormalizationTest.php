@@ -18,10 +18,11 @@ final class AssistantNormalizationTest extends NormalizationTestCase
      */
     public function testCreateAssistant(callable $payloadFunction, array $expected): void
     {
-        $this->assertEqualsAssociativeArraysRecursive(
-            expected: $expected,
-            actual: self::$serializer->normalize(
-                $payloadFunction(new CreateAssistantPayloadBuilder('gpt-4o'))->getPayload()
+        $this->assertJsonStringEqualsJsonString(
+            expectedJson: json_encode($expected),
+            actualJson: self::$serializer->serialize(
+                $payloadFunction(new CreateAssistantPayloadBuilder('gpt-4o'))->getPayload(),
+                'json'
             ),
         );
     }
@@ -33,10 +34,11 @@ final class AssistantNormalizationTest extends NormalizationTestCase
      */
     public function testModifyAssistant(callable $payloadFunction, array $expected): void
     {
-        $this->assertEqualsAssociativeArraysRecursive(
-            expected: $expected,
-            actual: self::$serializer->normalize(
-                $payloadFunction(new ModifyAssistantPayloadBuilder())->setModel('gpt-4o')->getPayload()
+        $this->assertJsonStringEqualsJsonString(
+            expectedJson: json_encode($expected),
+            actualJson: self::$serializer->serialize(
+                $payloadFunction(new ModifyAssistantPayloadBuilder())->setModel('gpt-4o')->getPayload(),
+                'json'
             ),
         );
     }
@@ -195,7 +197,8 @@ final class AssistantNormalizationTest extends NormalizationTestCase
                             ->setCodeInterpreterToolResources(["file-id-1", "file-id-2"])
                             ->setFileSearchResources(
                                 vectorStores: [
-                                    (new FileSearchVectorStoreBuilder())->getVectorStore(),
+                                    (new FileSearchVectorStoreBuilder())
+                                        ->getVectorStore(),
                                     (new FileSearchVectorStoreBuilder(
                                         ["file-id-1", "file-id-2"]
                                     ))->getVectorStore(),

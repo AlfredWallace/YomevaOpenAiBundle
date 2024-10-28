@@ -7,6 +7,7 @@ use Yomeva\OpenAiBundle\Service\OpenAiClient;
 
 abstract class ClientTestCase extends TestCase
 {
+    // todo garde fou pas la prod
     protected static OpenAiClient $client;
 
     public static function setUpBeforeClass(): void

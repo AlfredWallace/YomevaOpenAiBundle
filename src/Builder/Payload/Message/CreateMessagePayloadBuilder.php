@@ -3,6 +3,7 @@
 namespace Yomeva\OpenAiBundle\Builder\Payload\Message;
 
 use Yomeva\OpenAiBundle\Builder\Payload\Tool\HasMetadataTrait;
+use Yomeva\OpenAiBundle\Model\Attachments\Attachment;
 use Yomeva\OpenAiBundle\Model\Content\Detail;
 use Yomeva\OpenAiBundle\Model\Content\ImageFile;
 use Yomeva\OpenAiBundle\Model\Content\ImageFileContentPart;
@@ -11,6 +12,8 @@ use Yomeva\OpenAiBundle\Model\Content\ImageUrlContentPart;
 use Yomeva\OpenAiBundle\Model\Content\TextContentPart;
 use Yomeva\OpenAiBundle\Model\Message\CreateMessagePayload;
 use Yomeva\OpenAiBundle\Model\Message\Role;
+use Yomeva\OpenAiBundle\Model\Tool\CodeInterpreter\CodeInterpreterTool;
+use Yomeva\OpenAiBundle\Model\Tool\FileSearch\FileSearchBasicTool;
 
 class CreateMessagePayloadBuilder implements MessagePayloadBuilderInterface
 {
@@ -18,9 +21,9 @@ class CreateMessagePayloadBuilder implements MessagePayloadBuilderInterface
 
     private CreateMessagePayload $createMessagePayload;
 
-    public function __construct(Role $role)
+    public function __construct(Role $role, ?string $content = null)
     {
-        $this->createMessagePayload = new CreateMessagePayload($role, []);
+        $this->createMessagePayload = new CreateMessagePayload($role, $content ?? []);
     }
 
     public function getPayload(): CreateMessagePayload
@@ -55,6 +58,23 @@ class CreateMessagePayloadBuilder implements MessagePayloadBuilderInterface
     {
         $this->switchContentFromStringToArray();
         $this->createMessagePayload->content[] = new ImageUrlContentPart(new ImageUrl($url, $detail));
+        return $this;
+    }
+
+    public function addAttachment(string $fileId, bool $useCodeInterpreter = false, bool $useFileSearch = false): self
+    {
+        $attachment = new Attachment($fileId);
+
+        if ($useCodeInterpreter) {
+            $attachment->tools[] = new CodeInterpreterTool();
+        }
+
+        if ($useFileSearch) {
+            $attachment->tools[] = new FileSearchBasicTool();
+        }
+
+        $this->createMessagePayload->attachments[] = $attachment;
+
         return $this;
     }
 }
