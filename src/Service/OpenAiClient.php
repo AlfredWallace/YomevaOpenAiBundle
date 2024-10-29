@@ -16,6 +16,8 @@ use Yomeva\OpenAiBundle\Exception\NotImplementedException;
 use Yomeva\OpenAiBundle\Model\Assistant\CreateAssistantPayload;
 use Yomeva\OpenAiBundle\Model\Assistant\ModifyAssistantPayload;
 use Yomeva\OpenAiBundle\Model\File\UploadFilePayload;
+use Yomeva\OpenAiBundle\Model\Message\CreateMessagePayload;
+use Yomeva\OpenAiBundle\Model\Message\ModifyMessagePayload;
 use Yomeva\OpenAiBundle\Model\PayloadInterface;
 use Yomeva\OpenAiBundle\Model\Thread\CreateThreadPayload;
 use Yomeva\OpenAiBundle\Model\Thread\ModifyThreadPayload;
@@ -436,7 +438,7 @@ class OpenAiClient
     /**
      * @throws TransportExceptionInterface
      */
-    public function createMessage(string $threadId, array $payload): ResponseInterface
+    public function createMessage(string $threadId, CreateMessagePayload $payload): ResponseInterface
     {
         return $this->request('POST', "threads/$threadId/messages", $payload);
     }
@@ -460,7 +462,7 @@ class OpenAiClient
     /**
      * @throws TransportExceptionInterface
      */
-    public function modifyMessage(string $threadId, string $messageId, array $payload): ResponseInterface
+    public function modifyMessage(string $threadId, string $messageId, ModifyMessagePayload $payload): ResponseInterface
     {
         return $this->request('POST', "threads/$threadId/messages/$messageId", $payload);
     }
