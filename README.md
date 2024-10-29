@@ -42,5 +42,5 @@ yomeva_open_ai:
 
 ### Step 4: Add a staging project OpenAI API key to a .env.test.local file for PHPUnit (data of this OpenAI project can be lost)
 ```.dotenv
-OPEN_AI_API_KEY=your-staging-key
+OPEN_AI_API_TEST_KEY=your-staging-key
 ```
