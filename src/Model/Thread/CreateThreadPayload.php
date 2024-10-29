@@ -2,10 +2,14 @@
 
 namespace Yomeva\OpenAiBundle\Model\Thread;
 
+use Yomeva\OpenAiBundle\Model\Message\CreateMessagePayload;
+use Yomeva\OpenAiBundle\Validator\TypedArray;
+
 class CreateThreadPayload extends ThreadPayload
 {
     public function __construct(
-        // TODO when the models for Message are done
+
+        #[TypedArray([CreateMessagePayload::class])]
         public ?array $messages = null,
         ...$arguments
     ) {

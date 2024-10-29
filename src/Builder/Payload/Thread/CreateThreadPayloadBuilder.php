@@ -10,8 +10,8 @@ class CreateThreadPayloadBuilder implements ThreadPayloadBuilderInterface
 
     private CreateThreadPayload $createThreadPayload;
 
+    /** Use the Yomeva\OpenAiBundle\Builder\Payload\Message\CreateMessagePayloadBuilder helper */
     public function __construct(
-        // TODO when Message models will be done
         ?array $messages = null
     ) {
         $this->createThreadPayload = new CreateThreadPayload($messages);
