@@ -2,9 +2,9 @@
 
 namespace Yomeva\OpenAiBundle\Builder\Payload\Assistant;
 
+use Yomeva\OpenAiBundle\Builder\Payload\HasMetadataInterface;
+use Yomeva\OpenAiBundle\Builder\Payload\HasToolResourcesInterface;
 use Yomeva\OpenAiBundle\Builder\Payload\PayloadBuilderInterface;
-use Yomeva\OpenAiBundle\Builder\Payload\Tool\HasMetadataInterface;
-use Yomeva\OpenAiBundle\Builder\Payload\Tool\HasToolResourcesInterface;
 use Yomeva\OpenAiBundle\Model\Assistant\AssistantPayload;
 use Yomeva\OpenAiBundle\Model\Tool\FileSearch\Ranker;
 

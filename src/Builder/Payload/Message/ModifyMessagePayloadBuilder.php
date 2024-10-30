@@ -2,7 +2,7 @@
 
 namespace Yomeva\OpenAiBundle\Builder\Payload\Message;
 
-use Yomeva\OpenAiBundle\Builder\Payload\Tool\HasMetadataTrait;
+use Yomeva\OpenAiBundle\Builder\Payload\HasMetadataTrait;
 use Yomeva\OpenAiBundle\Model\Message\ModifyMessagePayload;
 
 class ModifyMessagePayloadBuilder implements MessagePayloadBuilderInterface

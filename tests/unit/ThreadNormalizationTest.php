@@ -2,11 +2,11 @@
 
 namespace Yomeva\OpenAiBundle\Tests\unit;
 
+use Yomeva\OpenAiBundle\Builder\Payload\ChunkingStrategy;
+use Yomeva\OpenAiBundle\Builder\Payload\FileSearchVectorStoreBuilder;
 use Yomeva\OpenAiBundle\Builder\Payload\Thread\CreateThreadPayloadBuilder;
 use Yomeva\OpenAiBundle\Builder\Payload\Thread\ModifyThreadPayloadBuilder;
 use Yomeva\OpenAiBundle\Builder\Payload\Thread\ThreadPayloadBuilderInterface;
-use Yomeva\OpenAiBundle\Builder\Payload\Tool\ChunkingStrategy;
-use Yomeva\OpenAiBundle\Builder\Payload\Tool\FileSearchVectorStoreBuilder;
 
 final class ThreadNormalizationTest extends NormalizationTestCase
 {

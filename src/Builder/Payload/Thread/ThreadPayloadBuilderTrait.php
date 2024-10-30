@@ -2,8 +2,8 @@
 
 namespace Yomeva\OpenAiBundle\Builder\Payload\Thread;
 
-use Yomeva\OpenAiBundle\Builder\Payload\Tool\HasMetadataTrait;
-use Yomeva\OpenAiBundle\Builder\Payload\Tool\HasToolResourcesTrait;
+use Yomeva\OpenAiBundle\Builder\Payload\HasMetadataTrait;
+use Yomeva\OpenAiBundle\Builder\Payload\HasToolResourcesTrait;
 
 trait ThreadPayloadBuilderTrait
 {

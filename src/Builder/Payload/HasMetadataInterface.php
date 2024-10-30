@@ -1,6 +1,6 @@
 <?php
 
-namespace Yomeva\OpenAiBundle\Builder\Payload\Tool;
+namespace Yomeva\OpenAiBundle\Builder\Payload;
 
 interface HasMetadataInterface
 {

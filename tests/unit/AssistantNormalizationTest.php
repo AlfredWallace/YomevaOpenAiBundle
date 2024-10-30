@@ -5,8 +5,8 @@ namespace Yomeva\OpenAiBundle\Tests\unit;
 use Yomeva\OpenAiBundle\Builder\Payload\Assistant\AssistantPayloadBuilderInterface;
 use Yomeva\OpenAiBundle\Builder\Payload\Assistant\CreateAssistantPayloadBuilder;
 use Yomeva\OpenAiBundle\Builder\Payload\Assistant\ModifyAssistantPayloadBuilder;
-use Yomeva\OpenAiBundle\Builder\Payload\Tool\ChunkingStrategy;
-use Yomeva\OpenAiBundle\Builder\Payload\Tool\FileSearchVectorStoreBuilder;
+use Yomeva\OpenAiBundle\Builder\Payload\ChunkingStrategy;
+use Yomeva\OpenAiBundle\Builder\Payload\FileSearchVectorStoreBuilder;
 use Yomeva\OpenAiBundle\Model\Tool\FileSearch\Ranker;
 
 final class AssistantNormalizationTest extends NormalizationTestCase

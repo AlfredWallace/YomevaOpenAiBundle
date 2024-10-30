@@ -1,6 +1,6 @@
 <?php
 
-namespace Yomeva\OpenAiBundle\Builder\Payload\Tool;
+namespace Yomeva\OpenAiBundle\Builder\Payload;
 
 use Yomeva\OpenAiBundle\Model\PayloadInterface;
 use Yomeva\OpenAiBundle\Model\ToolResources\CodeInterpreterResources;
@@ -28,7 +28,7 @@ trait HasToolResourcesTrait
     /**
      * @param string[] $vectorStoreIds
      *
-     * To easily build VectorStores, use Yomeva\OpenAiBundle\Builder\Payload\Tool\FileSearchVectorStoreBuilder
+     * To easily build VectorStores, use Yomeva\OpenAiBundle\Builder\Payload\NestedPayloadBuilders\FileSearchVectorStoreBuilder
      * Example:
      * $openAiClient->createAssistant('gpt-4o')
      *     ...

@@ -2,8 +2,8 @@
 
 namespace Yomeva\OpenAiBundle\Builder\Payload\Assistant;
 
-use Yomeva\OpenAiBundle\Builder\Payload\Tool\HasMetadataTrait;
-use Yomeva\OpenAiBundle\Builder\Payload\Tool\HasToolResourcesTrait;
+use Yomeva\OpenAiBundle\Builder\Payload\HasMetadataTrait;
+use Yomeva\OpenAiBundle\Builder\Payload\HasToolResourcesTrait;
 use Yomeva\OpenAiBundle\Model\ResponseFormat\JsonObjectResponseFormat;
 use Yomeva\OpenAiBundle\Model\ResponseFormat\JsonSchemaResponseFormat;
 use Yomeva\OpenAiBundle\Model\ResponseFormat\JsonSchemaResponseFormatObject;
