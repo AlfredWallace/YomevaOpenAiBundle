@@ -13,8 +13,7 @@ class CreateThreadPayloadBuilder implements ThreadPayloadBuilderInterface
     /**
      * If you want to create a Thread with Messages (instead of creating Messages for the Thread afterwards),
      * use the Yomeva\OpenAiBundle\Builder\Payload\Message\CreateMessagePayloadBuilder helper.
-     * Example :
-     *
+     * Example:
      * $openAiClient->createThread(
      *     (new CreateThreadPayloadBuilder(
      *         [

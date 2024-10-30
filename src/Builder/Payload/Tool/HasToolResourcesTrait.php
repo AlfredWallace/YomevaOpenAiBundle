@@ -27,9 +27,32 @@ trait HasToolResourcesTrait
 
     /**
      * @param string[] $vectorStoreIds
-     * @param FileSearchResourcesVectorStore[] $vectorStores
      *
-     * Maybe later add a builder for the vector stores inside
+     * To easily build VectorStores, use Yomeva\OpenAiBundle\Builder\Payload\Tool\FileSearchVectorStoreBuilder
+     * Example:
+     * $openAiClient->createAssistant('gpt-4o')
+     *     ...
+     *     ->setFileSearchResources(
+     *         vectorStores: [
+     *             (new FileSearchVectorStoreBuilder())
+     *                 ->getVectorStore(),
+     *             ...
+     *             (new FileSearchVectorStoreBuilder(
+     *                 fileIds: ["file-id-3", "file-id-4"],
+     *                 strategy: ChunkingStrategy::Static,
+     *                 maxChunkSizeTokens: 900,
+     *                 chunkOverlapTokens: 300,
+     *                 metadata: [
+     *                     "foo" => "bar",
+     *                     "hello" => "world"
+     *                 ]))
+     *                 ->getVectorStore(),
+     *             ...
+     *         ]
+     *     )
+     *     ...
+     *     ->getPayload();
+     * @param FileSearchResourcesVectorStore[] $vectorStores
      */
     public function setFileSearchResources(array $vectorStoreIds = null, array $vectorStores = null): self
     {
