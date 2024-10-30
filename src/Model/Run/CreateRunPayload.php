@@ -5,7 +5,7 @@ namespace Yomeva\OpenAiBundle\Model\Run;
 class CreateRunPayload extends BaseCreateRunPayload
 {
     public function __construct(
-        string $assistantId,
+        public string $assistantId,
         // todo additionalInstructions
         // todo additionalMessages
         ...$arguments,

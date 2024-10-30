@@ -5,7 +5,7 @@ namespace Yomeva\OpenAiBundle\Model\Run;
 class CreateThreadAndRunPayload extends BaseCreateRunPayload
 {
     public function __construct(
-        string $assistantId,
+        public string $assistantId,
         // todo Thread
         // todo toolResources
         ...$arguments
