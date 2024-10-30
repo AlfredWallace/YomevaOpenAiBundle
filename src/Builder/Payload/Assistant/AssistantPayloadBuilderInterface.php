@@ -20,6 +20,20 @@ interface AssistantPayloadBuilderInterface extends PayloadBuilderInterface, HasM
 
     public function addCodeInterpreterTool(): self;
 
+    /**
+     * @param string $name
+     *
+     * @param string|null $description
+     *
+     *  The parameters the functions accepts, described as a JSON Schema object.
+     *  See the guide for examples: https://platform.openai.com/docs/guides/function-calling
+     *  And the JSON Schema reference for documentation about the format: https://json-schema.org/understanding-json-schema
+     * @param array|null $parameters
+     *
+     * @param bool|null $strict
+     *
+     * @return AssistantPayloadBuilderInterface
+     */
     public function addFunctionTool(
         string $name,
         ?string $description = null,
@@ -43,6 +57,20 @@ interface AssistantPayloadBuilderInterface extends PayloadBuilderInterface, HasM
 
     public function setResponseFormatToJsonObject(): self;
 
+    /**
+     * @param string $name
+     *
+     * The parameters the functions accepts, described as a JSON Schema object.
+     * See the guide for examples: https://platform.openai.com/docs/guides/function-calling
+     * And the JSON Schema reference for documentation about the format: https://json-schema.org/understanding-json-schema
+     * @param array $schema
+     *
+     * @param string|null $description
+     *
+     * @param bool|null $strict
+     *
+     * @return AssistantPayloadBuilderInterface
+     */
     public function setResponseFormatToJsonSchema(
         string $name,
         array $schema,

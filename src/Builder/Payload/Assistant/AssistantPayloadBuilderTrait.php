@@ -17,6 +17,7 @@ use Yomeva\OpenAiBundle\Model\Tool\FileSearch\Ranker;
 use Yomeva\OpenAiBundle\Model\Tool\Function\FunctionObject;
 use Yomeva\OpenAiBundle\Model\Tool\Function\FunctionTool;
 
+
 trait AssistantPayloadBuilderTrait
 {
     use HasMetadataTrait;
@@ -49,16 +50,6 @@ trait AssistantPayloadBuilderTrait
     public function addFunctionTool(
         string $name,
         ?string $description = null,
-        /**
-         * OpenAI doc :
-         * The parameters the functions accepts, described as a JSON Schema object.
-         *
-         * See the guide for examples:
-         * https://platform.openai.com/docs/guides/function-calling
-         *
-         * And the JSON Schema reference for documentation about the format :
-         * https://json-schema.org/understanding-json-schema
-         */
         ?array $parameters = null,
         ?bool $strict = null
     ): self {
@@ -134,10 +125,6 @@ trait AssistantPayloadBuilderTrait
 
     public function setResponseFormatToJsonSchema(
         string $name,
-        /**
-         * The schema for the response format, described as a JSON Schema object.
-         * See: https://json-schema.org/understanding-json-schema
-         */
         array $schema,
         ?string $description = null,
         ?bool $strict = null
