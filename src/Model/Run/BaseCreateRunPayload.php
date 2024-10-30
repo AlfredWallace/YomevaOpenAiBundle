@@ -3,9 +3,12 @@
 namespace Yomeva\OpenAiBundle\Model\Run;
 
 use Symfony\Component\Validator\Constraints as Assert;
+use Yomeva\OpenAiBundle\Model\ResponseFormat\ResponseFormat;
 use Yomeva\OpenAiBundle\Model\Tool\CodeInterpreter\CodeInterpreterTool;
 use Yomeva\OpenAiBundle\Model\Tool\FileSearch\FileSearchTool;
 use Yomeva\OpenAiBundle\Model\Tool\Function\FunctionTool;
+use Yomeva\OpenAiBundle\Model\ToolChoice\BasicToolChoice;
+use Yomeva\OpenAiBundle\Model\ToolChoice\ToolChoice;
 use Yomeva\OpenAiBundle\Model\TruncationStrategy\TruncationStrategy;
 use Yomeva\OpenAiBundle\Validator\TypedArray;
 
@@ -39,7 +42,9 @@ abstract class BaseCreateRunPayload extends RunPayload
         public ?int $maxPromptTokens = null,
         public ?int $maxCompletionTokens = null,
         public ?TruncationStrategy $truncationStrategy = null,
-
+        public BasicToolChoice|ToolChoice|null $toolChoice = null,
+        public ?bool $parallelToolCalls = null,
+        public string|ResponseFormat|null $responseFormat = null,
         ...$arguments,
     ) {
         parent::__construct(...$arguments);
