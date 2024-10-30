@@ -14,6 +14,7 @@ abstract class ThreadPayload implements PayloadInterface
         public ?ToolResources $toolResources = null,
 
         #[Metadata]
+        #[Assert\Count(max: 16)]
         public ?array $metadata = null,
     ) {
     }

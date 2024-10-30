@@ -10,7 +10,9 @@ use Yomeva\OpenAiBundle\Validator\Metadata;
 abstract class MessagePayload implements PayloadInterface
 {
     public function __construct(
+
         #[Metadata]
+        #[Assert\Count(max: 16)]
         public ?array $metadata = null
     ) {
     }

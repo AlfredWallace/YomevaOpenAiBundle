@@ -39,8 +39,8 @@ abstract class AssistantPayload implements AssistantPayloadInterface
 
         public ?ToolResources $toolResources = null,
 
-        #[Assert\Count(max: 16)]
         #[Metadata]
+        #[Assert\Count(max: 16)]
         public ?array $metadata = null,
 
         #[Assert\GreaterThanOrEqual(0.0)]
