@@ -7,18 +7,10 @@ use Yomeva\OpenAiBundle\Validator\FileSearchResources as FileSearchResourcesCons
 
 #[Assert\Cascade]
 #[FileSearchResourcesConstraint]
-class FileSearchResources
+class FileSearchResourcesFull extends FileSearchResourcesBase
 {
     public function __construct(
-
-        #[Assert\Count(max: 1)]
-        #[Assert\All(
-            [
-                new Assert\Type('string'),
-                new Assert\NotBlank(),
-            ]
-        )]
-        public ?array $vectorStoreIds = null,
+        ?array $vectorStoreIds = null,
 
         #[Assert\Count(max: 1)]
         #[Assert\All(
@@ -29,5 +21,6 @@ class FileSearchResources
         )]
         public ?array $vectorStores = null
     ) {
+        parent::__construct($vectorStoreIds);
     }
 }

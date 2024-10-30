@@ -7,7 +7,7 @@ use Yomeva\OpenAiBundle\Model\ResponseFormat\ResponseFormat;
 use Yomeva\OpenAiBundle\Model\Tool\CodeInterpreter\CodeInterpreterTool;
 use Yomeva\OpenAiBundle\Model\Tool\FileSearch\FileSearchTool;
 use Yomeva\OpenAiBundle\Model\Tool\Function\FunctionTool;
-use Yomeva\OpenAiBundle\Model\ToolResources\ToolResources;
+use Yomeva\OpenAiBundle\Model\ToolResources\ToolResourcesFull;
 use Yomeva\OpenAiBundle\Validator\AssistantToolsResponseFormat;
 use Yomeva\OpenAiBundle\Validator\Metadata;
 use Yomeva\OpenAiBundle\Validator\TypedArray;
@@ -37,7 +37,7 @@ abstract class AssistantPayload implements AssistantPayloadInterface
         )]
         public ?array $tools = null,
 
-        public ?ToolResources $toolResources = null,
+        public ?ToolResourcesFull $toolResources = null,
 
         #[Metadata]
         #[Assert\Count(max: 16)]

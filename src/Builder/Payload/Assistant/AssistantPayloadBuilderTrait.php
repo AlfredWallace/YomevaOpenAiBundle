@@ -3,7 +3,7 @@
 namespace Yomeva\OpenAiBundle\Builder\Payload\Assistant;
 
 use Yomeva\OpenAiBundle\Builder\Payload\HasMetadataTrait;
-use Yomeva\OpenAiBundle\Builder\Payload\HasToolResourcesTrait;
+use Yomeva\OpenAiBundle\Builder\Payload\HasToolResourcesFullTrait;
 use Yomeva\OpenAiBundle\Model\ResponseFormat\JsonObjectResponseFormat;
 use Yomeva\OpenAiBundle\Model\ResponseFormat\JsonSchemaResponseFormat;
 use Yomeva\OpenAiBundle\Model\ResponseFormat\JsonSchemaResponseFormatObject;
@@ -21,7 +21,7 @@ use Yomeva\OpenAiBundle\Model\Tool\Function\FunctionTool;
 trait AssistantPayloadBuilderTrait
 {
     use HasMetadataTrait;
-    use HasToolResourcesTrait;
+    use HasToolResourcesFullTrait;
 
     public function setName(string $name): self
     {

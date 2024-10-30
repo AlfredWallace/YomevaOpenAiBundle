@@ -3,12 +3,12 @@
 namespace Yomeva\OpenAiBundle\Builder\Payload\Assistant;
 
 use Yomeva\OpenAiBundle\Builder\Payload\HasMetadataInterface;
-use Yomeva\OpenAiBundle\Builder\Payload\HasToolResourcesInterface;
+use Yomeva\OpenAiBundle\Builder\Payload\HasToolResourcesFullInterface;
 use Yomeva\OpenAiBundle\Builder\Payload\PayloadBuilderInterface;
 use Yomeva\OpenAiBundle\Model\Assistant\AssistantPayload;
 use Yomeva\OpenAiBundle\Model\Tool\FileSearch\Ranker;
 
-interface AssistantPayloadBuilderInterface extends PayloadBuilderInterface, HasMetadataInterface, HasToolResourcesInterface
+interface AssistantPayloadBuilderInterface extends PayloadBuilderInterface, HasMetadataInterface, HasToolResourcesFullInterface
 {
     public function getPayload(): AssistantPayload;
 

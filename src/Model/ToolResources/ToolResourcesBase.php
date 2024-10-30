@@ -9,12 +9,11 @@ use Symfony\Component\Validator\Constraints as Assert;
     "!(this.codeInterpreter === null and this.fileSearch === null)",
     message: "You must provide at least one of the two ToolResources."
 )]
-class ToolResources
+abstract class ToolResourcesBase
 {
     public function __construct(
         public ?CodeInterpreterResources $codeInterpreter = null,
-        public ?FileSearchResources $fileSearch = null,
-    )
-    {
+        public ?FileSearchResourcesBase $fileSearch = null,
+    ) {
     }
 }

@@ -6,7 +6,7 @@ use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Exception\UnexpectedValueException;
-use Yomeva\OpenAiBundle\Model\ToolResources\FileSearchResources as FileSearchResourcesModel;
+use Yomeva\OpenAiBundle\Model\ToolResources\FileSearchResourcesFull as FileSearchResourcesModel;
 
 class FileSearchResourcesValidator extends ConstraintValidator
 {

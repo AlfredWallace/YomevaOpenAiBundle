@@ -2,7 +2,7 @@
 
 namespace Yomeva\OpenAiBundle\Builder\Payload;
 
-interface HasToolResourcesInterface
+interface HasToolResourcesFullInterface
 {
     public function setCodeInterpreterToolResources(array $fieldIds): self;
 
