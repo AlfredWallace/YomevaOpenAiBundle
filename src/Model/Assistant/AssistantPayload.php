@@ -7,7 +7,7 @@ use Yomeva\OpenAiBundle\Model\ResponseFormat\ResponseFormat;
 use Yomeva\OpenAiBundle\Model\Tool\CodeInterpreter\CodeInterpreterTool;
 use Yomeva\OpenAiBundle\Model\Tool\FileSearch\FileSearchTool;
 use Yomeva\OpenAiBundle\Model\Tool\Function\FunctionTool;
-use Yomeva\OpenAiBundle\Model\Tool\ToolResources;
+use Yomeva\OpenAiBundle\Model\ToolResources\ToolResources;
 use Yomeva\OpenAiBundle\Validator\AssistantToolsResponseFormat;
 use Yomeva\OpenAiBundle\Validator\Metadata;
 use Yomeva\OpenAiBundle\Validator\TypedArray;

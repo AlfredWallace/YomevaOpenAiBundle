@@ -4,7 +4,7 @@ namespace Yomeva\OpenAiBundle\Model\Thread;
 
 use Symfony\Component\Validator\Constraints as Assert;
 use Yomeva\OpenAiBundle\Model\PayloadInterface;
-use Yomeva\OpenAiBundle\Model\Tool\ToolResources;
+use Yomeva\OpenAiBundle\Model\ToolResources\ToolResources;
 use Yomeva\OpenAiBundle\Validator\Metadata;
 
 #[Assert\Cascade]

@@ -1,6 +1,6 @@
 <?php
 
-namespace Yomeva\OpenAiBundle\Model\Tool\FileSearch;
+namespace Yomeva\OpenAiBundle\Model\ToolResources;
 
 use Symfony\Component\Validator\Constraints as Assert;
 use Yomeva\OpenAiBundle\Validator\FileSearchResources as FileSearchResourcesConstraint;

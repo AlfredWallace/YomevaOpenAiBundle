@@ -1,6 +1,6 @@
 <?php
 
-namespace Yomeva\OpenAiBundle\Model\Tool\CodeInterpreter;
+namespace Yomeva\OpenAiBundle\Model\ToolResources;
 
 use Symfony\Component\Validator\Constraints as Assert;
 

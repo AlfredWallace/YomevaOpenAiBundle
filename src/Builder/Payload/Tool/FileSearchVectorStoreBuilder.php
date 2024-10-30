@@ -5,7 +5,7 @@ namespace Yomeva\OpenAiBundle\Builder\Payload\Tool;
 use Yomeva\OpenAiBundle\Model\Chunking\AutoChunkingStrategy;
 use Yomeva\OpenAiBundle\Model\Chunking\StaticChunkingStrategy;
 use Yomeva\OpenAiBundle\Model\Chunking\StaticChunkingStrategyStatic;
-use Yomeva\OpenAiBundle\Model\Tool\FileSearch\FileSearchResourcesVectorStore;
+use Yomeva\OpenAiBundle\Model\ToolResources\FileSearchResourcesVectorStore;
 
 class FileSearchVectorStoreBuilder
 {

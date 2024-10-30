@@ -3,10 +3,10 @@
 namespace Yomeva\OpenAiBundle\Builder\Payload\Tool;
 
 use Yomeva\OpenAiBundle\Model\PayloadInterface;
-use Yomeva\OpenAiBundle\Model\Tool\CodeInterpreter\CodeInterpreterResources;
-use Yomeva\OpenAiBundle\Model\Tool\FileSearch\FileSearchResources;
-use Yomeva\OpenAiBundle\Model\Tool\FileSearch\FileSearchResourcesVectorStore;
-use Yomeva\OpenAiBundle\Model\Tool\ToolResources;
+use Yomeva\OpenAiBundle\Model\ToolResources\CodeInterpreterResources;
+use Yomeva\OpenAiBundle\Model\ToolResources\FileSearchResources;
+use Yomeva\OpenAiBundle\Model\ToolResources\FileSearchResourcesVectorStore;
+use Yomeva\OpenAiBundle\Model\ToolResources\ToolResources;
 
 trait HasToolResourcesTrait
 {

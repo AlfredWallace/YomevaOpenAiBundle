@@ -1,10 +1,8 @@
 <?php
 
-namespace Yomeva\OpenAiBundle\Model\Tool;
+namespace Yomeva\OpenAiBundle\Model\ToolResources;
 
 use Symfony\Component\Validator\Constraints as Assert;
-use Yomeva\OpenAiBundle\Model\Tool\CodeInterpreter\CodeInterpreterResources;
-use Yomeva\OpenAiBundle\Model\Tool\FileSearch\FileSearchResources;
 
 #[Assert\Cascade]
 #[Assert\Expression(
