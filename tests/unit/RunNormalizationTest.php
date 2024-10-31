@@ -2,8 +2,11 @@
 
 namespace Yomeva\OpenAiBundle\Tests\unit;
 
+use Yomeva\OpenAiBundle\Builder\Payload\Message\CreateMessagePayloadBuilder;
 use Yomeva\OpenAiBundle\Builder\Payload\Run\CreateRunPayloadBuilder;
 use Yomeva\OpenAiBundle\Builder\Payload\Run\ModifyRunPayloadBuilder;
+use Yomeva\OpenAiBundle\Model\Content\Detail;
+use Yomeva\OpenAiBundle\Model\Message\Role;
 use Yomeva\OpenAiBundle\Model\Run\CreateRunPayload;
 
 final class RunNormalizationTest extends NormalizationTestCase
@@ -47,6 +50,111 @@ final class RunNormalizationTest extends NormalizationTestCase
                 'payload' => (new CreateRunPayloadBuilder('assistant-one'))->getPayload(),
                 'expected' => [
                     'assistant_id' => 'assistant-one',
+                ]
+            ],
+            'test_full_base' => [
+                'payload' => (new CreateRunPayloadBuilder('assistant-27'))
+                    ->setModel('gpt-4o')
+                    ->setInstructions("You have to do this and that")
+                    ->setStream(false)
+                    ->setMaxPromptTokens(20000)
+                    ->setMaxCompletionTokens(17000)
+                    ->setParallelToolCalls(true)
+                    ->setMetadata([
+                        "foo" => "bar",
+                        "bar" => "baz",
+                    ])
+                    ->addMetadata("baz", "luhrman")
+                    ->setTemperature(1.7)
+                    ->setTopP(0.2)
+                    ->setAdditionalInstructions("You also have to do this")
+                    ->setAdditionalMessages([
+                        (new CreateMessagePayloadBuilder(Role::User, "part one"))
+                            ->addText("part two")
+                            ->addImageFile("image-file-id", Detail::Low)
+                            ->addImageUrl("image-url", Detail::High)
+                            ->addAttachment("attachment-id", true, true)
+                            ->addAttachment("attachment-id-2")
+                            ->setMetadata([
+                                "plop" => "kikoo"
+                            ])
+                            ->addMetadata("hello", "world")
+                            ->getPayload()
+                    ])
+                    ->addAdditionalMessage(
+                        (new CreateMessagePayloadBuilder(Role::Assistant, "Hello"))
+                        ->getPayload()
+                    )
+                    ->getPayload(),
+                'expected' => [
+                    'assistant_id' => 'assistant-27',
+                    'model' => 'gpt-4o',
+                    'instructions' => 'You have to do this and that',
+                    'stream' => false,
+                    'max_prompt_tokens' => 20000,
+                    'max_completion_tokens' => 17000,
+                    'parallel_tool_calls' => true,
+                    'metadata' => [
+                        "foo" => "bar",
+                        "bar" => "baz",
+                        "baz" => "luhrman",
+                    ],
+                    'temperature' => 1.7,
+                    'top_p' => 0.2,
+                    'additional_instructions' => 'You also have to do this',
+                    'additional_messages' => [
+                        [
+                            "role" => Role::User->value,
+                            "content" => [
+                                [
+                                    "type" => "text",
+                                    "text" => "part one"
+                                ],
+                                [
+                                    "type" => "text",
+                                    "text" => "part two"
+                                ],
+                                [
+                                    "type" => "image_file",
+                                    "image_file" => [
+                                        "file_id" => "image-file-id",
+                                        "detail" => Detail::Low->value,
+                                    ],
+                                ],
+                                [
+                                    "type" => "image_url",
+                                    "image_url" => [
+                                        "url" => "image-url",
+                                        "detail" => Detail::High->value,
+                                    ],
+                                ]
+                            ],
+                            'attachments' => [
+                                [
+                                    "file_id" => "attachment-id",
+                                    "tools" => [
+                                        [
+                                            "type" => "code_interpreter"
+                                        ],
+                                        [
+                                            "type" => "file_search"
+                                        ]
+                                    ]
+                                ],
+                                [
+                                    "file_id" => "attachment-id-2",
+                                ]
+                            ],
+                            "metadata" => [
+                                "plop" => "kikoo",
+                                "hello" => "world"
+                            ]
+                        ],
+                        [
+                            'role' => Role::Assistant->value,
+                            'content' => "Hello"
+                        ]
+                    ]
                 ]
             ]
         ];
