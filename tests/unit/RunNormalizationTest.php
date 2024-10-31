@@ -65,6 +65,56 @@ final class RunNormalizationTest extends NormalizationTestCase
                 'expected' => [
                     'assistant_id' => 'assistant-thread',
                 ]
+            ],
+
+            'test_full_base' => [
+                'payload' => (new CreateThreadAndRunPayloadBuilder('assistant-27'))
+                    ->setModel('gpt-4o')
+                    ->setInstructions("You have to do this and that")
+                    ->setStream(false)
+                    ->setMaxPromptTokens(20000)
+                    ->setMaxCompletionTokens(17000)
+                    ->setParallelToolCalls(true)
+                    ->setMetadata([
+                        "foo" => "bar",
+                        "bar" => "baz",
+                    ])
+                    ->addMetadata("baz", "luhrman")
+                    ->setTemperature(1.7)
+                    ->setTopP(0.2)
+                    ->setCodeInterpreterToolResources(["file-id-1", "file-id-2"])
+                    ->setFileSearchResources(["vector-store-id-1", "vector-store-id-2"])
+                    ->getPayload(),
+                'expected' => [
+                    'assistant_id' => 'assistant-27',
+                    'model' => 'gpt-4o',
+                    'instructions' => 'You have to do this and that',
+                    'stream' => false,
+                    'max_prompt_tokens' => 20000,
+                    'max_completion_tokens' => 17000,
+                    'parallel_tool_calls' => true,
+                    'metadata' => [
+                        "foo" => "bar",
+                        "bar" => "baz",
+                        "baz" => "luhrman",
+                    ],
+                    'temperature' => 1.7,
+                    'top_p' => 0.2,
+                    'tool_resources' => [
+                        'code_interpreter' => [
+                            'file_ids' => [
+                                "file-id-1",
+                                "file-id-2",
+                            ]
+                        ],
+                        "file_search" => [
+                            "vector_store_ids" => [
+                                "vector-store-id-1",
+                                "vector-store-id-2",
+                            ]
+                        ]
+                    ]
+                ]
             ]
         ];
     }
