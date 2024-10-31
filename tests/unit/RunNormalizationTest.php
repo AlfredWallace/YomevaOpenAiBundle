@@ -2,10 +2,13 @@
 
 namespace Yomeva\OpenAiBundle\Tests\unit;
 
+use Yomeva\OpenAiBundle\Builder\Payload\ChunkingStrategy;
+use Yomeva\OpenAiBundle\Builder\Payload\FileSearchVectorStoreBuilder;
 use Yomeva\OpenAiBundle\Builder\Payload\Message\CreateMessagePayloadBuilder;
 use Yomeva\OpenAiBundle\Builder\Payload\Run\CreateRunPayloadBuilder;
 use Yomeva\OpenAiBundle\Builder\Payload\Run\CreateThreadAndRunPayloadBuilder;
 use Yomeva\OpenAiBundle\Builder\Payload\Run\ModifyRunPayloadBuilder;
+use Yomeva\OpenAiBundle\Builder\Payload\Thread\CreateThreadPayloadBuilder;
 use Yomeva\OpenAiBundle\Model\Content\Detail;
 use Yomeva\OpenAiBundle\Model\Message\Role;
 use Yomeva\OpenAiBundle\Model\Run\CreateRunPayload;
@@ -114,6 +117,189 @@ final class RunNormalizationTest extends NormalizationTestCase
                             ]
                         ]
                     ]
+                ]
+            ],
+
+            'test_with_empty_thread' => [
+                'payload' => (new CreateThreadAndRunPayloadBuilder('assistant-thread'))
+                    ->setThread(
+                        (new CreateThreadPayloadBuilder())
+                            ->getPayload()
+                    )
+                    ->getPayload(),
+                'expected' => [
+                    'assistant_id' => 'assistant-thread',
+                    'thread' => [],
+                ]
+            ],
+
+            'test_with_thread_full' => [
+                'payload' => (new CreateThreadAndRunPayloadBuilder('assistant-thread'))
+                    ->setThread(
+                        (new CreateThreadPayloadBuilder([
+                            (new CreateMessagePayloadBuilder(Role::User, "part one"))
+                                ->addText("part two")
+                                ->addImageUrl("image-url", Detail::Low)
+                                ->addImageFile("image-file", Detail::High)
+                                ->addAttachment("attachment-file", true, true)
+                                ->addAttachment("attachment-file-2")
+                                ->setMetadata([
+                                    "hey" => "ho"
+                                ])
+                                ->addMetadata("lucy", "in the sky")
+                                ->getPayload(),
+                            (new CreateMessagePayloadBuilder(Role::Assistant, "Hello."))
+                                ->getPayload()
+                        ]))
+                            // Having both arrays would not pass validation but we're not testing this here
+                            ->setFileSearchResources(
+                                ["vector-store-id-1", "vector-store-id-2"],
+                                [
+                                    (new FileSearchVectorStoreBuilder())
+                                        ->getVectorStore(),
+                                    (new FileSearchVectorStoreBuilder(
+                                        ["file-id-1", "file-id-2"]
+                                    ))->getVectorStore(),
+                                    (new FileSearchVectorStoreBuilder(
+                                        strategy: ChunkingStrategy::Auto
+                                    ))->getVectorStore(),
+                                    (new FileSearchVectorStoreBuilder(
+                                        strategy: ChunkingStrategy::Static
+                                    ))->getVectorStore(),
+                                    (new FileSearchVectorStoreBuilder(
+                                        strategy: ChunkingStrategy::Static,
+                                        maxChunkSizeTokens: 255,
+                                        chunkOverlapTokens: 128
+                                    ))->getVectorStore(),
+                                    (new FileSearchVectorStoreBuilder(
+                                        fileIds: ["file-id-3", "file-id-4"],
+                                        strategy: ChunkingStrategy::Static,
+                                        maxChunkSizeTokens: 900,
+                                        chunkOverlapTokens: 300,
+                                        metadata: [
+                                            "foo" => "bar",
+                                            "hello" => "world",
+                                            "afp" => "was here"
+                                        ]
+                                    ))->getVectorStore()
+                                ]
+                            )
+                            ->setCodeInterpreterToolResources(["file-id-1", "file-id-2"])
+                            ->setMetadata([
+                                "foo" => "bar"
+                            ])
+                            ->addMetadata("bar", "baz")
+                            ->getPayload()
+                    )
+                    ->getPayload(),
+                'expected' => [
+                    'assistant_id' => 'assistant-thread',
+                    'thread' => [
+                        'metadata' => [
+                            "foo" => "bar",
+                            "bar" => "baz",
+                        ],
+                        'messages' => [
+                            [
+                                'role' => 'user',
+                                'content' => [
+                                    [
+                                        "type" => "text",
+                                        "text" => "part one"
+                                    ],
+                                    [
+                                        "type" => "text",
+                                        "text" => "part two"
+                                    ],
+                                    [
+                                        "type" => "image_url",
+                                        "image_url" => [
+                                            "url" => "image-url",
+                                            "detail" => 'low'
+                                        ]
+                                    ],
+                                    [
+                                        "type" => "image_file",
+                                        "image_file" => [
+                                            "file_id" => "image-file",
+                                            "detail" => 'high'
+                                        ]
+                                    ]
+                                ],
+                                'attachments' => [
+                                    [
+                                        "file_id" => "attachment-file",
+                                        "tools" => [
+                                            ["type" => "code_interpreter"],
+                                            ["type" => "file_search"],
+                                        ]
+                                    ],
+                                    [
+                                        "file_id" => "attachment-file-2",
+                                    ]
+                                ],
+                                'metadata' => [
+                                    "hey" => "ho",
+                                    "lucy" => "in the sky"
+                                ]
+                            ],
+                            [
+                                'role' => 'assistant',
+                                'content' => "Hello."
+                            ]
+                        ],
+                        'tool_resources' => [
+                            'code_interpreter' => [
+                                'file_ids' => [
+                                    "file-id-1",
+                                    "file-id-2",
+                                ]
+                            ],
+                            "file_search" => [
+                                "vector_store_ids" => ["vector-store-id-1", "vector-store-id-2"],
+                                "vector_stores" => [
+                                    [],
+                                    ["file_ids" => ["file-id-1", "file-id-2"]],
+                                    [
+                                        "chunking_strategy" =>
+                                            [
+                                                "type" => "auto"
+                                            ]
+                                    ],
+                                    [
+                                        "chunking_strategy" => [
+                                            "type" => "static",
+                                            "static" => []
+                                        ]
+                                    ],
+                                    [
+                                        "chunking_strategy" => [
+                                            "type" => "static",
+                                            "static" => [
+                                                "max_chunk_size_tokens" => 255,
+                                                "chunk_overlap_tokens" => 128
+                                            ]
+                                        ]
+                                    ],
+                                    [
+                                        "file_ids" => ["file-id-3", "file-id-4"],
+                                        "chunking_strategy" => [
+                                            "type" => "static",
+                                            "static" => [
+                                                "max_chunk_size_tokens" => 900,
+                                                "chunk_overlap_tokens" => 300
+                                            ]
+                                        ],
+                                        "metadata" => [
+                                            "foo" => "bar",
+                                            "hello" => "world",
+                                            "afp" => "was here"
+                                        ]
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ],
                 ]
             ]
         ];
