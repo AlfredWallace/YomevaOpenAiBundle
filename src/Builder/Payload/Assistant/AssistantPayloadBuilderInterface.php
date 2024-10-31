@@ -3,6 +3,7 @@
 namespace Yomeva\OpenAiBundle\Builder\Payload\Assistant;
 
 use Yomeva\OpenAiBundle\Builder\Payload\HasMetadataInterface;
+use Yomeva\OpenAiBundle\Builder\Payload\HasResponseFormatInterface;
 use Yomeva\OpenAiBundle\Builder\Payload\HasSamplingInterface;
 use Yomeva\OpenAiBundle\Builder\Payload\HasToolResourcesFullInterface;
 use Yomeva\OpenAiBundle\Builder\Payload\HasToolsInterface;
@@ -14,7 +15,8 @@ interface AssistantPayloadBuilderInterface
             HasMetadataInterface,
             HasToolResourcesFullInterface,
             HasToolsInterface,
-            HasSamplingInterface
+            HasSamplingInterface,
+            HasResponseFormatInterface
 {
     public function getPayload(): AssistantPayload;
 

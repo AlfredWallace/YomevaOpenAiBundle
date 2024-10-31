@@ -3,6 +3,7 @@
 namespace Yomeva\OpenAiBundle\Builder\Payload\Run;
 
 use Yomeva\OpenAiBundle\Builder\Payload\HasMetadataTrait;
+use Yomeva\OpenAiBundle\Builder\Payload\HasResponseFormatTrait;
 use Yomeva\OpenAiBundle\Builder\Payload\HasSamplingTrait;
 use Yomeva\OpenAiBundle\Builder\Payload\HasToolsTrait;
 use Yomeva\OpenAiBundle\Model\Tool\ToolType;
@@ -17,6 +18,7 @@ trait CreateRunBasePayloadBuilderTrait
     use HasMetadataTrait;
     use HasSamplingTrait;
     use HasToolsTrait;
+    use HasResponseFormatTrait;
 
     public function setModel(string $model): self
     {
