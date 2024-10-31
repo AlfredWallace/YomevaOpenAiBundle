@@ -301,7 +301,15 @@ final class RunNormalizationTest extends NormalizationTestCase
                         ]
                     ],
                 ]
-            ]
+            ],
+
+            // todo test with tools
+
+            // todo test with response format
+
+            // todo test with truncation strategy
+
+            // todo test with tool choice
         ];
     }
 
