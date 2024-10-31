@@ -8,6 +8,7 @@ use Yomeva\OpenAiBundle\Builder\Payload\Run\ModifyRunPayloadBuilder;
 use Yomeva\OpenAiBundle\Model\Content\Detail;
 use Yomeva\OpenAiBundle\Model\Message\Role;
 use Yomeva\OpenAiBundle\Model\Run\CreateRunPayload;
+use Yomeva\OpenAiBundle\Model\Tool\FileSearch\Ranker;
 
 final class RunNormalizationTest extends NormalizationTestCase
 {
@@ -52,6 +53,7 @@ final class RunNormalizationTest extends NormalizationTestCase
                     'assistant_id' => 'assistant-one',
                 ]
             ],
+
             'test_full_base' => [
                 'payload' => (new CreateRunPayloadBuilder('assistant-27'))
                     ->setModel('gpt-4o')
@@ -153,6 +155,80 @@ final class RunNormalizationTest extends NormalizationTestCase
                         [
                             'role' => Role::Assistant->value,
                             'content' => "Hello"
+                        ]
+                    ]
+                ]
+            ],
+
+            'test_full_with_tools' => [
+                'payload' => (new CreateRunPayloadBuilder('assistant-31'))
+                    ->addFunctionTool(
+                        "my-function",
+                        "This function is awesome",
+                        [
+                            "type" => "object",
+                            "properties" => [
+                                "param-one" => [
+                                    'type' => 'string',
+                                    'description' => 'This is param one',
+                                    'enum' => ['un', 'dos', 'tres']
+                                ],
+                                "param-two" => [
+                                    'type' => 'integer',
+                                    'description' => 'This is param two',
+                                ]
+                            ],
+                            "required" => ['param-two'],
+                            'additionalProperties' => false
+                        ],
+                        true
+                    )
+                    ->addCodeInterpreterTool()
+                    ->addFileSearchTool(13, 0.4, Ranker::Default)
+                    ->addCodeInterpreterTool()
+                    ->getPayload(),
+                'expected' => [
+                    'assistant_id' => 'assistant-31',
+                    'tools' => [
+                        [
+                            'type' => 'function',
+                            'function' => [
+                                'description' => 'This function is awesome',
+                                'name' => 'my-function',
+                                "parameters" => [
+                                    "type" => "object",
+                                    "properties" => [
+                                        "param-one" => [
+                                            'type' => 'string',
+                                            'description' => 'This is param one',
+                                            'enum' => ['un', 'dos', 'tres']
+                                        ],
+                                        "param-two" => [
+                                            'type' => 'integer',
+                                            'description' => 'This is param two',
+                                        ]
+                                    ],
+                                    "required" => ['param-two'],
+                                    'additionalProperties' => false
+                                ],
+                                'strict' => true
+                            ],
+                        ],
+                        [
+                            'type' => 'code_interpreter',
+                        ],
+                        [
+                            'type' => 'file_search',
+                            'file_search' => [
+                                'max_num_results' => 13,
+                                'ranking_options' => [
+                                    'score_threshold' => 0.4,
+                                    'ranker' => Ranker::Default->value
+                                ]
+                            ]
+                        ],
+                        [
+                            'type' => 'code_interpreter',
                         ]
                     ]
                 ]
