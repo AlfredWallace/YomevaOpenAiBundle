@@ -39,7 +39,7 @@ final class MessageNormalizationTest extends NormalizationTestCase
             'basic_test' => [
                 'payload' => (new CreateMessagePayloadBuilder(Role::User))->getPayload(),
                 'expected' => [
-                    'role' => Role::User->value,
+                    'role' => 'user',
                     'content' => []
                 ]
             ],
@@ -61,7 +61,7 @@ final class MessageNormalizationTest extends NormalizationTestCase
                     ->addMetadata("hello", "world")
                     ->getPayload(),
                 'expected' => [
-                    'role' => Role::Assistant->value,
+                    'role' => 'assistant',
                     'content' => [
                         [
                             "type" => "text",
@@ -75,14 +75,14 @@ final class MessageNormalizationTest extends NormalizationTestCase
                             "type" => "image_file",
                             "image_file" => [
                                 "file_id" => "file-id-1",
-                                "detail" => Detail::High->value,
+                                "detail" => 'high',
                             ]
                         ],
                         [
                             "type" => "image_file",
                             "image_file" => [
                                 "file_id" => "file-id-2",
-                                "detail" => Detail::Auto->value,
+                                "detail" => 'auto',
                             ]
                         ],
                         [
@@ -95,7 +95,7 @@ final class MessageNormalizationTest extends NormalizationTestCase
                             "type" => "image_url",
                             "image_url" => [
                                 "url" => "image-url-2",
-                                "detail" => Detail::Low->value,
+                                "detail" => 'low',
                             ]
                         ]
                     ],
@@ -155,7 +155,7 @@ final class MessageNormalizationTest extends NormalizationTestCase
                     ->addMetadata("additional", "data")
                     ->getPayload(),
                 'expected' => [
-                    'role' => Role::User->value,
+                    'role' => 'user',
                     'content' => [
                         [
                             "type" => "text",
@@ -165,14 +165,14 @@ final class MessageNormalizationTest extends NormalizationTestCase
                             "type" => "image_file",
                             "image_file" => [
                                 "file_id" => "file-id-3",
-                                "detail" => Detail::Low->value,
+                                "detail" => 'low',
                             ]
                         ],
                         [
                             "type" => "image_file",
                             "image_file" => [
                                 "file_id" => "file-id-4",
-                                "detail" => Detail::High->value,
+                                "detail" => 'high',
                             ]
                         ],
                         [
@@ -185,7 +185,7 @@ final class MessageNormalizationTest extends NormalizationTestCase
                             "type" => "image_url",
                             "image_url" => [
                                 "url" => "image-url-4",
-                                "detail" => Detail::High->value,
+                                "detail" => 'high',
                             ]
                         ]
                     ],

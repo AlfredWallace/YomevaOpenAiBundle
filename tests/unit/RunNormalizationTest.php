@@ -106,7 +106,7 @@ final class RunNormalizationTest extends NormalizationTestCase
                     'additional_instructions' => 'You also have to do this',
                     'additional_messages' => [
                         [
-                            "role" => Role::User->value,
+                            "role" => 'user',
                             "content" => [
                                 [
                                     "type" => "text",
@@ -120,14 +120,14 @@ final class RunNormalizationTest extends NormalizationTestCase
                                     "type" => "image_file",
                                     "image_file" => [
                                         "file_id" => "image-file-id",
-                                        "detail" => Detail::Low->value,
+                                        "detail" => 'low',
                                     ],
                                 ],
                                 [
                                     "type" => "image_url",
                                     "image_url" => [
                                         "url" => "image-url",
-                                        "detail" => Detail::High->value,
+                                        "detail" => 'high',
                                     ],
                                 ]
                             ],
@@ -153,7 +153,7 @@ final class RunNormalizationTest extends NormalizationTestCase
                             ]
                         ],
                         [
-                            'role' => Role::Assistant->value,
+                            'role' => 'assistant',
                             'content' => "Hello"
                         ]
                     ]
@@ -223,7 +223,7 @@ final class RunNormalizationTest extends NormalizationTestCase
                                 'max_num_results' => 13,
                                 'ranking_options' => [
                                     'score_threshold' => 0.4,
-                                    'ranker' => Ranker::Default->value
+                                    'ranker' => 'default_2024_08_21'
                                 ]
                             ]
                         ],

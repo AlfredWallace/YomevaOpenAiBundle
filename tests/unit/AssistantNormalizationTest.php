@@ -111,7 +111,7 @@ final class AssistantNormalizationTest extends NormalizationTestCase
                                 'max_num_results' => 25,
                                 'ranking_options' => [
                                     'score_threshold' => 0.5,
-                                    'ranker' => Ranker::Default->value
+                                    'ranker' => 'default_2024_08_21'
                                 ]
                             ]
                         ],
@@ -249,7 +249,7 @@ final class AssistantNormalizationTest extends NormalizationTestCase
                                 'max_num_results' => 25,
                                 'ranking_options' => [
                                     'score_threshold' => 0.5,
-                                    'ranker' => Ranker::Default->value
+                                    'ranker' => 'default_2024_08_21'
                                 ]
                             ]
                         ],
@@ -375,7 +375,7 @@ final class AssistantNormalizationTest extends NormalizationTestCase
                                 'max_num_results' => 25,
                                 'ranking_options' => [
                                     'score_threshold' => 0.5,
-                                    'ranker' => Ranker::Default->value
+                                    'ranker' => 'default_2024_08_21'
                                 ]
                             ]
                         ],
@@ -435,7 +435,7 @@ final class AssistantNormalizationTest extends NormalizationTestCase
                                 'max_num_results' => 25,
                                 'ranking_options' => [
                                     'score_threshold' => 0.5,
-                                    'ranker' => Ranker::Default->value
+                                    'ranker' => 'default_2024_08_21'
                                 ]
                             ]
                         ],
