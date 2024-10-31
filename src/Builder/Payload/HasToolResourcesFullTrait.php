@@ -5,7 +5,6 @@ namespace Yomeva\OpenAiBundle\Builder\Payload;
 use Yomeva\OpenAiBundle\Model\PayloadInterface;
 use Yomeva\OpenAiBundle\Model\ToolResources\CodeInterpreterResources;
 use Yomeva\OpenAiBundle\Model\ToolResources\FileSearchResourcesFull;
-use Yomeva\OpenAiBundle\Model\ToolResources\FileSearchResourcesVectorStore;
 use Yomeva\OpenAiBundle\Model\ToolResources\ToolResourcesFull;
 
 trait HasToolResourcesFullTrait

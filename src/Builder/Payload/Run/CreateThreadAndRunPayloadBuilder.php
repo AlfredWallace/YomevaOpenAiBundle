@@ -3,6 +3,7 @@
 namespace Yomeva\OpenAiBundle\Builder\Payload\Run;
 
 use Yomeva\OpenAiBundle\Model\Run\CreateThreadAndRunPayload;
+use Yomeva\OpenAiBundle\Model\Thread\CreateThreadPayload;
 
 class CreateThreadAndRunPayloadBuilder implements CreateRunBasePayloadBuilderInterface
 {
@@ -18,5 +19,20 @@ class CreateThreadAndRunPayloadBuilder implements CreateRunBasePayloadBuilderInt
     public function getPayload(): CreateThreadAndRunPayload
     {
         return $this->createThreadAndRunPayload;
+    }
+
+    /**
+     * To easily set the Thread, use Yomeva\OpenAiBundle\Builder\Payload\Thread\CreateThreadPayloadBuilder
+     * Example:
+     * $openAiClient->setThread(
+     *     (new CreateThreadPayloadBuilder())
+     *     ...
+     *     ->getPayload()
+     * );
+     */
+    public function setThread(CreateThreadPayload $thread): self
+    {
+        $this->createThreadAndRunPayload->thread = $thread;
+        return $this;
     }
 }
