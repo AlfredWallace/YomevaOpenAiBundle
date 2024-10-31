@@ -2,10 +2,12 @@
 
 namespace Yomeva\OpenAiBundle\Builder\Payload\Message;
 
+use Yomeva\OpenAiBundle\Builder\Payload\HasMetadataInterface;
 use Yomeva\OpenAiBundle\Builder\Payload\HasMetadataTrait;
+use Yomeva\OpenAiBundle\Builder\Payload\PayloadBuilderInterface;
 use Yomeva\OpenAiBundle\Model\Message\ModifyMessagePayload;
 
-class ModifyMessagePayloadBuilder implements MessagePayloadBuilderInterface
+class ModifyMessagePayloadBuilder implements PayloadBuilderInterface, HasMetadataInterface
 {
     use HasMetadataTrait;
 

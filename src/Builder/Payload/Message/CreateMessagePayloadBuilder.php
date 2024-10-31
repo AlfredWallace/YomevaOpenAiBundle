@@ -2,7 +2,9 @@
 
 namespace Yomeva\OpenAiBundle\Builder\Payload\Message;
 
+use Yomeva\OpenAiBundle\Builder\Payload\HasMetadataInterface;
 use Yomeva\OpenAiBundle\Builder\Payload\HasMetadataTrait;
+use Yomeva\OpenAiBundle\Builder\Payload\PayloadBuilderInterface;
 use Yomeva\OpenAiBundle\Model\Attachments\Attachment;
 use Yomeva\OpenAiBundle\Model\Content\Detail;
 use Yomeva\OpenAiBundle\Model\Content\ImageFile;
@@ -15,7 +17,7 @@ use Yomeva\OpenAiBundle\Model\Message\Role;
 use Yomeva\OpenAiBundle\Model\Tool\CodeInterpreter\CodeInterpreterTool;
 use Yomeva\OpenAiBundle\Model\Tool\FileSearch\FileSearchBasicTool;
 
-class CreateMessagePayloadBuilder implements MessagePayloadBuilderInterface
+class CreateMessagePayloadBuilder implements PayloadBuilderInterface, HasMetadataInterface
 {
     use HasMetadataTrait;
 
