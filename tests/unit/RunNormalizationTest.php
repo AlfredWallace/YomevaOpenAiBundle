@@ -4,10 +4,12 @@ namespace Yomeva\OpenAiBundle\Tests\unit;
 
 use Yomeva\OpenAiBundle\Builder\Payload\Message\CreateMessagePayloadBuilder;
 use Yomeva\OpenAiBundle\Builder\Payload\Run\CreateRunPayloadBuilder;
+use Yomeva\OpenAiBundle\Builder\Payload\Run\CreateThreadAndRunPayloadBuilder;
 use Yomeva\OpenAiBundle\Builder\Payload\Run\ModifyRunPayloadBuilder;
 use Yomeva\OpenAiBundle\Model\Content\Detail;
 use Yomeva\OpenAiBundle\Model\Message\Role;
 use Yomeva\OpenAiBundle\Model\Run\CreateRunPayload;
+use Yomeva\OpenAiBundle\Model\Run\CreateThreadAndRunPayload;
 use Yomeva\OpenAiBundle\Model\Tool\FileSearch\Ranker;
 
 final class RunNormalizationTest extends NormalizationTestCase
@@ -42,6 +44,29 @@ final class RunNormalizationTest extends NormalizationTestCase
             expectedJson: json_encode($expected),
             actualJson: self::$serializer->serialize($payload, 'json')
         );
+    }
+
+    /**
+     * @dataProvider createThreadAndRunDataProvider
+     */
+    public function testCreateThreadAndRun(CreateThreadAndRunPayload $payload, array $expected): void
+    {
+        $this->assertJsonStringEqualsJsonString(
+            expectedJson: json_encode($expected),
+            actualJson: self::$serializer->serialize($payload, 'json')
+        );
+    }
+
+    public function createThreadAndRunDataProvider(): array
+    {
+        return [
+            'basic_test' => [
+                'payload' => (new CreateThreadAndRunPayloadBuilder('assistant-thread'))->getPayload(),
+                'expected' => [
+                    'assistant_id' => 'assistant-thread',
+                ]
+            ]
+        ];
     }
 
     public function createRunDataProvider(): array
