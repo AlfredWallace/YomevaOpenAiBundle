@@ -324,6 +324,75 @@ final class RunNormalizationTest extends NormalizationTestCase
                         'last_messages' => 12
                     ],
                 ]
+            ],
+
+            'test_tool_choice_none' => [
+                'payload' => (new CreateRunPayloadBuilder('assistant-33'))
+                    ->setToolChoiceToNone()
+                    ->getPayload(),
+                'expected' => [
+                    'assistant_id' => 'assistant-33',
+                    'tool_choice' => 'none',
+                ]
+            ],
+
+            'test_tool_choice_auto' => [
+                'payload' => (new CreateRunPayloadBuilder('assistant-35'))
+                    ->setToolChoiceToAuto()
+                    ->getPayload(),
+                'expected' => [
+                    'assistant_id' => 'assistant-35',
+                    'tool_choice' => 'auto',
+                ]
+            ],
+
+            'test_tool_choice_required' => [
+                'payload' => (new CreateRunPayloadBuilder('assistant-37'))
+                    ->setToolChoiceToRequired()
+                    ->getPayload(),
+                'expected' => [
+                    'assistant_id' => 'assistant-37',
+                    'tool_choice' => 'required',
+                ]
+            ],
+
+            'test_tool_choice_code_interpreter' => [
+                'payload' => (new CreateRunPayloadBuilder('assistant-37'))
+                    ->setToolChoiceToCodeInterpreter()
+                    ->getPayload(),
+                'expected' => [
+                    'assistant_id' => 'assistant-37',
+                    'tool_choice' => [
+                        'type' => 'code_interpreter',
+                    ],
+                ]
+            ],
+
+            'test_tool_choice_file_search' => [
+                'payload' => (new CreateRunPayloadBuilder('assistant-29'))
+                    ->setToolChoiceToFileSearch()
+                    ->getPayload(),
+                'expected' => [
+                    'assistant_id' => 'assistant-29',
+                    'tool_choice' => [
+                        'type' => 'file_search',
+                    ],
+                ]
+            ],
+
+            'test_tool_choice_function' => [
+                'payload' => (new CreateRunPayloadBuilder('assistant-24'))
+                    ->setToolChoiceToFunction('my-function-name')
+                    ->getPayload(),
+                'expected' => [
+                    'assistant_id' => 'assistant-24',
+                    'tool_choice' => [
+                        'type' => 'function',
+                        'function' => [
+                            'name' => 'my-function-name'
+                        ],
+                    ],
+                ]
             ]
         ];
     }
