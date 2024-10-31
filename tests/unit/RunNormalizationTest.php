@@ -299,6 +299,31 @@ final class RunNormalizationTest extends NormalizationTestCase
                         ]
                     ],
                 ]
+            ],
+
+            'test_truncation_strategy_auto' => [
+                'payload' => (new CreateRunPayloadBuilder('assistant-54'))
+                    ->setTruncationStrategyToAuto()
+                    ->getPayload(),
+                'expected' => [
+                    'assistant_id' => 'assistant-54',
+                    'truncation_strategy' => [
+                        'type' => 'auto',
+                    ],
+                ]
+            ],
+
+            'test_truncation_strategy_last_messages' => [
+                'payload' => (new CreateRunPayloadBuilder('assistant-48'))
+                    ->setTruncationStrategyToLastMessages(12)
+                    ->getPayload(),
+                'expected' => [
+                    'assistant_id' => 'assistant-48',
+                    'truncation_strategy' => [
+                        'type' => 'last_messages',
+                        'last_messages' => 12
+                    ],
+                ]
             ]
         ];
     }
