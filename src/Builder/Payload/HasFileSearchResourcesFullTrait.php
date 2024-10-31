@@ -2,11 +2,14 @@
 
 namespace Yomeva\OpenAiBundle\Builder\Payload;
 
+use Yomeva\OpenAiBundle\Model\PayloadInterface;
 use Yomeva\OpenAiBundle\Model\ToolResources\FileSearchResourcesFull;
 use Yomeva\OpenAiBundle\Model\ToolResources\ToolResourcesFull;
 
 trait HasFileSearchResourcesFullTrait
 {
+    abstract public function getPayload(): PayloadInterface;
+
     /**
      * @inheritDoc
      */

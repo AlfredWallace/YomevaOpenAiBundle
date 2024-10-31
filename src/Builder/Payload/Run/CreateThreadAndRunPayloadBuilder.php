@@ -2,12 +2,21 @@
 
 namespace Yomeva\OpenAiBundle\Builder\Payload\Run;
 
+use Yomeva\OpenAiBundle\Builder\Payload\HasCodeInterpreterResourcesInterface;
+use Yomeva\OpenAiBundle\Builder\Payload\HasCodeInterpreterResourcesTrait;
+use Yomeva\OpenAiBundle\Builder\Payload\HasFileSearchResourcesSimpleInterface;
+use Yomeva\OpenAiBundle\Builder\Payload\HasFileSearchResourcesSimpleTrait;
 use Yomeva\OpenAiBundle\Model\Run\CreateThreadAndRunPayload;
 use Yomeva\OpenAiBundle\Model\Thread\CreateThreadPayload;
 
-class CreateThreadAndRunPayloadBuilder implements CreateRunBasePayloadBuilderInterface
+class CreateThreadAndRunPayloadBuilder
+    implements CreateRunBasePayloadBuilderInterface,
+               HasCodeInterpreterResourcesInterface,
+               HasFileSearchResourcesSimpleInterface
 {
     use CreateRunBasePayloadBuilderTrait;
+    use HasCodeInterpreterResourcesTrait;
+    use HasFileSearchResourcesSimpleTrait;
 
     private CreateThreadAndRunPayload $createThreadAndRunPayload;
 
