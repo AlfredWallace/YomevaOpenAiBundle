@@ -3,6 +3,7 @@
 namespace Yomeva\OpenAiBundle\Builder\Payload\Assistant;
 
 use Yomeva\OpenAiBundle\Builder\Payload\HasMetadataTrait;
+use Yomeva\OpenAiBundle\Builder\Payload\HasSamplingTrait;
 use Yomeva\OpenAiBundle\Builder\Payload\HasToolResourcesFullTrait;
 use Yomeva\OpenAiBundle\Builder\Payload\HasToolsTrait;
 use Yomeva\OpenAiBundle\Model\ResponseFormat\JsonObjectResponseFormat;
@@ -15,6 +16,7 @@ use Yomeva\OpenAiBundle\Model\ResponseFormat\TextResponseFormat;
 trait AssistantPayloadBuilderTrait
 {
     use HasMetadataTrait;
+    use HasSamplingTrait;
     use HasToolResourcesFullTrait;
     use HasToolsTrait;
 
@@ -33,18 +35,6 @@ trait AssistantPayloadBuilderTrait
     public function setInstructions(string $instructions): self
     {
         $this->getPayload()->instructions = $instructions;
-        return $this;
-    }
-
-    public function setTemperature(float $temperature): self
-    {
-        $this->getPayload()->temperature = $temperature;
-        return $this;
-    }
-
-    public function setTopP(float $topP): self
-    {
-        $this->getPayload()->topP = $topP;
         return $this;
     }
 

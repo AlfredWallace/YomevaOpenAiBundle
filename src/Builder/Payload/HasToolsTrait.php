@@ -2,6 +2,7 @@
 
 namespace Yomeva\OpenAiBundle\Builder\Payload;
 
+use Yomeva\OpenAiBundle\Model\PayloadInterface;
 use Yomeva\OpenAiBundle\Model\Tool\CodeInterpreter\CodeInterpreterTool;
 use Yomeva\OpenAiBundle\Model\Tool\FileSearch\FileSearchRankingOptions;
 use Yomeva\OpenAiBundle\Model\Tool\FileSearch\FileSearchTool;
@@ -12,6 +13,8 @@ use Yomeva\OpenAiBundle\Model\Tool\Function\FunctionTool;
 
 trait HasToolsTrait
 {
+    abstract public function getPayload(): PayloadInterface;
+
     public function addCodeInterpreterTool(): self
     {
         $this->getPayload()->tools[] = new CodeInterpreterTool();

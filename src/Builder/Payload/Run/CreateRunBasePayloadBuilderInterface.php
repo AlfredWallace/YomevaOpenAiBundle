@@ -3,10 +3,15 @@
 namespace Yomeva\OpenAiBundle\Builder\Payload\Run;
 
 use Yomeva\OpenAiBundle\Builder\Payload\HasMetadataInterface;
+use Yomeva\OpenAiBundle\Builder\Payload\HasSamplingInterface;
 use Yomeva\OpenAiBundle\Builder\Payload\HasToolsInterface;
 use Yomeva\OpenAiBundle\Builder\Payload\PayloadBuilderInterface;
 
-interface CreateRunBasePayloadBuilderInterface extends PayloadBuilderInterface, HasMetadataInterface, HasToolsInterface
+interface CreateRunBasePayloadBuilderInterface
+    extends PayloadBuilderInterface,
+            HasMetadataInterface,
+            HasToolsInterface,
+            HasSamplingInterface
 {
     public function setModel(string $model): self;
 
