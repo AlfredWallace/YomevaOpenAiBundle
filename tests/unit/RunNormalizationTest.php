@@ -85,7 +85,7 @@ final class RunNormalizationTest extends NormalizationTestCase
                     ])
                     ->addAdditionalMessage(
                         (new CreateMessagePayloadBuilder(Role::Assistant, "Hello"))
-                        ->getPayload()
+                            ->getPayload()
                     )
                     ->getPayload(),
                 'expected' => [
@@ -160,7 +160,7 @@ final class RunNormalizationTest extends NormalizationTestCase
                 ]
             ],
 
-            'test_full_with_tools' => [
+            'test_with_tools' => [
                 'payload' => (new CreateRunPayloadBuilder('assistant-31'))
                     ->addFunctionTool(
                         "my-function",
@@ -231,6 +231,73 @@ final class RunNormalizationTest extends NormalizationTestCase
                             'type' => 'code_interpreter',
                         ]
                     ]
+                ]
+            ],
+
+            'test_response_auto' => [
+                'payload' => (new CreateRunPayloadBuilder('assistant-5'))
+                    ->setResponseFormatToAuto()
+                    ->getPayload(),
+                'expected' => [
+                    'assistant_id' => 'assistant-5',
+                    'response_format' => 'auto',
+                ]
+            ],
+
+            'test_response_text' => [
+                'payload' => (new CreateRunPayloadBuilder('assistant-98'))
+                    ->setResponseFormatToText()
+                    ->getPayload(),
+                'expected' => [
+                    'assistant_id' => 'assistant-98',
+                    'response_format' => [
+                        'type' => 'text',
+                    ],
+                ]
+            ],
+
+            'test_response_json_object' => [
+                'payload' => (new CreateRunPayloadBuilder('assistant-3'))
+                    ->setResponseFormatToJsonObject()
+                    ->getPayload(),
+                'expected' => [
+                    'assistant_id' => 'assistant-3',
+                    'response_format' => [
+                        'type' => 'json_object',
+                    ],
+                ]
+            ],
+
+            'test_response_json_schema' => [
+                'payload' => (new CreateRunPayloadBuilder('assistant-11'))
+                    ->setResponseFormatToJsonSchema(
+                        "schema name schema name",
+                        [
+                            "type" => "object",
+                            "properties" => ["arg1" => ["type" => "string"], "arg2" => ["type" => "integer"]],
+                            "required" => ["arg1"],
+                            "additionalProperties" => false
+                        ],
+                        "this is a famous song",
+                        true
+                    )
+                    ->getPayload(),
+                'expected' => [
+                    'assistant_id' => 'assistant-11',
+                    'response_format' => [
+                        'type' => 'json_schema',
+                        "json_schema" => [
+                            "name" => "schema name schema name",
+                            "description" => "this is a famous song",
+                            "schema" => [
+                                "type" => "object",
+                                "properties" => ["arg1" => ["type" => "string"], "arg2" => ["type" => "integer"]],
+                                "required" => ["arg1"],
+                                "additionalProperties" => false
+                            ],
+                            "strict" => true
+                        ]
+                    ],
                 ]
             ]
         ];
