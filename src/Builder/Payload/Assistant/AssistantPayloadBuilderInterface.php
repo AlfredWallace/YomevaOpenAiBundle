@@ -2,10 +2,11 @@
 
 namespace Yomeva\OpenAiBundle\Builder\Payload\Assistant;
 
+use Yomeva\OpenAiBundle\Builder\Payload\HasCodeInterpreterResourcesInterface;
+use Yomeva\OpenAiBundle\Builder\Payload\HasFileSearchResourcesFullInterface;
 use Yomeva\OpenAiBundle\Builder\Payload\HasMetadataInterface;
 use Yomeva\OpenAiBundle\Builder\Payload\HasResponseFormatInterface;
 use Yomeva\OpenAiBundle\Builder\Payload\HasSamplingInterface;
-use Yomeva\OpenAiBundle\Builder\Payload\HasToolResourcesFullInterface;
 use Yomeva\OpenAiBundle\Builder\Payload\HasToolsInterface;
 use Yomeva\OpenAiBundle\Builder\Payload\PayloadBuilderInterface;
 use Yomeva\OpenAiBundle\Model\Assistant\AssistantPayload;
@@ -13,7 +14,8 @@ use Yomeva\OpenAiBundle\Model\Assistant\AssistantPayload;
 interface AssistantPayloadBuilderInterface
     extends PayloadBuilderInterface,
             HasMetadataInterface,
-            HasToolResourcesFullInterface,
+            HasFileSearchResourcesFullInterface,
+            HasCodeInterpreterResourcesInterface,
             HasToolsInterface,
             HasSamplingInterface,
             HasResponseFormatInterface

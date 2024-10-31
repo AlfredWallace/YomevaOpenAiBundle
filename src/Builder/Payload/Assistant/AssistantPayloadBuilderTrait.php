@@ -2,10 +2,11 @@
 
 namespace Yomeva\OpenAiBundle\Builder\Payload\Assistant;
 
+use Yomeva\OpenAiBundle\Builder\Payload\HasCodeInterpreterResourcesTrait;
+use Yomeva\OpenAiBundle\Builder\Payload\HasFileSearchResourcesFullTrait;
 use Yomeva\OpenAiBundle\Builder\Payload\HasMetadataTrait;
 use Yomeva\OpenAiBundle\Builder\Payload\HasResponseFormatTrait;
 use Yomeva\OpenAiBundle\Builder\Payload\HasSamplingTrait;
-use Yomeva\OpenAiBundle\Builder\Payload\HasToolResourcesFullTrait;
 use Yomeva\OpenAiBundle\Builder\Payload\HasToolsTrait;
 
 
@@ -13,7 +14,8 @@ trait AssistantPayloadBuilderTrait
 {
     use HasMetadataTrait;
     use HasSamplingTrait;
-    use HasToolResourcesFullTrait;
+    use HasFileSearchResourcesFullTrait;
+    use HasCodeInterpreterResourcesTrait;
     use HasToolsTrait;
     use HasResponseFormatTrait;
 
