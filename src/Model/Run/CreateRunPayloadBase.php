@@ -12,7 +12,7 @@ use Yomeva\OpenAiBundle\Model\ToolChoice\ToolChoice;
 use Yomeva\OpenAiBundle\Model\TruncationStrategy\TruncationStrategy;
 use Yomeva\OpenAiBundle\Validator\TypedArray;
 
-abstract class BaseCreateRunPayload extends RunPayload
+abstract class CreateRunPayloadBase extends RunPayload
 {
     public function __construct(
         public string $assistantId,

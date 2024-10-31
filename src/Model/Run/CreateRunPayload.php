@@ -5,7 +5,7 @@ namespace Yomeva\OpenAiBundle\Model\Run;
 use Yomeva\OpenAiBundle\Model\Message\CreateMessagePayload;
 use Yomeva\OpenAiBundle\Validator\TypedArray;
 
-class CreateRunPayload extends BaseCreateRunPayload
+class CreateRunPayload extends CreateRunPayloadBase
 {
     public function __construct(
         public string $assistantId,
