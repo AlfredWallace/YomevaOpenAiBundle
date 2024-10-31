@@ -4,10 +4,15 @@ namespace Yomeva\OpenAiBundle\Builder\Payload;
 
 use Yomeva\OpenAiBundle\Model\ToolResources\FileSearchResourcesVectorStore;
 
-interface HasFileSearchResourcesFullInterface
+interface HasToolResourcesFullInterface
 {
     /**
-     * @param string[] $vectorStoreIds
+     * @param string[] $fieldIds
+     */
+    public function setCodeInterpreterToolResources(array $fieldIds): self;
+
+    /**
+     * @param string[]|null $vectorStoreIds
      *
      * To easily build VectorStores, use Yomeva\OpenAiBundle\Builder\Payload\NestedPayloadBuilders\FileSearchVectorStoreBuilder
      * Example:
@@ -33,7 +38,7 @@ interface HasFileSearchResourcesFullInterface
      *     )
      *     ...
      *     ->getPayload();
-     * @param FileSearchResourcesVectorStore[] $vectorStores
+     * @param FileSearchResourcesVectorStore[]|null $vectorStores
      */
     public function setFileSearchResources(array $vectorStoreIds = null, array $vectorStores = null): self;
 }
