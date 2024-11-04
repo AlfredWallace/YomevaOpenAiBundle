@@ -19,6 +19,7 @@ use Yomeva\OpenAiBundle\Model\File\UploadFilePayload;
 use Yomeva\OpenAiBundle\Model\Message\CreateMessagePayload;
 use Yomeva\OpenAiBundle\Model\Message\ModifyMessagePayload;
 use Yomeva\OpenAiBundle\Model\PayloadInterface;
+use Yomeva\OpenAiBundle\Model\Run\CreateThreadAndRunPayload;
 use Yomeva\OpenAiBundle\Model\Thread\CreateThreadPayload;
 use Yomeva\OpenAiBundle\Model\Thread\ModifyThreadPayload;
 
@@ -491,7 +492,7 @@ class OpenAiClient
     /**
      * @throws TransportExceptionInterface
      */
-    public function createThreadAndRun(array $payload): ResponseInterface
+    public function createThreadAndRun(CreateThreadAndRunPayload $payload): ResponseInterface
     {
         return $this->request('POST', 'threads/runs', $payload);
     }

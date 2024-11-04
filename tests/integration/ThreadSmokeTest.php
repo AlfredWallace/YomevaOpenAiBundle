@@ -24,7 +24,7 @@ final class ThreadSmokeTest extends ClientTestCase
         $response = self::$client->createThread(
             (new CreateThreadPayloadBuilder())->getPayload()
         );
-        $this->assertEquals('200', $response->getStatusCode());
+        $this->assertSame(200, $response->getStatusCode());
 
         $responseArray = $response->toArray(false);
         $this->assertArrayHasKey('id', $responseArray);
@@ -43,7 +43,7 @@ final class ThreadSmokeTest extends ClientTestCase
     public function testSmokeRetrieveThread(string $id): void
     {
         $response = self::$client->retrieveThread($id);
-        $this->assertEquals('200', $response->getStatusCode());
+        $this->assertSame(200, $response->getStatusCode());
     }
 
     /**
@@ -61,7 +61,7 @@ final class ThreadSmokeTest extends ClientTestCase
             $id,
             (new ModifyThreadPayloadBuilder())->addMetadata("foo", "bar")->getPayload()
         );
-        $this->assertEquals('200', $response->getStatusCode());
+        $this->assertSame(200, $response->getStatusCode());
 
         $responseArray = $response->toArray(false);
         $this->assertArrayHasKey('metadata', $responseArray);
@@ -80,6 +80,6 @@ final class ThreadSmokeTest extends ClientTestCase
     public function testSmokeDeleteThread(string $id): void
     {
         $response = self::$client->deleteThread($id);
-        $this->assertEquals('200', $response->getStatusCode());
+        $this->assertSame(200, $response->getStatusCode());
     }
 }

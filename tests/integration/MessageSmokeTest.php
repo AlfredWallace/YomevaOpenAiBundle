@@ -27,7 +27,7 @@ class MessageSmokeTest extends ClientTestCase
         $threadResponse = self::$client->createThread(
             (new CreateThreadPayloadBuilder())->getPayload()
         );
-        $this->assertEquals('200', $threadResponse->getStatusCode());
+        $this->assertSame(200, $threadResponse->getStatusCode());
 
         $responseArray = $threadResponse->toArray(false);
         $this->assertArrayHasKey('id', $responseArray);
@@ -39,7 +39,7 @@ class MessageSmokeTest extends ClientTestCase
             $threadId,
             (new CreateMessagePayloadBuilder(Role::User, "Simple message"))->getPayload()
         );
-        $this->assertEquals('200', $messageResponse->getStatusCode());
+        $this->assertSame(200, $messageResponse->getStatusCode());
 
         $messageArray = $messageResponse->toArray(false);
         $this->assertArrayHasKey('id', $messageArray);
@@ -59,7 +59,7 @@ class MessageSmokeTest extends ClientTestCase
     {
         [$threadId, $messageId] = $data;
         $response = self::$client->listMessages($threadId);
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertSame(200, $response->getStatusCode());
     }
 
     /**
@@ -71,7 +71,7 @@ class MessageSmokeTest extends ClientTestCase
     {
         [$threadId, $messageId] = $data;
         $response = self::$client->retrieveMessage($threadId, $messageId);
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertSame(200, $response->getStatusCode());
     }
 
     /**
@@ -87,7 +87,7 @@ class MessageSmokeTest extends ClientTestCase
             $messageId,
             (new ModifyMessagePayloadBuilder())->addMetadata("new_key","new_value")->getPayload()
         );
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertSame(200, $response->getStatusCode());
     }
 
     /**
@@ -102,9 +102,9 @@ class MessageSmokeTest extends ClientTestCase
     {
         [$threadId, $messageId] = $data;
         $messageResponse = self::$client->deleteMessage($threadId, $messageId);
-        $this->assertEquals(200, $messageResponse->getStatusCode());
+        $this->assertSame(200, $messageResponse->getStatusCode());
 
         $threadResponse = self::$client->deleteThread($threadId);
-        $this->assertEquals(200, $threadResponse->getStatusCode());
+        $this->assertSame(200, $threadResponse->getStatusCode());
     }
 }

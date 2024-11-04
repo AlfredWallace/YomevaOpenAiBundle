@@ -25,7 +25,7 @@ final class AssistantSmokeTest extends ClientTestCase
             (new CreateAssistantPayloadBuilder('gpt-4o'))
                 ->getPayload()
         );
-        $this->assertEquals('200', $response->getStatusCode());
+        $this->assertSame(200, $response->getStatusCode());
 
         $responseArray = $response->toArray(false);
         $this->assertArrayHasKey('id', $responseArray);
@@ -44,7 +44,7 @@ final class AssistantSmokeTest extends ClientTestCase
     public function testSmokeRetrieveAssistant(string $id): void
     {
         $response = self::$client->retrieveAssistant($id);
-        $this->assertEquals('200', $response->getStatusCode());
+        $this->assertSame(200, $response->getStatusCode());
     }
 
     /**
@@ -53,7 +53,7 @@ final class AssistantSmokeTest extends ClientTestCase
     public function testSmokeListAssistants(): void
     {
         $response = self::$client->listAssistants();
-        $this->assertEquals('200', $response->getStatusCode());
+        $this->assertSame(200, $response->getStatusCode());
     }
 
     /**
@@ -71,7 +71,7 @@ final class AssistantSmokeTest extends ClientTestCase
             $id,
             (new ModifyAssistantPayloadBuilder())->setName('Modified test')->getPayload()
         );
-        $this->assertEquals('200', $response->getStatusCode());
+        $this->assertSame(200, $response->getStatusCode());
 
         $responseArray = $response->toArray(false);
         $this->assertArrayHasKey('name', $responseArray);
@@ -88,6 +88,6 @@ final class AssistantSmokeTest extends ClientTestCase
     public function testSmokeDeleteAssistant(string $id): void
     {
         $response = self::$client->deleteAssistant($id);
-        $this->assertEquals('200', $response->getStatusCode());
+        $this->assertSame(200, $response->getStatusCode());
     }
 }
