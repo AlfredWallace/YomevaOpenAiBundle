@@ -303,13 +303,236 @@ final class RunNormalizationTest extends NormalizationTestCase
                 ]
             ],
 
-            // todo test with tools
+            'test_with_tools' => [
+                'payload' => (new CreateThreadAndRunPayloadBuilder('assistant-thread'))
+                    ->addCodeInterpreterTool()
+                    ->addFileSearchTool(25, 0.5, Ranker::Default)
+                    ->addFunctionTool(
+                        'Ma super fonction',
+                        'Elle fait plein de choses',
+                        [
+                            "type" => "object",
+                            "properties" => [
+                                "arg1" => [
+                                    'type' => 'string',
+                                    'description' => 'Argument 1',
+                                    'enum' => ['one', 'two', 'three']
+                                ],
+                                "arg2" => [
+                                    'type' => 'integer',
+                                    'description' => 'Argument 2',
+                                ]
+                            ],
+                            "required" => ['arg1'],
+                            'additionalProperties' => false
+                        ],
+                        false
+                    )
+                    ->getPayload(),
+                'expected' => [
+                    'assistant_id' => 'assistant-thread',
+                    'tools' => [
+                        [
+                            'type' => 'code_interpreter'
+                        ],
+                        [
+                            'type' => 'file_search',
+                            'file_search' => [
+                                'max_num_results' => 25,
+                                'ranking_options' => [
+                                    'score_threshold' => 0.5,
+                                    'ranker' => 'default_2024_08_21'
+                                ]
+                            ]
+                        ],
+                        [
+                            'type' => 'function',
+                            'function' => [
+                                'name' => 'Ma super fonction',
+                                'description' => 'Elle fait plein de choses',
+                                'parameters' => [
+                                    "type" => "object",
+                                    "properties" => [
+                                        "arg1" => [
+                                            'type' => 'string',
+                                            'description' => 'Argument 1',
+                                            'enum' => ['one', 'two', 'three']
+                                        ],
+                                        "arg2" => [
+                                            'type' => 'integer',
+                                            'description' => 'Argument 2',
+                                        ]
+                                    ],
+                                    "required" => ['arg1'],
+                                    'additionalProperties' => false
+                                ],
+                                'strict' => false
+                            ]
+                        ],
+                    ]
+                ]
+            ],
 
-            // todo test with response format
+            'test_response_format' => [
+                'payload' => (new CreateThreadAndRunPayloadBuilder('assistant-thread'))
+                    ->setResponseFormatToAuto()
+                    ->getPayload(),
+                'expected' => [
+                    'assistant_id' => 'assistant-thread',
+                    'response_format' => 'auto',
+                ]
+            ],
 
-            // todo test with truncation strategy
+            'test_response_text' => [
+                'payload' => (new CreateThreadAndRunPayloadBuilder('assistant-98'))
+                    ->setResponseFormatToText()
+                    ->getPayload(),
+                'expected' => [
+                    'assistant_id' => 'assistant-98',
+                    'response_format' => [
+                        'type' => 'text',
+                    ],
+                ]
+            ],
 
-            // todo test with tool choice
+            'test_response_json_object' => [
+                'payload' => (new CreateThreadAndRunPayloadBuilder('assistant-3'))
+                    ->setResponseFormatToJsonObject()
+                    ->getPayload(),
+                'expected' => [
+                    'assistant_id' => 'assistant-3',
+                    'response_format' => [
+                        'type' => 'json_object',
+                    ],
+                ]
+            ],
+
+            'test_response_json_schema' => [
+                'payload' => (new CreateThreadAndRunPayloadBuilder('assistant-11'))
+                    ->setResponseFormatToJsonSchema(
+                        "schema name schema name",
+                        [
+                            "type" => "object",
+                            "properties" => ["arg1" => ["type" => "string"], "arg2" => ["type" => "integer"]],
+                            "required" => ["arg1"],
+                            "additionalProperties" => false
+                        ],
+                        "this is a famous song",
+                        true
+                    )
+                    ->getPayload(),
+                'expected' => [
+                    'assistant_id' => 'assistant-11',
+                    'response_format' => [
+                        'type' => 'json_schema',
+                        "json_schema" => [
+                            "name" => "schema name schema name",
+                            "description" => "this is a famous song",
+                            "schema" => [
+                                "type" => "object",
+                                "properties" => ["arg1" => ["type" => "string"], "arg2" => ["type" => "integer"]],
+                                "required" => ["arg1"],
+                                "additionalProperties" => false
+                            ],
+                            "strict" => true
+                        ]
+                    ],
+                ]
+            ],
+
+            'test_truncation_strategy_auto' => [
+                'payload' => (new CreateThreadAndRunPayloadBuilder('assistant-54'))
+                    ->setTruncationStrategyToAuto()
+                    ->getPayload(),
+                'expected' => [
+                    'assistant_id' => 'assistant-54',
+                    'truncation_strategy' => [
+                        'type' => 'auto',
+                    ],
+                ]
+            ],
+
+            'test_truncation_strategy_last_messages' => [
+                'payload' => (new CreateThreadAndRunPayloadBuilder('assistant-48'))
+                    ->setTruncationStrategyToLastMessages(12)
+                    ->getPayload(),
+                'expected' => [
+                    'assistant_id' => 'assistant-48',
+                    'truncation_strategy' => [
+                        'type' => 'last_messages',
+                        'last_messages' => 12
+                    ],
+                ]
+            ],
+
+            'test_tool_choice_none' => [
+                'payload' => (new CreateThreadAndRunPayloadBuilder('assistant-33'))
+                    ->setToolChoiceToNone()
+                    ->getPayload(),
+                'expected' => [
+                    'assistant_id' => 'assistant-33',
+                    'tool_choice' => 'none',
+                ]
+            ],
+
+            'test_tool_choice_auto' => [
+                'payload' => (new CreateThreadAndRunPayloadBuilder('assistant-35'))
+                    ->setToolChoiceToAuto()
+                    ->getPayload(),
+                'expected' => [
+                    'assistant_id' => 'assistant-35',
+                    'tool_choice' => 'auto',
+                ]
+            ],
+
+            'test_tool_choice_required' => [
+                'payload' => (new CreateThreadAndRunPayloadBuilder('assistant-37'))
+                    ->setToolChoiceToRequired()
+                    ->getPayload(),
+                'expected' => [
+                    'assistant_id' => 'assistant-37',
+                    'tool_choice' => 'required',
+                ]
+            ],
+
+            'test_tool_choice_code_interpreter' => [
+                'payload' => (new CreateThreadAndRunPayloadBuilder('assistant-37'))
+                    ->setToolChoiceToCodeInterpreter()
+                    ->getPayload(),
+                'expected' => [
+                    'assistant_id' => 'assistant-37',
+                    'tool_choice' => [
+                        'type' => 'code_interpreter',
+                    ],
+                ]
+            ],
+
+            'test_tool_choice_file_search' => [
+                'payload' => (new CreateThreadAndRunPayloadBuilder('assistant-29'))
+                    ->setToolChoiceToFileSearch()
+                    ->getPayload(),
+                'expected' => [
+                    'assistant_id' => 'assistant-29',
+                    'tool_choice' => [
+                        'type' => 'file_search',
+                    ],
+                ]
+            ],
+
+            'test_tool_choice_function' => [
+                'payload' => (new CreateThreadAndRunPayloadBuilder('assistant-24'))
+                    ->setToolChoiceToFunction('my-function-name')
+                    ->getPayload(),
+                'expected' => [
+                    'assistant_id' => 'assistant-24',
+                    'tool_choice' => [
+                        'type' => 'function',
+                        'function' => [
+                            'name' => 'my-function-name'
+                        ],
+                    ],
+                ]
+            ]
         ];
     }
 
