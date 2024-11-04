@@ -14,6 +14,41 @@ use Yomeva\OpenAiBundle\Model\Message\Role;
 
 class MessageSmokeTest extends ClientTestCase
 {
+    private static string $threadId;
+
+    /**
+     * @throws ClientExceptionInterface
+     * @throws DecodingExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws TransportExceptionInterface
+     */
+    public static function setUpBeforeClass(): void
+    {
+        parent::setUpBeforeClass();
+
+        $threadResponse = self::$client->createThread(
+            (new CreateThreadPayloadBuilder())->getPayload()
+        );
+        self::$threadId = $threadResponse->toArray(false)['id'];
+    }
+
+    /**
+     * @throws ClientExceptionInterface
+     * @throws DecodingExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws TransportExceptionInterface
+     */
+    public static function tearDownAfterClass(): void
+    {
+        parent::tearDownAfterClass();
+
+        $threadResponse = self::$client->deleteThread(self::$threadId);
+        $threadResponse->toArray(false); // to block async
+    }
+
+
     /**
      * @throws TransportExceptionInterface
      * @throws ClientExceptionInterface
@@ -21,22 +56,10 @@ class MessageSmokeTest extends ClientTestCase
      * @throws RedirectionExceptionInterface
      * @throws ServerExceptionInterface
      */
-    public function testSmokeCreateMessage(): array
+    public function testSmokeCreateMessage(): string
     {
-
-        $threadResponse = self::$client->createThread(
-            (new CreateThreadPayloadBuilder())->getPayload()
-        );
-        $this->assertSame(200, $threadResponse->getStatusCode());
-
-        $threadArray = $threadResponse->toArray(false);
-        $this->assertArrayHasKey('id', $threadArray);
-
-        $threadId = $threadArray['id'];
-        $this->assertIsString($threadId);
-
         $messageResponse = self::$client->createMessage(
-            $threadId,
+            self::$threadId,
             (new CreateMessagePayloadBuilder(Role::User, "Simple message"))->getPayload()
         );
         $this->assertSame(200, $messageResponse->getStatusCode());
@@ -47,18 +70,15 @@ class MessageSmokeTest extends ClientTestCase
         $messageId = $messageArray['id'];
         $this->assertIsString($messageId);
 
-        return [$threadId, $messageId];
+        return $messageId;
     }
 
     /**
-     * @depends testSmokeCreateMessage
-     *
      * @throws TransportExceptionInterface
      */
-    public function testSmokeListMessages(array $data): void
+    public function testSmokeListMessages(): void
     {
-        [$threadId, $messageId] = $data;
-        $response = self::$client->listMessages($threadId);
+        $response = self::$client->listMessages(self::$threadId);
         $this->assertSame(200, $response->getStatusCode());
     }
 
@@ -67,10 +87,9 @@ class MessageSmokeTest extends ClientTestCase
      *
      * @throws TransportExceptionInterface
      */
-    public function testSmokeRetrieveMessage(array $data): void
+    public function testSmokeRetrieveMessage(string $messageId): void
     {
-        [$threadId, $messageId] = $data;
-        $response = self::$client->retrieveMessage($threadId, $messageId);
+        $response = self::$client->retrieveMessage(self::$threadId, $messageId);
         $this->assertSame(200, $response->getStatusCode());
     }
 
@@ -79,13 +98,12 @@ class MessageSmokeTest extends ClientTestCase
      *
      * @throws TransportExceptionInterface
      */
-    public function testSmokeModifyMessage(array $data): void
+    public function testSmokeModifyMessage(string $messageId): void
     {
-        [$threadId, $messageId] = $data;
         $response = self::$client->modifyMessage(
-            $threadId,
+            self::$threadId,
             $messageId,
-            (new ModifyMessagePayloadBuilder())->addMetadata("new_key","new_value")->getPayload()
+            (new ModifyMessagePayloadBuilder())->addMetadata("new_key", "new_value")->getPayload()
         );
         $this->assertSame(200, $response->getStatusCode());
     }
@@ -98,13 +116,9 @@ class MessageSmokeTest extends ClientTestCase
      *
      * @throws TransportExceptionInterface
      */
-    public function testSmokeDeleteMessage(array $data): void
+    public function testSmokeDeleteMessage(string $messageId): void
     {
-        [$threadId, $messageId] = $data;
-        $messageResponse = self::$client->deleteMessage($threadId, $messageId);
+        $messageResponse = self::$client->deleteMessage(self::$threadId, $messageId);
         $this->assertSame(200, $messageResponse->getStatusCode());
-
-        $threadResponse = self::$client->deleteThread($threadId);
-        $this->assertSame(200, $threadResponse->getStatusCode());
     }
 }
