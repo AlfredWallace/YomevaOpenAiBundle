@@ -13,11 +13,12 @@ abstract class ClientTestCase extends TestCase
 
     public static function setUpBeforeClass(): void
     {
+        parent::setUpBeforeClass();
+
         // this has to be a key for an OpenAI project used for tests where all data can be deleted
         // having a different name than the one used in the project where you install the bundle
         // (OPEN_AI_API_TEST_KEY instead of OPEN_AI_API_KEY) is a small security enhancement to
         // reduce the chances to run tests in a prod environment
         self::$client = new OpenAiClient($_ENV['OPEN_AI_API_TEST_KEY']);
-        parent::setUpBeforeClass();
     }
 }
