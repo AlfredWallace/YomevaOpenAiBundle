@@ -29,10 +29,10 @@ class MessageSmokeTest extends ClientTestCase
         );
         $this->assertSame(200, $threadResponse->getStatusCode());
 
-        $responseArray = $threadResponse->toArray(false);
-        $this->assertArrayHasKey('id', $responseArray);
+        $threadArray = $threadResponse->toArray(false);
+        $this->assertArrayHasKey('id', $threadArray);
 
-        $threadId = $responseArray['id'];
+        $threadId = $threadArray['id'];
         $this->assertIsString($threadId);
 
         $messageResponse = self::$client->createMessage(
