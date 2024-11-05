@@ -74,7 +74,7 @@ class OpenAiClient
      * The payload, or body, sent to the OpenAI APIs.
      * If the payload is of type PayloadInterface, then it will be validated and normalized before being sent.
      * If it's an array, it's sent directly without any check.
-     * @param PayloadInterface|array|null $payload
+     * @param PayloadInterface|array<string, mixed>|null $payload
      *
      * This response is directly returned from the Symfony HTTP client without any modification.
      * @return ResponseInterface
@@ -242,7 +242,7 @@ class OpenAiClient
     }
 
     /**
-     * @throws TransportExceptionInterface
+     * @throws TransportExceptionInterface|ExceptionInterface
      */
     public function listFiles(): ResponseInterface
     {
@@ -250,7 +250,7 @@ class OpenAiClient
     }
 
     /**
-     * @throws TransportExceptionInterface
+     * @throws TransportExceptionInterface|ExceptionInterface
      */
     public function retrieveFile(string $fileId): ResponseInterface
     {
@@ -258,7 +258,7 @@ class OpenAiClient
     }
 
     /**
-     * @throws TransportExceptionInterface
+     * @throws TransportExceptionInterface|ExceptionInterface
      */
     public function deleteFile(string $fileId): ResponseInterface
     {
@@ -323,7 +323,7 @@ class OpenAiClient
     ///> MODELS
 
     /**
-     * @throws TransportExceptionInterface
+     * @throws TransportExceptionInterface|ExceptionInterface
      */
     public function listModels(): ResponseInterface
     {
@@ -359,7 +359,8 @@ class OpenAiClient
     ///> ASSISTANT
 
     /**
-     * @throws TransportExceptionInterface
+     * @param array<string, mixed>|CreateAssistantPayload $payload
+     * @throws TransportExceptionInterface|ExceptionInterface
      */
     public function createAssistant(array|CreateAssistantPayload $payload): ResponseInterface
     {
@@ -367,7 +368,7 @@ class OpenAiClient
     }
 
     /**
-     * @throws TransportExceptionInterface
+     * @throws TransportExceptionInterface|ExceptionInterface
      */
     public function listAssistants(): ResponseInterface
     {
@@ -375,7 +376,7 @@ class OpenAiClient
     }
 
     /**
-     * @throws TransportExceptionInterface
+     * @throws TransportExceptionInterface|ExceptionInterface
      */
     public function retrieveAssistant(string $assistantId): ResponseInterface
     {
@@ -383,7 +384,8 @@ class OpenAiClient
     }
 
     /**
-     * @throws TransportExceptionInterface
+     * @param array<string, mixed>|ModifyAssistantPayload $payload
+     * @throws TransportExceptionInterface|ExceptionInterface
      */
     public function modifyAssistant(string $assistantId, array|ModifyAssistantPayload $payload): ResponseInterface
     {
@@ -391,7 +393,7 @@ class OpenAiClient
     }
 
     /**
-     * @throws TransportExceptionInterface
+     * @throws TransportExceptionInterface|ExceptionInterface
      */
     public function deleteAssistant(string $assistantId): ResponseInterface
     {
@@ -404,7 +406,8 @@ class OpenAiClient
     ///> THREADS
 
     /**
-     * @throws TransportExceptionInterface
+     * @param array<string, mixed>|CreateThreadPayload $payload
+     * @throws TransportExceptionInterface|ExceptionInterface
      */
     public function createThread(array|CreateThreadPayload $payload): ResponseInterface
     {
@@ -412,7 +415,7 @@ class OpenAiClient
     }
 
     /**
-     * @throws TransportExceptionInterface
+     * @throws TransportExceptionInterface|ExceptionInterface
      */
     public function retrieveThread(string $threadId): ResponseInterface
     {
@@ -420,7 +423,8 @@ class OpenAiClient
     }
 
     /**
-     * @throws TransportExceptionInterface
+     * @param array<string, mixed>|ModifyThreadPayload $payload
+     * @throws TransportExceptionInterface|ExceptionInterface
      */
     public function modifyThread(string $threadId, array|ModifyThreadPayload $payload): ResponseInterface
     {
@@ -428,7 +432,7 @@ class OpenAiClient
     }
 
     /**
-     * @throws TransportExceptionInterface
+     * @throws TransportExceptionInterface|ExceptionInterface
      */
     public function deleteThread(string $threadId): ResponseInterface
     {
@@ -441,7 +445,7 @@ class OpenAiClient
     ///> MESSAGES
 
     /**
-     * @throws TransportExceptionInterface
+     * @throws TransportExceptionInterface|ExceptionInterface
      */
     public function createMessage(string $threadId, CreateMessagePayload $payload): ResponseInterface
     {
@@ -449,7 +453,7 @@ class OpenAiClient
     }
 
     /**
-     * @throws TransportExceptionInterface
+     * @throws TransportExceptionInterface|ExceptionInterface
      */
     public function listMessages(string $threadId): ResponseInterface
     {
@@ -457,7 +461,7 @@ class OpenAiClient
     }
 
     /**
-     * @throws TransportExceptionInterface
+     * @throws TransportExceptionInterface|ExceptionInterface
      */
     public function retrieveMessage(string $threadId, string $messageId): ResponseInterface
     {
@@ -465,7 +469,7 @@ class OpenAiClient
     }
 
     /**
-     * @throws TransportExceptionInterface
+     * @throws TransportExceptionInterface|ExceptionInterface
      */
     public function modifyMessage(string $threadId, string $messageId, ModifyMessagePayload $payload): ResponseInterface
     {
@@ -473,7 +477,7 @@ class OpenAiClient
     }
 
     /**
-     * @throws TransportExceptionInterface
+     * @throws TransportExceptionInterface|ExceptionInterface
      */
     public function deleteMessage(string $threadId, string $messageId): ResponseInterface
     {
@@ -486,7 +490,7 @@ class OpenAiClient
     ///> RUNS
 
     /**
-     * @throws TransportExceptionInterface
+     * @throws TransportExceptionInterface|ExceptionInterface
      */
     public function createRun(string $threadId, CreateRunPayload $payload): ResponseInterface
     {
@@ -494,7 +498,7 @@ class OpenAiClient
     }
 
     /**
-     * @throws TransportExceptionInterface
+     * @throws TransportExceptionInterface|ExceptionInterface
      */
     public function createThreadAndRun(CreateThreadAndRunPayload $payload): ResponseInterface
     {
@@ -502,7 +506,7 @@ class OpenAiClient
     }
 
     /**
-     * @throws TransportExceptionInterface
+     * @throws TransportExceptionInterface|ExceptionInterface
      */
     public function listRuns(string $threadId): ResponseInterface
     {
@@ -510,7 +514,7 @@ class OpenAiClient
     }
 
     /**
-     * @throws TransportExceptionInterface
+     * @throws TransportExceptionInterface|ExceptionInterface
      */
     public function retrieveRun(string $threadId, string $runId): ResponseInterface
     {
@@ -518,7 +522,7 @@ class OpenAiClient
     }
 
     /**
-     * @throws TransportExceptionInterface
+     * @throws TransportExceptionInterface|ExceptionInterface
      */
     public function modifyRun(string $threadId, string $runId, ModifyRunPayload $payload): ResponseInterface
     {
@@ -526,7 +530,8 @@ class OpenAiClient
     }
 
     /**
-     * @throws TransportExceptionInterface
+     * @param array<string, mixed> $payload
+     * @throws TransportExceptionInterface|ExceptionInterface
      */
     public function submitToolsOutputsToRun(string $threadId, string $runId, array $payload): ResponseInterface
     {
@@ -534,7 +539,7 @@ class OpenAiClient
     }
 
     /**
-     * @throws TransportExceptionInterface
+     * @throws TransportExceptionInterface|ExceptionInterface
      */
     public function cancelRun(string $threadId, string $runId): ResponseInterface
     {
@@ -564,7 +569,8 @@ class OpenAiClient
     ///> VECTOR STORES
 
     /**
-     * @throws TransportExceptionInterface
+     * @param array<string, mixed> $payload
+     * @throws TransportExceptionInterface|ExceptionInterface
      */
     public function createVectorStore(array $payload = []): ResponseInterface
     {
@@ -572,7 +578,7 @@ class OpenAiClient
     }
 
     /**
-     * @throws TransportExceptionInterface
+     * @throws TransportExceptionInterface|ExceptionInterface
      */
     public function listVectorStores(): ResponseInterface
     {
@@ -580,7 +586,7 @@ class OpenAiClient
     }
 
     /**
-     * @throws TransportExceptionInterface
+     * @throws TransportExceptionInterface|ExceptionInterface
      */
     public function retrieveVectorStore(string $vectorStoreId): ResponseInterface
     {
@@ -588,7 +594,8 @@ class OpenAiClient
     }
 
     /**
-     * @throws TransportExceptionInterface
+     * @param array<string, mixed> $payload
+     * @throws TransportExceptionInterface|ExceptionInterface
      */
     public function modifyVectorStore(string $vectorStoreId, array $payload = []): ResponseInterface
     {
@@ -596,7 +603,7 @@ class OpenAiClient
     }
 
     /**
-     * @throws TransportExceptionInterface
+     * @throws TransportExceptionInterface|ExceptionInterface
      */
     public function deleteVectorStore(string $vectorStoreId): ResponseInterface
     {
@@ -609,7 +616,8 @@ class OpenAiClient
     ///> VECTOR STORE FILES
 
     /**
-     * @throws TransportExceptionInterface
+     * @param array<string, mixed> $payload
+     * @throws TransportExceptionInterface|ExceptionInterface
      */
     public function createVectorStoreFile(string $vectorStoreId, array $payload): ResponseInterface
     {
@@ -617,7 +625,7 @@ class OpenAiClient
     }
 
     /**
-     * @throws TransportExceptionInterface
+     * @throws TransportExceptionInterface|ExceptionInterface
      */
     public function listVectorStoresFiles(string $vectorStoreId): ResponseInterface
     {
@@ -625,7 +633,7 @@ class OpenAiClient
     }
 
     /**
-     * @throws TransportExceptionInterface
+     * @throws TransportExceptionInterface|ExceptionInterface
      */
     public function retrieveVectorStoreFile(string $vectorStoreId, string $fileId): ResponseInterface
     {
@@ -633,7 +641,7 @@ class OpenAiClient
     }
 
     /**
-     * @throws TransportExceptionInterface
+     * @throws TransportExceptionInterface|ExceptionInterface
      */
     public function deleteVectorStoreFile(string $vectorStoreId, string $fileId): ResponseInterface
     {

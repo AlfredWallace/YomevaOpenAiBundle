@@ -10,6 +10,9 @@ class TypedArray extends Constraint
 {
     public string $message;
 
+    /**
+     * @param array<string> $validTypes
+     */
     #[HasNamedArguments]
     public function __construct(
         public array $validTypes,

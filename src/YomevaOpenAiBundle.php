@@ -33,7 +33,7 @@ class YomevaOpenAiBundle extends AbstractBundle
     /**
      * The bundle exposes only one service, the client allowing you to easily make calls on the OpenAI APIs.
      *
-     * @param array $config
+     * @param array<string, mixed> $config
      * @param ContainerConfigurator $container
      * @param ContainerBuilder $builder
      * @return void
