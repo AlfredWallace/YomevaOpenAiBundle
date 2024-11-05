@@ -13,9 +13,6 @@ use Yomeva\OpenAiBundle\Model\Content\TextContentPart;
 
 class MessageContentTypeValidator extends ConstraintValidator
 {
-    /**
-     * @param string|array $value
-     */
     public function validate(mixed $value, Constraint $constraint): void
     {
         if (!$constraint instanceof MessageContentType) {
