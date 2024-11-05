@@ -6,7 +6,7 @@ use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Exception\UnexpectedValueException;
-use Yomeva\OpenAiBundle\Model\Assistant\AssistantPayloadInterface;
+use Yomeva\OpenAiBundle\Model\Assistant\AssistantToolResponseFormatInterface;
 use Yomeva\OpenAiBundle\Model\ResponseFormat\JsonObjectResponseFormat;
 use Yomeva\OpenAiBundle\Model\ResponseFormat\JsonSchemaResponseFormat;
 use Yomeva\OpenAiBundle\Model\ResponseFormat\ResponseFormat;
@@ -20,11 +20,11 @@ class AssistantToolsResponseFormatValidator extends ConstraintValidator
             throw new UnexpectedTypeException($constraint, AssistantToolsResponseFormat::class);
         }
 
-        if (!$value instanceof AssistantPayloadInterface) {
-            throw new UnexpectedValueException($value, AssistantPayloadInterface::class);
+        if (!$value instanceof AssistantToolResponseFormatInterface) {
+            throw new UnexpectedValueException($value, AssistantToolResponseFormatInterface::class);
         }
 
-        if ($value->responseFormat === null || $value->responseFormat === ResponseFormat::AUTO || empty($value->tools)) {
+        if ($value->getResponseFormat() === null || $value->getResponseFormat() === ResponseFormat::AUTO || empty($value->getTools())) {
             return;
         }
 
@@ -37,15 +37,15 @@ class AssistantToolsResponseFormatValidator extends ConstraintValidator
         }
     }
 
-    private function isJsonResponse(AssistantPayloadInterface $payload): bool
+    private function isJsonResponse(AssistantToolResponseFormatInterface $payload): bool
     {
-        return $payload->responseFormat instanceof JsonObjectResponseFormat ||
-            $payload->responseFormat instanceof JsonSchemaResponseFormat;
+        return $payload->getResponseFormat() instanceof JsonObjectResponseFormat ||
+            $payload->getResponseFormat() instanceof JsonSchemaResponseFormat;
     }
 
-    private function containsNotFunctionTools(AssistantPayloadInterface $payload): bool
+    private function containsNotFunctionTools(AssistantToolResponseFormatInterface $payload): bool
     {
-        foreach ($payload->tools as $tool) {
+        foreach ($payload->getTools() as $tool) {
             if (!$tool instanceof FunctionTool) {
                 return true;
             }

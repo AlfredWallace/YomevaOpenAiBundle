@@ -14,7 +14,7 @@ use Yomeva\OpenAiBundle\Validator\TypedArray;
 
 #[Assert\Cascade]
 #[AssistantToolsResponseFormat]
-abstract class AssistantPayload implements AssistantPayloadInterface
+abstract class AssistantPayload implements AssistantToolResponseFormatInterface
 {
     public function __construct(
         #[Assert\Length(max: 256)]
@@ -53,5 +53,15 @@ abstract class AssistantPayload implements AssistantPayloadInterface
 
         public string|ResponseFormat|null $responseFormat = null,
     ) {
+    }
+
+    public function getTools(): ?array
+    {
+        return $this->tools;
+    }
+
+    public function getResponseFormat(): string|ResponseFormat|null
+    {
+        return $this->responseFormat;
     }
 }
