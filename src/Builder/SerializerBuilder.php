@@ -8,11 +8,10 @@ use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
 use Symfony\Component\Serializer\Normalizer\BackedEnumNormalizer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
-use Symfony\Component\Serializer\SerializerInterface;
 
 class SerializerBuilder
 {
-    public function makeSerializer(): SerializerInterface
+    public function makeSerializer(): Serializer
     {
         return new Serializer(
             normalizers: [

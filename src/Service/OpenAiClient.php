@@ -4,7 +4,8 @@ namespace Yomeva\OpenAiBundle\Service;
 
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpClient\HttpOptions;
-use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Serializer\Exception\ExceptionInterface;
+use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Validator\Exception\ValidationFailedException;
 use Symfony\Component\Validator\Validation;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -33,7 +34,7 @@ class OpenAiClient
 {
     private HttpClientInterface $httpClient;
     private ValidatorInterface $validator;
-    private SerializerInterface $serializer;
+    private Serializer $serializer;
 
     /**
      * This client initializes :
@@ -79,6 +80,7 @@ class OpenAiClient
      * @return ResponseInterface
      *
      * @throws TransportExceptionInterface
+     * @throws ExceptionInterface
      */
     private function request(
         string $method,
