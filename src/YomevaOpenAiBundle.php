@@ -19,6 +19,8 @@ class YomevaOpenAiBundle extends AbstractBundle
      */
     public function configure(DefinitionConfigurator $definition): void
     {
+        // We are not here to fix the typing of symfony
+        /** @phpstan-ignore-next-line */
         $definition->rootNode()
             ->children()
             ->scalarNode('api_key')
