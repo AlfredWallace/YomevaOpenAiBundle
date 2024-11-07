@@ -4,6 +4,7 @@ namespace Yomeva\OpenAiBundle\Service;
 
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpClient\HttpOptions;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Validator\Exception\ValidationFailedException;
@@ -16,7 +17,7 @@ use Yomeva\OpenAiBundle\Builder\SerializerBuilder;
 use Yomeva\OpenAiBundle\Exception\NotImplementedException;
 use Yomeva\OpenAiBundle\Model\Assistant\CreateAssistantPayload;
 use Yomeva\OpenAiBundle\Model\Assistant\ModifyAssistantPayload;
-use Yomeva\OpenAiBundle\Model\File\UploadFilePayload;
+use Yomeva\OpenAiBundle\Model\File\FilePurpose;
 use Yomeva\OpenAiBundle\Model\Message\CreateMessagePayload;
 use Yomeva\OpenAiBundle\Model\Message\ModifyMessagePayload;
 use Yomeva\OpenAiBundle\Model\PayloadInterface;
@@ -47,16 +48,18 @@ class OpenAiClient
      */
     public function __construct(
         private readonly string $openAiApiKey,
+        bool $beta
     ) {
-        $this->httpClient = HttpClient::create()
-            ->withOptions(
-                (new HttpOptions())
-                    ->setBaseUri('https://api.openai.com/v1/')
-                    ->setHeader('Content-Type', 'application/json')
-                    ->setHeader('Authorization', "Bearer {$this->openAiApiKey}")
-                    ->setHeader('OpenAI-Beta', 'assistants=v2')
-                    ->toArray()
-            );
+        $options = (new HttpOptions())
+            ->setBaseUri('https://api.openai.com/v1/')
+            ->setHeader('Content-Type', 'application/json')
+            ->setHeader('Authorization', "Bearer {$this->openAiApiKey}");
+
+        if ($beta) {
+            $options->setHeader('OpenAI-Beta', 'assistants=v2');
+        }
+
+        $this->httpClient = HttpClient::create()->withOptions($options->toArray());
 
         $this->validator = Validation::createValidatorBuilder()->enableAttributeMapping()->getValidator();
 
@@ -224,17 +227,17 @@ class OpenAiClient
     /**
      * @throws TransportExceptionInterface
      */
-    public function uploadFile(UploadFilePayload $payload): ResponseInterface
+    public function uploadFile(FilePurpose $purpose, UploadedFile $uploadedFile): ResponseInterface
     {
-        $handle = fopen($payload->uploadedFile->getRealPath(), 'r');
-        stream_context_set_option($handle, 'http', 'filename', $payload->uploadedFile->getClientOriginalName());
+        $handle = fopen($uploadedFile->getRealPath(), 'r');
+        stream_context_set_option($handle, 'http', 'filename', $uploadedFile->getClientOriginalName());
 
         return $this->httpClient->request(
             'POST',
             'files',
             [
                 'body' => [
-                    'purpose' => $payload->purpose,
+                    'purpose' => $purpose->value,
                     'file' => $handle,
                 ]
             ]

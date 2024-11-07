@@ -22,11 +22,20 @@ class YomevaOpenAiBundle extends AbstractBundle
         // We are not here to fix the typing of symfony
         /** @phpstan-ignore-next-line */
         $definition->rootNode()
+            //> children
             ->children()
+            ////> api_key
             ->scalarNode('api_key')
             ->defaultValue('')
-            ->end() // api_key
-            ->end() // children
+            ->end()
+            ////< api_key
+            ////> beta
+            ->booleanNode('beta')
+            ->defaultFalse()
+            ->end()
+            ////< beta
+            ->end()
+            //< children
         ;
     }
 
@@ -43,6 +52,7 @@ class YomevaOpenAiBundle extends AbstractBundle
         $container->services()
             ->set('yomeva.open_ai.client', OpenAiClient::class)
             ->arg(0, $config['api_key'])
+            ->arg(1, $config['beta'])
             ->alias(OpenAiClient::class, 'yomeva.open_ai.client');
     }
 }
