@@ -3,7 +3,10 @@
 namespace Yomeva\OpenAiBundle;
 
 use Symfony\Component\Config\Definition\Configurator\DefinitionConfigurator;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\HttpKernel\Bundle\AbstractBundle;
+use Yomeva\OpenAiBundle\Service\OpenAiClient;
 
 class YomevaOpenAiBundle extends AbstractBundle
 {
@@ -33,5 +36,22 @@ class YomevaOpenAiBundle extends AbstractBundle
             ////< beta
             ->end()//< children
         ;
+    }
+
+    /**
+     * The bundle exposes only one service, the client allowing you to easily make calls on the OpenAI APIs.
+     *
+     * @param array<string, mixed> $config
+     * @param ContainerConfigurator $container
+     * @param ContainerBuilder $builder
+     * @return void
+     */
+    public function loadExtension(array $config, ContainerConfigurator $container, ContainerBuilder $builder): void
+    {
+        $container->services()
+            ->set('yomeva.open_ai.client', OpenAiClient::class)
+            ->arg(0, $config['api_key'])
+            ->arg(1, $config['beta'])
+            ->alias(OpenAiClient::class, 'yomeva.open_ai.client');
     }
 }
