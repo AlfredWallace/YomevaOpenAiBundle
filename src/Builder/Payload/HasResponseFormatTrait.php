@@ -2,6 +2,10 @@
 
 namespace Yomeva\OpenAiBundle\Builder\Payload;
 
+use Yomeva\OpenAiBundle\Builder\Payload\Assistant\CreateAssistantPayloadBuilder;
+use Yomeva\OpenAiBundle\Builder\Payload\Assistant\ModifyAssistantPayloadBuilder;
+use Yomeva\OpenAiBundle\Builder\Payload\Run\CreateRunPayloadBuilder;
+use Yomeva\OpenAiBundle\Builder\Payload\Run\CreateThreadAndRunPayloadBuilder;
 use Yomeva\OpenAiBundle\Model\PayloadInterface;
 use Yomeva\OpenAiBundle\Model\ResponseFormat\JsonObjectResponseFormat;
 use Yomeva\OpenAiBundle\Model\ResponseFormat\JsonSchemaResponseFormat;
@@ -31,6 +35,12 @@ trait HasResponseFormatTrait
         return $this;
     }
 
+    /**
+     * @param string $name
+     * @param array<string, mixed> $schema
+     * @param string|null $description
+     * @param bool|null $strict
+     */
     public function setResponseFormatToJsonSchema(
         string $name,
         array $schema,

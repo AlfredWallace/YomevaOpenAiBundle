@@ -10,6 +10,10 @@ use Yomeva\OpenAiBundle\Validator\TypedArray;
 #[Assert\Cascade]
 class Attachment
 {
+    /**
+     * @param string|null $fileId
+     * @param mixed[]|null $tools
+     */
     public function __construct(
         public ?string $fileId = null,
 

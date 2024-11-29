@@ -11,6 +11,13 @@ class FileSearchVectorStoreBuilder
 {
     private FileSearchResourcesVectorStore $fileSearchResourceStore;
 
+    /**
+     * @param string[]|null $fileIds
+     * @param ChunkingStrategy|null $strategy
+     * @param int|null $maxChunkSizeTokens
+     * @param int|null $chunkOverlapTokens
+     * @param array<string, string>|null $metadata
+     */
     public function __construct(
         ?array $fileIds = null,
         ?ChunkingStrategy $strategy = null,

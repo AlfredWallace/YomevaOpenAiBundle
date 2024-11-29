@@ -16,7 +16,7 @@ interface HasToolsInterface
      *  The parameters the functions accepts, described as a JSON Schema object.
      *  See the guide for examples: https://platform.openai.com/docs/guides/function-calling
      *  And the JSON Schema reference for documentation about the format: https://json-schema.org/understanding-json-schema
-     * @param array|null $parameters
+     * @param array<string, mixed>|null $parameters
      *
      * @param bool|null $strict
      *

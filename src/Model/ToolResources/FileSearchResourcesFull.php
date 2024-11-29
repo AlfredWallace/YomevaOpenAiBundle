@@ -9,6 +9,10 @@ use Yomeva\OpenAiBundle\Validator\FileSearchResources as FileSearchResourcesCons
 #[FileSearchResourcesConstraint]
 class FileSearchResourcesFull extends FileSearchResourcesBase
 {
+    /**
+     * @param string[]|null $vectorStoreIds
+     * @param FileSearchResourcesVectorStore[]|null $vectorStores
+     */
     public function __construct(
         ?array $vectorStoreIds = null,
 

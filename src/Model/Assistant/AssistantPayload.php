@@ -16,6 +16,17 @@ use Yomeva\OpenAiBundle\Validator\TypedArray;
 #[AssistantToolsResponseFormat]
 abstract class AssistantPayload implements AssistantToolResponseFormatInterface
 {
+    /**
+     * @param string|null $name
+     * @param string|null $description
+     * @param string|null $instructions
+     * @param mixed[]|null $tools
+     * @param ToolResourcesFull|null $toolResources
+     * @param array<string, string>|null $metadata
+     * @param float|null $temperature
+     * @param float|null $topP
+     * @param string|ResponseFormat|null $responseFormat
+     */
     public function __construct(
         #[Assert\Length(max: 256)]
         public ?string $name = null,

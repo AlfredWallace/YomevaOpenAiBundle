@@ -2,6 +2,10 @@
 
 namespace Yomeva\OpenAiBundle\Builder\Payload;
 
+use Yomeva\OpenAiBundle\Builder\Payload\Assistant\CreateAssistantPayloadBuilder;
+use Yomeva\OpenAiBundle\Builder\Payload\Assistant\ModifyAssistantPayloadBuilder;
+use Yomeva\OpenAiBundle\Builder\Payload\Run\CreateRunPayloadBuilder;
+use Yomeva\OpenAiBundle\Builder\Payload\Run\CreateThreadAndRunPayloadBuilder;
 use Yomeva\OpenAiBundle\Model\PayloadInterface;
 use Yomeva\OpenAiBundle\Model\Tool\CodeInterpreter\CodeInterpreterTool;
 use Yomeva\OpenAiBundle\Model\Tool\FileSearch\FileSearchRankingOptions;
@@ -21,6 +25,12 @@ trait HasToolsTrait
         return $this;
     }
 
+    /**
+     * @param string $name
+     * @param string|null $description
+     * @param array<string, mixed>|null $parameters
+     * @param bool|null $strict
+     */
     public function addFunctionTool(
         string $name,
         ?string $description = null,

@@ -2,6 +2,7 @@
 
 namespace Yomeva\OpenAiBundle\Builder\Payload\Thread;
 
+use Yomeva\OpenAiBundle\Model\Message\CreateMessagePayload;
 use Yomeva\OpenAiBundle\Model\Thread\CreateThreadPayload;
 
 class CreateThreadPayloadBuilder implements ThreadPayloadBuilderInterface
@@ -27,6 +28,8 @@ class CreateThreadPayloadBuilder implements ThreadPayloadBuilderInterface
      *         ]
      *     ))->getPayload();
      * );
+     *
+     * @param CreateMessagePayload[]|null $messages
      */
     public function __construct(
         ?array $messages = null

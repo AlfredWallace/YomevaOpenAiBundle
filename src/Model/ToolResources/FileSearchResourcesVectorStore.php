@@ -9,6 +9,11 @@ use Yomeva\OpenAiBundle\Validator\Metadata;
 #[Assert\Cascade]
 class FileSearchResourcesVectorStore
 {
+    /**
+     * @param string[]|null $fileIds
+     * @param ChunkingStrategy|null $chunkingStrategy
+     * @param array<string, string>|null $metadata
+     */
     public function __construct(
 
         #[Assert\Count(max: 10000)]

@@ -8,6 +8,9 @@ trait HasMetadataTrait
 {
     abstract public function getPayload(): PayloadInterface;
 
+    /**
+     * @param array<string, string> $metadata
+     */
     public function setMetadata(array $metadata): self
     {
         $this->getPayload()->metadata = $metadata;

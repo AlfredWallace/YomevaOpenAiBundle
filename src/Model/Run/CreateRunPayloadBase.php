@@ -14,6 +14,22 @@ use Yomeva\OpenAiBundle\Validator\TypedArray;
 
 abstract class CreateRunPayloadBase extends RunPayload
 {
+    /**
+     * @param string $assistantId
+     * @param string|null $model
+     * @param string|null $instructions
+     * @param mixed[]|null $tools
+     * @param float|null $temperature
+     * @param float|null $topP
+     * @param bool|null $stream
+     * @param int|null $maxPromptTokens
+     * @param int|null $maxCompletionTokens
+     * @param TruncationStrategy|null $truncationStrategy
+     * @param BasicToolChoice|ToolChoice|null $toolChoice
+     * @param bool|null $parallelToolCalls
+     * @param string|ResponseFormat|null $responseFormat
+     * @param array<string, string>|null $metadata
+     */
     public function __construct(
         public string $assistantId,
         public ?string $model = null,
@@ -45,8 +61,8 @@ abstract class CreateRunPayloadBase extends RunPayload
         public BasicToolChoice|ToolChoice|null $toolChoice = null,
         public ?bool $parallelToolCalls = null,
         public string|ResponseFormat|null $responseFormat = null,
-        ...$arguments,
+        public ?array $metadata = null
     ) {
-        parent::__construct(...$arguments);
+        parent::__construct($metadata);
     }
 }

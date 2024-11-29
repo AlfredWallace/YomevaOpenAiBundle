@@ -4,11 +4,18 @@ namespace Yomeva\OpenAiBundle\Model\Message;
 
 use Symfony\Component\Validator\Constraints as Assert;
 use Yomeva\OpenAiBundle\Model\Attachments\Attachment;
+use Yomeva\OpenAiBundle\Model\Content\ContentPart;
 use Yomeva\OpenAiBundle\Validator\MessageContentType;
 use Yomeva\OpenAiBundle\Validator\TypedArray;
 
 class CreateMessagePayload extends MessagePayload
 {
+    /**
+     * @param Role $role
+     * @param string|ContentPart[] $content
+     * @param Attachment[]|null $attachments
+     * @param array<string, string>|null $metadata
+     */
     public function __construct(
         public Role $role,
 
@@ -21,8 +28,8 @@ class CreateMessagePayload extends MessagePayload
         ])]
         public ?array $attachments = null,
 
-        ...$arguments,
+        public ?array $metadata = null
     ) {
-        parent::__construct(...$arguments);
+        parent::__construct($metadata);
     }
 }

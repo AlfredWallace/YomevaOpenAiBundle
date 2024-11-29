@@ -6,6 +6,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class CodeInterpreterResources
 {
+    /**
+     * @param string[]|null $fileIds
+     */
     public function __construct(
 
         #[Assert\Count(max: 20)]

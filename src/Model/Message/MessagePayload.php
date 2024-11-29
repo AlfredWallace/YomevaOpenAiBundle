@@ -9,6 +9,9 @@ use Yomeva\OpenAiBundle\Validator\Metadata;
 #[Assert\Cascade]
 abstract class MessagePayload implements PayloadInterface
 {
+    /**
+     * @param array<string, string>|null $metadata
+     */
     public function __construct(
 
         #[Metadata]

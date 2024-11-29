@@ -7,6 +7,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[Assert\Cascade]
 abstract class FileSearchResourcesBase
 {
+    /**
+     * @param string[]|null $vectorStoreIds
+     */
     public function __construct(
 
         #[Assert\Count(max: 1)]

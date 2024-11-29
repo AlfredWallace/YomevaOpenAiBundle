@@ -10,6 +10,10 @@ use Yomeva\OpenAiBundle\Validator\Metadata;
 #[Assert\Cascade]
 abstract class ThreadPayload implements PayloadInterface
 {
+    /**
+     * @param ToolResourcesFull|null $toolResources
+     * @param array<string, string>|null $metadata
+     */
     public function __construct(
         public ?ToolResourcesFull $toolResources = null,
 

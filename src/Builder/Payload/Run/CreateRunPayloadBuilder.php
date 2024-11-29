@@ -44,7 +44,7 @@ class CreateRunPayloadBuilder implements CreateRunBasePayloadBuilderInterface
     }
 
     /**
-     * See addAdditionalMessage doc
+     * @param CreateMessagePayload[] $additionalMessages
      */
     public function setAdditionalMessages(array $additionalMessages): self
     {

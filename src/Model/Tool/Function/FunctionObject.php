@@ -7,6 +7,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[Assert\Cascade]
 class FunctionObject
 {
+    /**
+     * @param string $name
+     * @param string|null $description
+     * @param array<string, mixed>|null $parameters
+     * @param bool|null $strict
+     */
     public function __construct(
 
         #[Assert\Length(max: 64)]

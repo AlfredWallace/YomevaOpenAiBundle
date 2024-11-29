@@ -6,6 +6,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class JsonSchemaResponseFormatObject
 {
+    /**
+     * @param string $name
+     * @param array<string, mixed> $schema
+     * @param string|null $description
+     * @param bool|null $strict
+     */
     public function __construct(
 
         #[Assert\Length(max: 64)]
