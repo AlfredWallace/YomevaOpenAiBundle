@@ -245,7 +245,12 @@ final class RunNormalizationTest extends NormalizationTestCase
                             ],
                             [
                                 'role' => 'assistant',
-                                'content' => "Hello."
+                                'content' => [
+                                    [
+                                        "type" => "text",
+                                        "text" => "Hello."
+                                    ]
+                                ]
                             ]
                         ],
                         'tool_resources' => [
@@ -646,7 +651,12 @@ final class RunNormalizationTest extends NormalizationTestCase
                         ],
                         [
                             'role' => 'assistant',
-                            'content' => "Hello"
+                            'content' => [
+                                [
+                                    "type" => "text",
+                                    "text" => "Hello"
+                                ]
+                            ]
                         ]
                     ]
                 ]

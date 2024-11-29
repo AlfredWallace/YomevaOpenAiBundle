@@ -25,7 +25,13 @@ class CreateMessagePayloadBuilder implements PayloadBuilderInterface, HasMetadat
 
     public function __construct(Role $role, ?string $content = null)
     {
-        $this->createMessagePayload = new CreateMessagePayload($role, $content ?? []);
+        $parts = [];
+
+        if ($content !== null) {
+            $parts[] = new TextContentPart($content);
+        }
+
+        $this->createMessagePayload = new CreateMessagePayload($role, $parts);
     }
 
     public function getPayload(): CreateMessagePayload
@@ -33,32 +39,20 @@ class CreateMessagePayloadBuilder implements PayloadBuilderInterface, HasMetadat
         return $this->createMessagePayload;
     }
 
-    private function switchContentFromStringToArray(): void
-    {
-        if (is_string($this->createMessagePayload->content)) {
-            $this->createMessagePayload->content = [
-                new TextContentPart($this->createMessagePayload->content),
-            ];
-        }
-    }
-
     public function addText(string $text): self
     {
-        $this->switchContentFromStringToArray();
         $this->createMessagePayload->content[] = new TextContentPart($text);
         return $this;
     }
 
     public function addImageFile(string $fileId, ?Detail $detail = null): self
     {
-        $this->switchContentFromStringToArray();
         $this->createMessagePayload->content[] = new ImageFileContentPart(new ImageFile($fileId, $detail));
         return $this;
     }
 
     public function addImageUrl(string $url, ?Detail $detail = null): self
     {
-        $this->switchContentFromStringToArray();
         $this->createMessagePayload->content[] = new ImageUrlContentPart(new ImageUrl($url, $detail));
         return $this;
     }
