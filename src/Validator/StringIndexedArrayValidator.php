@@ -21,6 +21,10 @@ class StringIndexedArrayValidator extends ConstraintValidator
             return;
         }
 
+        if (!is_array($value)) {
+            throw new UnexpectedTypeException($value, 'array');
+        }
+
         foreach ($value as $index => $element) {
             if (!is_string($index)) {
                 $this->context->buildViolation($constraint->message)
