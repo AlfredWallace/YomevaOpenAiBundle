@@ -24,11 +24,18 @@ class AssistantToolsResponseFormatValidator extends ConstraintValidator
             throw new UnexpectedValueException($value, AssistantToolResponseFormatInterface::class);
         }
 
-        if ($value->getResponseFormat() === null || $value->getResponseFormat() === ResponseFormat::AUTO || empty($value->getTools())) {
+        // If response format is not set or is auto, no need to check tools
+        if ($value->getResponseFormat() === null || $value->getResponseFormat() === ResponseFormat::AUTO) {
             return;
         }
 
-        if ($this->containsNotFunctionTools($value) && $this->isJsonResponse($value)) {
+        // If there are no tools, no need to check response format
+        $tools = $value->getTools();
+        if (empty($tools)) {
+            return;
+        }
+
+        if ($this->containsOtherToolsThanFunctionTool($tools) && $this->isJsonResponse($value)) {
             $this->context->buildViolation(
                 "You cannot have a json_schema or json_object response format if you add other tools than function tools.
             Either keep your tools and change the response format to 'auto' or 'text', or remove tools that aren't function tools."
@@ -43,9 +50,13 @@ class AssistantToolsResponseFormatValidator extends ConstraintValidator
             $payload->getResponseFormat() instanceof JsonSchemaResponseFormat;
     }
 
-    private function containsNotFunctionTools(AssistantToolResponseFormatInterface $payload): bool
+    /**
+     * @param mixed[] $tools
+     * @return bool
+     */
+    private function containsOtherToolsThanFunctionTool(array $tools): bool
     {
-        foreach ($payload->getTools() as $tool) {
+        foreach ($tools as $tool) {
             if (!$tool instanceof FunctionTool) {
                 return true;
             }
